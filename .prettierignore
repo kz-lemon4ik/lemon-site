@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+coverage
+yarn.lock
+package-lock.json
+*.log
+.DS_Store
+
+packages/welcome-site/public/
+packages/lost-scores-site/public/

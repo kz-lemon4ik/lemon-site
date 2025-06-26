@@ -1,0 +1,90 @@
+@layer components {
+  /* Theme-aware Text Utilities */
+  .heading-text {
+    @apply text-white theme-is-light:text-themeLight-headingText;
+  }
+
+  .body-text {
+    @apply text-lavender-200 theme-is-light:text-themeLight-text;
+  }
+
+  .subtle-text {
+    @apply text-lavender-300 theme-is-light:text-themeLight-subtleText;
+  }
+
+  .muted-text {
+    @apply text-lavender-400 theme-is-light:text-themeLight-mutedText;
+  }
+
+  .link-text {
+    @apply text-lemon-400 hover:text-lavender-300 theme-is-light:text-themeLight-linkText theme-is-light:hover:text-themeLight-linkTextHover;
+  }
+
+  .glass-button {
+    @apply backdrop-blur-md bg-white/10 hover:bg-white/20 border-white/20 theme-is-light:bg-white/80 theme-is-light:border-slate-200 theme-is-light:hover:bg-white;
+  }
+
+  .card-glass {
+    @apply backdrop-blur-lg bg-slate-800/70 border border-slate-700/50 theme-is-light:bg-white/60 theme-is-light:backdrop-blur-md theme-is-light:border-themeLight-cardBorder;
+  }
+
+  .floating-glass {
+    @apply backdrop-blur-md bg-white/10 border-white/10 theme-is-light:bg-themeLight-actionButtonBaseBg theme-is-light:border-themeLight-actionButtonBorder;
+  }
+
+  .center-flex {
+    @apply flex items-center justify-center;
+  }
+
+  .center-flex-col {
+    @apply flex flex-col items-center justify-center;
+  }
+
+  .center-text-responsive {
+    @apply text-center sm:text-center;
+  }
+
+  .flex-gap-3 {
+    @apply flex items-center gap-x-3;
+  }
+
+  .btn-base {
+    @apply inline-flex items-center justify-center font-medium focus:outline-none focus:ring-2 focus:ring-opacity-75 transition-all duration-300 backdrop-blur-md shadow-lg border;
+  }
+
+  .btn-icon {
+    @apply p-1.5 transition-all duration-200 ease-in-out focus:outline-none rounded-full;
+  }
+
+  .btn-hover-scale {
+    @apply transform hover:scale-105 will-change-transform;
+  }
+
+  .transition-standard {
+    @apply transition-all duration-200;
+  }
+
+  .transition-slow {
+    @apply transition-all duration-300;
+  }
+
+  .transition-colors-standard {
+    @apply transition-colors duration-200;
+  }
+
+  .hover-lift {
+    @apply hover:scale-110 transition-transform duration-200 ease-in-out;
+  }
+
+  .card-rounded {
+    @apply rounded-xl shadow-lg;
+  }
+
+  .button-rounded {
+    @apply rounded-lg shadow-md;
+  }
+
+  .icon-rounded {
+    @apply rounded-full shadow-lg;
+  }
+}

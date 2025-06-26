@@ -1,0 +1,44 @@
+{
+  "name": "lemon-site",
+  "version": "1.0.0",
+  "description": "A monorepo containing portfolio websites built with React 19, TypeScript, Vite, Tailwind CSS, and Framer Motion",
+  "author": {
+    "name": "KZ_Lemon4ik",
+    "email": "kz.lemon4ik@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kz-lemon4ik/lemon-site.git"
+  },
+  "keywords": [
+    "portfolio",
+    "react",
+    "typescript",
+    "vite",
+    "tailwindcss",
+    "framer-motion",
+    "monorepo"
+  ],
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:welcome": "yarn workspace welcome-site dev",
+    "dev:lost": "yarn workspace lost-scores-site dev",
+    "build:welcome": "yarn workspace welcome-site build",
+    "build:lost": "yarn workspace lost-scores-site build",
+    "lint:welcome": "yarn workspace welcome-site lint",
+    "lint:lost": "yarn workspace lost-scores-site lint",
+    "lint": "yarn lint:welcome && yarn lint:lost",
+    "lint:fix": "yarn workspace welcome-site lint --fix && yarn workspace lost-scores-site lint --fix",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,css,md,html}\" --ignore-path ./.prettierignore",
+    "polish": "yarn lint:fix && yarn format"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.2",
+    "prettier": "^3.5.3"
+  },
+  "dependencies": {}
+}
