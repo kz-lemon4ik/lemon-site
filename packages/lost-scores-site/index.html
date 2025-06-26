@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/meta/icon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>osu! Lost Scores Analyzer - Find Your Hidden PP</title>
+    <meta
+      name="description"
+      content="Analyze your local osu! replays with Lost Scores Analyzer to discover ScoreV1'd scores and see your true gaming potential revealed!"
+    />
+    <meta name="theme-color" content="#7c3aed" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="osu! Lost Scores Analyzer" />
+    <meta
+      property="og:description"
+      content="Analyze your local osu! replays to find lost scores and see your true gaming potential."
+    />
+    <meta property="og:url" content="https://lost.lemon4ik.kz/" />
+    <meta property="og:image" content="/images/meta/og-image.jpg" />
+    <meta property="og:site_name" content="osu! Lost Scores Analyzer" />
+
+    <meta name="telegram:card" content="summary_large_image" />
+    <meta name="telegram:title" content="osu! Lost Scores Analyzer" />
+    <meta
+      name="telegram:description"
+      content="Analyze your local osu! replays to find lost scores and see your true gaming potential."
+    />
+    <meta name="telegram:image" content="/images/meta/og-image.jpg" />
+    <style>
+      /* Prevent FOUC by setting initial dark theme state */
+      body {
+        background-color: #0f172a;
+        margin: 0;
+        transition: background-color 0.3s ease;
+      }
+
+      .theme-is-light body {
+        background-color: #f8fafc;
+      }
+
+      /* Hide content until React loads to prevent FOUC */
+      #root {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      /* Show content after React mounts */
+      #root.loaded {
+        opacity: 1;
+      }
+    </style>
+    <script>
+      // Prevent FOUC by applying theme immediately
+      (function () {
+        try {
+          const theme = localStorage.getItem("theme");
+          const root = document.documentElement;
+
+          if (theme === "light") {
+            root.classList.remove("dark");
+            root.classList.add("theme-is-light");
+          } else {
+            root.classList.remove("theme-is-light");
+            root.classList.add("dark");
+          }
+        } catch (e) {
+          // Fallback to dark theme if localStorage is not available
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply antialiased;
+    --color-background: #0b061a;
+    --color-text-base: theme("colors.gray.100");
+    --color-button-text: theme("colors.white");
+    --color-button-bg: theme("colors.lemon.400");
+    --color-button-hover-bg: theme("colors.lemon.300");
+    --color-heading-drop-shadow: transparent;
+
+    color: var(--color-text-base);
+    @apply selection:bg-lemon-400/60 selection:text-white;
+  }
+
+  html.theme-is-light {
+    --color-background: theme("colors.themeLight.background");
+    --color-text-base: theme("colors.themeLight.text");
+    --color-button-text: theme("colors.themeLight.secondaryButtonText");
+    --color-button-bg: theme("colors.themeLight.secondary");
+    --color-button-hover-bg: theme("colors.themeLight.secondaryHover");
+    --color-heading-drop-shadow: theme("colors.themeLight.headingDropShadow");
+    @apply selection:bg-sky-600/40 selection:text-black;
+  }
+
+  body {
+    @apply relative font-sans bg-transparent;
+    color: var(--color-text-base);
+  }
+
+  @media (pointer: coarse) {
+    body {
+      overflow-x: hidden;
+    }
+  }
+
+  a {
+    @apply no-underline transition-colors;
+  }
+
+  button {
+    color: var(--color-button-text);
+    background-color: var(--color-button-bg);
+    @apply px-4 py-2 rounded-xl font-medium transition;
+  }
+
+  button:hover {
+    background-color: var(--color-button-hover-bg);
+  }
+}
