@@ -1,6 +1,7 @@
 @font-face {
   font-family: "LemonTitle";
-  src: url("../assets/fonts/LemonTitle.otf") format("opentype");
+  src: url("../assets/fonts/LemonTitle.woff2") format("woff2"),
+       url("../assets/fonts/LemonTitle.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,7 +9,8 @@
 
 @font-face {
   font-family: "LemonBody";
-  src: url("../assets/fonts/LemonBody.ttf") format("truetype");
+  src: url("../assets/fonts/LemonBody.woff2") format("woff2"),
+       url("../assets/fonts/LemonBody.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,7 +18,8 @@
 
 @font-face {
   font-family: "LemonNav";
-  src: url("../assets/fonts/LemonNav.ttf") format("truetype");
+  src: url("../assets/fonts/LemonNav.woff2") format("woff2"),
+       url("../assets/fonts/LemonNav.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -24,7 +27,8 @@
 
 @font-face {
   font-family: "LostNav";
-  src: url("../assets/fonts/LostNav.otf") format("opentype");
+  src: url("../assets/fonts/LostNav.woff2") format("woff2"),
+       url("../assets/fonts/LostNav.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -32,7 +36,8 @@
 
 @font-face {
   font-family: "LostTitle";
-  src: url("../assets/fonts/LostTitle.otf") format("opentype");
+  src: url("../assets/fonts/LostTitle.woff2") format("woff2"),
+       url("../assets/fonts/LostTitle.otf") format("opentype");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -40,7 +45,8 @@
 
 @font-face {
   font-family: "LostDescription";
-  src: url("../assets/fonts/LostDescription.otf") format("opentype");
+  src: url("../assets/fonts/LostDescription.woff2") format("woff2"),
+       url("../assets/fonts/LostDescription.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -48,7 +54,8 @@
 
 @font-face {
   font-family: "LostBody";
-  src: url("../assets/fonts/LostBody.otf") format("opentype");
+  src: url("../assets/fonts/LostBody.woff2") format("woff2"),
+       url("../assets/fonts/LostBody.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -56,7 +63,8 @@
 
 @font-face {
   font-family: "LostHeading";
-  src: url("../assets/fonts/LostHeading.otf") format("opentype");
+  src: url("../assets/fonts/LostHeading.woff2") format("woff2"),
+       url("../assets/fonts/LostHeading.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

@@ -7,8 +7,8 @@ import ImageGalleryModal from "@/components/ImageGalleryModal";
 import { createTextClasses } from "../styles/utils";
 
 const placeholderGalleryImages = [
-  "/images/hall-of-fame/result-placeholder-1.png",
-  "/images/hall-of-fame/result-placeholder-2.png",
+  "/images/hall-of-fame/result-placeholder-1.webp",
+  "/images/hall-of-fame/result-placeholder-2.webp",
 ];
 
 const featuredPlayersData = [
@@ -22,7 +22,7 @@ const featuredPlayersData = [
   },
   {
     id: 1,
-    avatarUrl: "/images/avatars/avatar.jpg",
+    avatarUrl: "/images/avatars/avatar.webp",
     username: "KZ_Lemon4ik",
     osuProfileUrl: "https://osu.ppy.sh/users/8674298",
     description: "The creator of Lost Scores Analyzer",
@@ -231,10 +231,10 @@ export default function HallOfFame() {
             textStyles={{ base: createTextClasses() }}
           >
             <div className="overflow-x-auto -mx-2 px-2">
-              <table className="w-full min-w-[600px]">
+              <table className="w-full min-w-table-full">
                 <colgroup>
                   <col className="w-12" />
-                  <col className="min-w-[140px]" />
+                  <col className="min-w-table-player" />
                   <col className="w-20" />
                   <col className="w-16" />
                   <col className="w-20" />

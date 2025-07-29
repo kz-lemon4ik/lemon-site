@@ -18,8 +18,8 @@ export default function UserAvatar({
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
-    if (target.src !== window.location.origin + "/images/avatars/avatar-default.jpg") {
-      target.src = "/images/avatars/avatar-default.jpg";
+    if (target.src !== window.location.origin + "/images/avatars/avatar-default.webp") {
+      target.src = "/images/avatars/avatar-default.webp";
     }
   };
 
@@ -31,7 +31,7 @@ export default function UserAvatar({
 
   return (
     <img
-      src={avatarUrl || "/images/avatars/avatar-default.png"}
+      src={avatarUrl || "/images/avatars/avatar-default.webp"}
       onError={handleError}
       alt="User Avatar"
       className={clsx(

@@ -39,7 +39,7 @@ export default function Projects() {
         variants={sectionVariants}
         transition={sectionTransition}
       >
-        <h1 className="text-4xl sm:text-5xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_10px_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_8px_var(--color-heading-drop-shadow)] select-none mb-8 font-title">
+        <h1 className="text-4xl sm:text-5xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_1.8rem_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_1.44rem_var(--color-heading-drop-shadow)] select-none mb-8 font-title">
           Projects
         </h1>
         <div className="grid gap-6 sm:grid-cols-2 font-body">

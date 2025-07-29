@@ -12,13 +12,14 @@ import HallOfFame from "@/organisms/HallOfFame";
 import Home from "@/organisms/Home";
 import HowItWorks from "@/organisms/HowItWorks";
 import InstallationGuide from "@/organisms/InstallationGuide";
+import OAuthSuccess from "@/organisms/OAuthSuccess";
 import ScrollToTop from "@/utils/ScrollToTop";
 
 const lostScoresSiteImagePaths: ParallaxImagePaths = {
-  desktopDark: "/images/backgrounds/lost-desktop-dark.png",
-  desktopLight: "/images/backgrounds/lost-desktop-light.png",
-  mobileDark: "/images/backgrounds/lost-mobile-dark.png",
-  mobileLight: "/images/backgrounds/lost-mobile-light.png",
+  desktopDark: "/images/backgrounds/lost-desktop-dark.webp",
+  desktopLight: "/images/backgrounds/lost-desktop-light.webp",
+  mobileDark: "/images/backgrounds/lost-mobile-dark.webp",
+  mobileLight: "/images/backgrounds/lost-mobile-light.webp",
 };
 
 interface AppRoutesProps {
@@ -36,6 +37,7 @@ function AppRoutes({ isInitialLoad }: AppRoutesProps) {
       <Route path="/downloads" element={<Downloads />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/feedback" element={<Feedback />} />
+      <Route path="/oauth/success" element={<OAuthSuccess />} />
     </Routes>
   );
 }
@@ -49,7 +51,7 @@ function AppLayout({ children, isHomePage }: AppLayoutProps) {
   const headerInitialHeightClasses = "pt-20 sm:pt-24";
 
   return (
-    <div className="relative min-h-screen font-sans bg-transparent flex flex-col">
+    <div className="relative min-h-screen bg-transparent flex flex-col">
       <ScrollToTop />
       <ParallaxBackground imagePaths={lostScoresSiteImagePaths} />
       <Header />
@@ -84,7 +86,7 @@ function useAppInitialization() {
 
 function MainAppLayout() {
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const isHomePage = location.pathname === "/" || location.pathname === "/oauth/success";
   const { isInitialLoad } = useAppInitialization();
 
   return (

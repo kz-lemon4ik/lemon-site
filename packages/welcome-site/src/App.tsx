@@ -10,10 +10,10 @@ import Projects from "@/organisms/Projects";
 
 function MainApp() {
   const welcomeSiteImagePaths: ParallaxImagePaths = {
-    desktopDark: "/images/backgrounds/welcome-desktop-dark.png",
-    desktopLight: "/images/backgrounds/welcome-desktop-light.png",
-    mobileDark: "/images/backgrounds/welcome-mobile-dark.png",
-    mobileLight: "/images/backgrounds/welcome-mobile-light.png",
+    desktopDark: "/images/backgrounds/welcome-desktop-dark.webp",
+    desktopLight: "/images/backgrounds/welcome-desktop-light.webp",
+    mobileDark: "/images/backgrounds/welcome-mobile-dark.webp",
+    mobileLight: "/images/backgrounds/welcome-mobile-light.webp",
   };
 
   useEffect(() => {

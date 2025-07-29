@@ -48,7 +48,7 @@ export default function SettingsModal({ isOpen, onClose }: Props) {
       <div
         onClick={(e) => e.stopPropagation()}
         className={clsx(
-          "p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-[calc(320px*1.2)] sm:max-w-xs sm:w-full relative transform transition-all duration-300 ease-out flex flex-col gap-6",
+          "p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-settings-modal sm:max-w-xs sm:w-full relative transform transition-all duration-300 ease-out flex flex-col gap-6",
           "bg-slate-800/85 backdrop-blur-md border border-slate-700",
           "theme-is-light:bg-white/85 theme-is-light:backdrop-blur-md theme-is-light:border theme-is-light:border-themeLight-cardBorder theme-is-light:shadow-lg"
         )}

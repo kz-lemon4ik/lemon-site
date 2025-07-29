@@ -23,7 +23,7 @@ export default function Home() {
       >
         <Heading
           size="xl"
-          className="text-6xl sm:text-8xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_10px_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_8px_var(--color-heading-drop-shadow)] select-none font-title"
+          className="text-6xl sm:text-8xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_1.8rem_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_1.44rem_var(--color-heading-drop-shadow)] select-none font-title"
         >
           Lemon
         </Heading>

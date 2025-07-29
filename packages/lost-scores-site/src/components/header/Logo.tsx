@@ -23,7 +23,7 @@ export default function Logo({
   const handleError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
     if (target.src.includes("logo-active")) {
-      target.src = "/images/logos/logo-default.png";
+      target.src = "/images/logos/logo-default.webp";
     } else {
       target.style.display = "none";
       const textFallback = document.createElement("span");
@@ -46,11 +46,11 @@ export default function Logo({
 
   const logoSrc = isMobile
     ? isMobileActive
-      ? "/images/logos/logo-active.png"
-      : "/images/logos/logo-default.png"
+      ? "/images/logos/logo-active.webp"
+      : "/images/logos/logo-default.webp"
     : isHovered
-      ? "/images/logos/logo-active.png"
-      : "/images/logos/logo-default.png";
+      ? "/images/logos/logo-active.webp"
+      : "/images/logos/logo-default.webp";
 
   const sizeClasses = isMobile ? "h-9" : clsx("h-11 lg:h-11", !isScrolled && "lg:h-16 xl:h-20");
 
