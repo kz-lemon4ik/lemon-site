@@ -48,7 +48,7 @@ const SubStepColumn: React.FC<SubStepColumnProps> = ({
   return (
     <div
       className={clsx(
-        "flex flex-col items-center text-center pb-4 px-2 md:px-4 flex-1 min-w-[180px] md:min-w-0",
+        "flex flex-col items-center text-center pb-4 px-2 md:px-4 flex-1 min-w-subcard md:min-w-0",
         className
       )}
     >
@@ -128,7 +128,7 @@ const stepsData: MainStepData[] = [
     cardType: "with-image",
     titleAlignment: "left",
     imageProps: {
-      src: "/images/results/program_preview.png",
+      src: "/images/results/program_preview.webp",
       alt: "Program Setup Interface",
       aspectRatio: "964x1164",
       placement: "right",
@@ -214,7 +214,7 @@ const stepsData: MainStepData[] = [
     cardType: "with-image",
     titleAlignment: "left",
     imageProps: {
-      src: "/images/results/lost_scores_result.png",
+      src: "/images/results/lost_scores_result.webp",
       alt: "Lost Scores Example",
       aspectRatio: "980x1068",
       placement: "right",
@@ -270,7 +270,7 @@ const stepsData: MainStepData[] = [
     cardType: "with-image",
     titleAlignment: "center",
     imageProps: {
-      src: "/images/results/potential_top_result.png",
+      src: "/images/results/potential_top_result.webp",
       alt: "Potential Top Scores Example",
       aspectRatio: "980x1068",
       placement: "left",
@@ -375,9 +375,9 @@ const stepsData: MainStepData[] = [
 export default function HowItWorks() {
   const { isMotionDisabled } = useSettings();
 
-  const programPreviewImg = "/images/results/program_preview.png";
-  const lostScoresResultImg = "/images/results/lost_scores_result.png";
-  const potentialTopResultImg = "/images/results/potential_top_result.png";
+  const programPreviewImg = "/images/results/program_preview.webp";
+  const lostScoresResultImg = "/images/results/lost_scores_result.webp";
+  const potentialTopResultImg = "/images/results/potential_top_result.webp";
   const pageImages = [programPreviewImg, lostScoresResultImg, potentialTopResultImg].filter(
     Boolean
   );

@@ -39,11 +39,11 @@ export default function DesktopNavigation({ items, className }: DesktopNavigatio
         >
           {({ isActive }) => (
             <>
-              {item.label}
+              <span>{item.label}</span>
               {isActive && (
                 <motion.div
                   className={clsx(
-                    "absolute bottom-0 left-0 w-full h-[3px]",
+                    "absolute bottom-0 left-0 w-full h-nav-underline",
                     "bg-lemon-400 theme-is-light:bg-sky-600"
                   )}
                   layoutId="underline"

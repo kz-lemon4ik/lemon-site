@@ -98,7 +98,7 @@ export default function MobileHeader({
             <div className="h-16 flex items-center justify-between px-4 border-b border-slate-700/30 theme-is-light:border-slate-300/50">
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
                 <img
-                  src="/images/logos/logo-default.png"
+                  src="/images/logos/logo-default.webp"
                   alt="Lost Scores"
                   className="h-9 w-auto"
                 />
@@ -160,7 +160,7 @@ export default function MobileHeader({
                       )
                     }
                   >
-                    {item.label}
+                    <span>{item.label}</span>
                   </NavLink>
                 ))}
               </div>

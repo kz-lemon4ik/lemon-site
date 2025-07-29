@@ -123,7 +123,7 @@ export default function FaqItem({ item, isOpen, onClick }: FaqItemProps) {
             >
               {item.question}
             </h3>
-            <div className="min-w-[24px]">
+            <div className="min-w-faq-icon">
               {isOpen ? (
                 <ChevronUp
                   size={24}
@@ -183,7 +183,7 @@ export default function FaqItem({ item, isOpen, onClick }: FaqItemProps) {
           >
             {item.question}
           </h3>
-          <div className="min-w-[24px]">
+          <div className="min-w-[4.32rem]">
             {isOpen ? (
               <ChevronUp
                 size={24}

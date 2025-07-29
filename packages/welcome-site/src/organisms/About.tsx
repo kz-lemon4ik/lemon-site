@@ -42,12 +42,12 @@ export default function About() {
       transition={pageTransition}
       className="min-h-screen flex flex-col items-center justify-center gap-6 px-4 py-8 text-center overflow-hidden"
     >
-      <h1 className="text-4xl sm:text-5xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_10px_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_8px_var(--color-heading-drop-shadow)] select-none font-title">
+      <h1 className="text-4xl sm:text-5xl font-bold text-white theme-is-light:text-themeLight-headingText drop-shadow-[0_0_1.8rem_rgba(246,224,94,0.5)] theme-is-light:drop-shadow-[0_0_1.44rem_var(--color-heading-drop-shadow)] select-none font-title">
         About
       </h1>
 
       <img
-        src="/images/avatars/avatar.jpg"
+        src="/images/avatars/avatar.webp"
         alt="Lemon"
         className="w-48 h-48 rounded-full object-cover shadow"
         draggable={false}

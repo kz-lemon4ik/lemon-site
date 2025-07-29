@@ -49,9 +49,9 @@ const KeyValueItem: React.FC<KeyValueItemProps> = ({ icon: Icon, children }) => 
 export default function AboutProgram() {
   const { isMotionDisabled } = useSettings();
 
-  const storyImg = "/images/examples/scorev1.jpg";
-  const problemImg = "/images/examples/calculations.jpg";
-  const keyValueImg = "/images/examples/btmc.png";
+  const storyImg = "/images/examples/scorev1.webp";
+  const problemImg = "/images/examples/calculations.webp";
+  const keyValueImg = "/images/examples/btmc.webp";
 
   const pageImages = [storyImg, problemImg, keyValueImg];
 

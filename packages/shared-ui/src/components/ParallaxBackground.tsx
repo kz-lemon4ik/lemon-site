@@ -126,8 +126,8 @@ export default function ParallaxBackground({ imagePaths }: Props) {
         backgroundColor: theme === "light" ? "#f8fafc" : "#0f172a",
         filter:
           theme === "light"
-            ? `brightness(0.95) ${isMobile ? "" : "blur(5px)"}`
-            : `brightness(0.3) ${isMobile ? "" : "blur(5px)"}`,
+            ? `brightness(0.95) ${isMobile ? "" : "blur(0.3125rem)"}`
+            : `brightness(0.3) ${isMobile ? "" : "blur(0.3125rem)"}`,
         willChange: "transform, background-image",
         transitionProperty: "transform, background-image",
         transitionDuration: isMotionDisabled || isMobile ? "500ms" : "200ms, 500ms",

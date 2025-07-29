@@ -1,7 +1,27 @@
-import colors from "tailwindcss/colors";
+import { join } from 'path';
+import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const colors = require('tailwindcss/colors');
+
+/** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "../shared-ui/src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    // 1. Путь к файлам самого этого пакета (lost-scores-site)
+    join(__dirname, 'index.html'),
+    join(__dirname, 'src/**/*.{js,ts,jsx,tsx}'),
+
+    // 2. Явный и надежный путь к файлам пакета shared-ui
+    join(__dirname, '../shared-ui/src/**/*.{js,ts,jsx,tsx}'),
+  ],
+  safelist: [
+    'text-xxl-heading',
+    'drop-shadow-heading-glow'
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -14,6 +34,23 @@ export default {
         lostbody: ["LostBody", "sans-serif"],
         lostheading: ["LostHeading", "sans-serif"],
         sans: ["Manrope", "sans-serif"],
+      },
+      fontSize: {
+        'xxl-heading': '1.8rem',
+      },
+      height: {
+        'nav-underline': '0.16875rem',
+      },
+      minWidth: {
+        'faq-icon': '1.35rem',
+        'nav-small': '3.6rem',
+        'nav-large': '5.625rem',
+        'subcard': '10.125rem',
+        'table-player': '7.875rem',
+        'table-full': '33.75rem',
+      },
+      maxWidth: {
+        'settings-modal': 'calc(18rem*1.2)',
       },
       colors: {
         slate: colors.slate,

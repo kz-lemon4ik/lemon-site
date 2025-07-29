@@ -46,7 +46,7 @@ export default function DesktopHeader({
       <div
         className={clsx(
           "max-w-7xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8 relative",
-          !isScrolled && "top-[5px]"
+          !isScrolled && "top-[0.3125rem]"
         )}
       >
         <div className="flex items-center">

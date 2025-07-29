@@ -29,7 +29,8 @@
   }
 
   body {
-    @apply relative font-sans bg-transparent;
+    @apply relative bg-transparent;
+    font-family: theme('fontFamily.sans'), sans-serif;
     color: var(--color-text-base);
   }
 
