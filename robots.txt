@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://lemon4ik.kz/sitemap.xml
+Sitemap: https://lost.lemon4ik.kz/sitemap.xml
+
+# Common crawl delays
+Crawl-delay: 1
+
+# Block common bot directories
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /build/
