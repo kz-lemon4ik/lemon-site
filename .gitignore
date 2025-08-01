@@ -46,3 +46,16 @@ pids/
 tmp/
 temp/
 .node_repl_history
+
+# Server configurations (create on hosting)
+nginx.conf
+apache.conf
+.htaccess
+
+# SSL certificates and keys
+*.crt
+*.key
+*.pem
+
+# Production environment files
+.env.production
