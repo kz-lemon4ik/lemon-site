@@ -46,7 +46,7 @@ export default function Downloads() {
 
   return (
     <Section id="downloads" className="min-h-screen pt-24 pb-20">
-      <div className="max-w-5xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         <Heading
           size="xl"
           className={clsx(

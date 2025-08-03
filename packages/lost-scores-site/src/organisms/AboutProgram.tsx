@@ -104,8 +104,8 @@ export default function AboutProgram() {
           </p>
           <div
             className={clsx(
-              "p-4 rounded-r-md text-sm",
-              "bg-slate-800/60 border-l-4 border-lemon-400",
+              "p-4 rounded-r-md text-sm backdrop-blur-xl",
+              "bg-black/30 border-l-4 border-lemon-400",
               "theme-is-light:bg-themeLight-primaryLightBg theme-is-light:border-l-4 theme-is-light:border-themeLight-primary"
             )}
           >
@@ -237,16 +237,16 @@ export default function AboutProgram() {
             Here are the core technologies used:
           </p>
           <div className="grid grid-cols-2 gap-4 text-sm text-center">
-            <div className="p-3 bg-slate-800/50 theme-is-light:bg-slate-200/80 rounded-lg">
+            <div className="p-3 bg-black/30 backdrop-blur-xl theme-is-light:bg-slate-200/80 rounded-lg">
               <KeyValueItem icon={Code}>Python</KeyValueItem>
             </div>
-            <div className="p-3 bg-slate-800/50 theme-is-light:bg-slate-200/80 rounded-lg">
+            <div className="p-3 bg-black/30 backdrop-blur-xl theme-is-light:bg-slate-200/80 rounded-lg">
               <KeyValueItem icon={Palette}>PySide6 (GUI)</KeyValueItem>
             </div>
-            <div className="p-3 bg-slate-800/50 theme-is-light:bg-slate-200/80 rounded-lg">
+            <div className="p-3 bg-black/30 backdrop-blur-xl theme-is-light:bg-slate-200/80 rounded-lg">
               <KeyValueItem icon={Image}>Pillow (Images)</KeyValueItem>
             </div>
-            <div className="p-3 bg-slate-800/50 theme-is-light:bg-slate-200/80 rounded-lg">
+            <div className="p-3 bg-black/30 backdrop-blur-xl theme-is-light:bg-slate-200/80 rounded-lg">
               <KeyValueItem icon={Network}>osu! API</KeyValueItem>
             </div>
           </div>
@@ -257,7 +257,7 @@ export default function AboutProgram() {
 
   return (
     <Section id="about-program" className="pt-20 pb-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         <Heading
           size="xl"
           className={clsx(

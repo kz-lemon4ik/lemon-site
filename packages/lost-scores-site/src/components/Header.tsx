@@ -22,7 +22,6 @@ const navItems = [
 export default function Header() {
   const { isHeaderHidden } = useSettings();
   const { isScrolled } = useScrollDetection();
-  const userAvatarUrl = null;
 
   if (isHeaderHidden) return null;
 
@@ -32,13 +31,11 @@ export default function Header() {
         navigationItems={navItems}
         languageOptions={languageOptions}
         isScrolled={isScrolled}
-        userAvatarUrl={userAvatarUrl}
       />
       <MobileHeader
         navigationItems={navItems}
         languageOptions={languageOptions}
         isScrolled={isScrolled}
-        userAvatarUrl={userAvatarUrl}
       />
     </>
   );

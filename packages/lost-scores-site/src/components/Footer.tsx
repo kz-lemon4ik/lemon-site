@@ -24,11 +24,11 @@ export default function Footer({ isHomePage }: FooterProps) {
 
   const footerConditionalClasses = isHomePage
     ? "absolute bottom-0 left-0 right-0 z-10 bg-transparent"
-    : "relative z-10 mt-auto bg-slate-800/70 theme-is-light:bg-white/65 backdrop-blur-md";
+    : "relative z-10 mt-auto bg-black/30 theme-is-light:bg-white/65 backdrop-blur-xl";
 
   return (
     <footer className={clsx(footerBaseClasses, footerConditionalClasses)}>
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-center">
+      <div className="max-w-6xl mx-auto w-full flex items-center justify-center">
         <div className="text-center">
           <div className="flex items-center justify-center gap-x-6">
             <Link to="/feedback" className={linkStyles}>

@@ -117,7 +117,7 @@ export default function HallOfFame() {
 
   return (
     <Section id="hall-of-fame" className="min-h-screen pt-20 pb-20">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         <Heading
           size="xl"
           className={clsx(
