@@ -417,7 +417,7 @@ export default function HowItWorks() {
 
   return (
     <Section id="how-it-works" className="pt-20 pb-20 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         <Heading
           size="xl"
           className={clsx(
@@ -472,8 +472,8 @@ export default function HowItWorks() {
                       key={item.id}
                       to={`#${item.id}`}
                       className={clsx(
-                        "block p-4 rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75",
-                        "bg-slate-800/50 hover:bg-slate-700/70 border border-transparent hover:border-purple-400/70 focus-visible:ring-purple-400",
+                        "block p-4 rounded-lg transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 backdrop-blur-xl",
+                        "bg-black/30 hover:bg-black/40 border border-transparent hover:border-purple-400/70 focus-visible:ring-purple-400",
                         "theme-is-light:bg-themeLight-card/70 theme-is-light:hover:bg-white theme-is-light:hover:border-themeLight-primary theme-is-light:focus-visible:ring-themeLight-primary"
                       )}
                     >

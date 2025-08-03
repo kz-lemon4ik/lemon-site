@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { ParallaxBackground, ParallaxImagePaths, SettingsProvider } from "@lemon-site/shared-ui";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import AboutProgram from "@/organisms/AboutProgram";
@@ -13,6 +14,7 @@ import Home from "@/organisms/Home";
 import HowItWorks from "@/organisms/HowItWorks";
 import InstallationGuide from "@/organisms/InstallationGuide";
 import OAuthSuccess from "@/organisms/OAuthSuccess";
+import ProfilePage from "@/organisms/ProfilePage";
 import ScrollToTop from "@/utils/ScrollToTop";
 
 const lostScoresSiteImagePaths: ParallaxImagePaths = {
@@ -38,6 +40,7 @@ function AppRoutes({ isInitialLoad }: AppRoutesProps) {
       <Route path="/faq" element={<Faq />} />
       <Route path="/feedback" element={<Feedback />} />
       <Route path="/oauth/success" element={<OAuthSuccess />} />
+      <Route path="/profile/:identifier" element={<ProfilePage />} />
     </Routes>
   );
 }
@@ -99,7 +102,9 @@ function MainAppLayout() {
 export default function App() {
   return (
     <SettingsProvider>
-      <MainAppLayout />
+      <AuthProvider>
+        <MainAppLayout />
+      </AuthProvider>
     </SettingsProvider>
   );
 }

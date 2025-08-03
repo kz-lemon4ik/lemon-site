@@ -19,14 +19,12 @@ interface MobileHeaderProps {
   navigationItems: NavigationItem[];
   languageOptions: LanguageOption[];
   isScrolled: boolean;
-  userAvatarUrl?: string | null;
 }
 
 export default function MobileHeader({
   navigationItems,
   languageOptions,
   isScrolled,
-  userAvatarUrl,
 }: MobileHeaderProps) {
   const { isMotionDisabled } = useSettings();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,7 +42,7 @@ export default function MobileHeader({
   }, [isMobileMenuOpen]);
 
   const headerBg = isScrolled
-    ? "bg-slate-800/90 theme-is-light:bg-white/90 backdrop-blur-md shadow-lg border-b border-slate-700/30 theme-is-light:border-slate-300/50"
+    ? "bg-black/30 theme-is-light:bg-white/90 backdrop-blur-xl shadow-lg border-b border-slate-700/30 theme-is-light:border-slate-300/50"
     : "bg-transparent";
 
   return (
@@ -92,7 +90,7 @@ export default function MobileHeader({
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
             transition={{ duration: isMotionDisabled ? 0 : 0.3, ease: "easeInOut" }}
-            className="relative bg-slate-800/90 theme-is-light:bg-white/80 backdrop-blur-md border-b border-slate-700/30 theme-is-light:border-slate-300/50 overflow-hidden"
+            className="relative bg-black/30 theme-is-light:bg-white/80 backdrop-blur-xl border-b border-slate-700/30 theme-is-light:border-slate-300/50 overflow-hidden"
             style={{ maxHeight: "70vh" }}
           >
             <div className="h-16 flex items-center justify-between px-4 border-b border-slate-700/30 theme-is-light:border-slate-300/50">
@@ -119,15 +117,7 @@ export default function MobileHeader({
             <div className="px-4 py-4 bg-slate-900/40 theme-is-light:bg-slate-100/60 border-b border-slate-700/30 theme-is-light:border-slate-300/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <UserAvatar avatarUrl={userAvatarUrl} isMobile />
-                  <div>
-                    <div className="text-sm font-medium text-lavender-200 theme-is-light:text-slate-700">
-                      KZ_Lemon4ik
-                    </div>
-                    <div className="text-xs text-slate-400 theme-is-light:text-slate-500">
-                      Guest User
-                    </div>
-                  </div>
+                  <UserAvatar isMobile />
                 </div>
 
                 <div className="flex items-center gap-2">

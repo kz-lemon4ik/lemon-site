@@ -73,7 +73,7 @@ export default function LanguageSelector({
         <div
           className={clsx(
             "absolute top-full right-0 mt-2 w-44 rounded-md shadow-lg py-3 px-2",
-            "bg-slate-700/95 backdrop-blur-sm border border-slate-600",
+            "bg-black/30 backdrop-blur-xl border border-white/10",
             "theme-is-light:bg-white/95 theme-is-light:border-slate-200",
             isMobile ? "z-[60]" : "z-50"
           )}

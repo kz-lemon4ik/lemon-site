@@ -12,20 +12,18 @@ interface DesktopHeaderProps {
   navigationItems: NavigationItem[];
   languageOptions: LanguageOption[];
   isScrolled: boolean;
-  userAvatarUrl?: string | null;
 }
 
 export default function DesktopHeader({
   navigationItems,
   languageOptions,
   isScrolled,
-  userAvatarUrl,
 }: DesktopHeaderProps) {
   const { isMotionDisabled } = useSettings();
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageOption>(languageOptions[0]);
 
   const headerBg = isScrolled
-    ? "bg-slate-800/70 theme-is-light:bg-white/65 backdrop-blur-md"
+    ? "bg-black/30 theme-is-light:bg-white/65 backdrop-blur-xl"
     : "bg-transparent";
 
   const headerBorder = isScrolled
@@ -45,7 +43,7 @@ export default function DesktopHeader({
     >
       <div
         className={clsx(
-          "max-w-7xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8 relative",
+          "max-w-6xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 lg:px-8 relative",
           !isScrolled && "top-[0.3125rem]"
         )}
       >
@@ -68,7 +66,7 @@ export default function DesktopHeader({
           <MotionToggle isScrolled={isScrolled} className="hidden lg:flex" />
 
           <div className="ml-1 sm:ml-2 hidden lg:block">
-            <UserAvatar avatarUrl={userAvatarUrl} isScrolled={isScrolled} />
+            <UserAvatar isScrolled={isScrolled} />
           </div>
         </div>
       </div>

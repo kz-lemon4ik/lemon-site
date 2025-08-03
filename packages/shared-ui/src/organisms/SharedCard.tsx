@@ -80,8 +80,8 @@ const SharedCard: React.FC<SharedCardProps> = ({
   }
 
   const baseCardStyles = clsx(
-    "backdrop-blur-lg rounded-xl shadow-xl overflow-hidden",
-    "bg-slate-800/70 border border-slate-700/50",
+    "backdrop-blur-xl rounded-xl shadow-xl overflow-hidden",
+    "bg-black/40 border border-lavender-500/30",
     "theme-is-light:bg-white/60 theme-is-light:backdrop-blur-md theme-is-light:border theme-is-light:border-themeLight-cardBorder theme-is-light:shadow-themeLight-cardShadow"
   );
 
@@ -207,7 +207,7 @@ const SharedCard: React.FC<SharedCardProps> = ({
       rel={link?.rel}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       whileHover={enableHoverMotion ? { scale: 1.02 } : undefined}
       {...customMotionProps}
       {...rest}

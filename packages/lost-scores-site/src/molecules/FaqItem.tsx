@@ -28,12 +28,6 @@ export default function FaqItem({ item, isOpen, onClick }: FaqItemProps) {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, amount: 0.1 });
 
-  React.useEffect(() => {
-    console.log(
-      `FaqItem "${item.question.slice(0, 20)}...": motion=${!isMotionDisabled}, inView=${isInView}, open=${isOpen}`
-    );
-  }, [isMotionDisabled, isInView, item.question, isOpen]);
-
   const accentLinkStyles = clsx(
     "underline font-semibold transition-colors duration-200 break-words",
     "text-lemon-400 hover:text-lavender-300",
@@ -41,7 +35,7 @@ export default function FaqItem({ item, isOpen, onClick }: FaqItemProps) {
   );
   const codeStyles = clsx(
     "font-mono text-sm px-1.5 py-0.5 rounded",
-    "text-lemon-300 bg-slate-700/60",
+    "text-lemon-300 bg-black/40 backdrop-blur-xl",
     "theme-is-light:text-themeLight-codeText theme-is-light:bg-themeLight-codeBg"
   );
 

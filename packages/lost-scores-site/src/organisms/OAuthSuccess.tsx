@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import { CircleCheck, User, CircleX } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Heading, Section, useSettings } from "@lemon-site/shared-ui";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface UserData {
   username: string;
@@ -15,14 +16,13 @@ export default function OAuthSuccess() {
   const { isMotionDisabled } = useSettings();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { checkAuth } = useAuth();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
   const [countdown, setCountdown] = useState(5);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const username = searchParams.get("username");
-    const userId = searchParams.get("user_id");
     const source = searchParams.get("source");
     const errorParam = searchParams.get("error");
 
@@ -31,44 +31,59 @@ export default function OAuthSuccess() {
       return;
     }
 
-    // Проверяем что все обязательные параметры присутствуют
-    if (!username || !userId || !source) {
+    const username = searchParams.get("username");
+    const userId = searchParams.get("user_id");
+    const jwtToken = searchParams.get("jwt_token");
+
+    if (jwtToken && username && userId) {
+      if (isNaN(Number(userId)) || Number(userId) <= 0) {
+        setError("Invalid user ID");
+        return;
+      }
+
+      if (username.trim().length === 0 || username.length > 50) {
+        setError("Invalid username");
+        return;
+      }
+
+      if (username.match(/[<>&"']/)) {
+        setError("Invalid username format");
+        return;
+      }
+
+      document.cookie = `lost_scores_session=${jwtToken}; path=/; max-age=86400; SameSite=Lax`;
+
+      setUserData({
+        username: username.trim(),
+        user_id: userId,
+        avatar_url: `https://a.ppy.sh/${userId}`,
+      });
+
+      setIsDesktop(source === "desktop");
+
+      if (source !== "desktop") {
+        checkAuth().then(() => {
+          setTimeout(() => {
+            navigate(`/profile/${username.trim()}`);
+          }, 2000);
+        });
+      }
+    } else if (!jwtToken) {
+      setError("Missing authentication token");
+    } else if (!username || !userId) {
       setError("Missing authentication data");
-      return;
     }
+  }, [searchParams, checkAuth, navigate]);
 
-    // Проверяем что source валидный (только desktop разрешен)
-    if (source !== 'desktop') {
-      setError("Invalid access - please use the official authentication flow");
-      return;
+  const autoClose = useCallback(() => {
+    if (isDesktop) {
+      try {
+        window.close();
+      } catch {
+        return;
+      }
     }
-
-    // Проверяем что user_id - валидное число
-    if (isNaN(Number(userId)) || Number(userId) <= 0) {
-      setError("Invalid user ID");
-      return;
-    }
-
-    // Проверяем что username не пустой и разумной длины
-    if (username.trim().length === 0 || username.length > 50) {
-      setError("Invalid username");
-      return;
-    }
-
-    // Улучшенная XSS защита
-    if (username.match(/[<>&"']/)) {
-      setError("Invalid username format");
-      return;
-    }
-
-    // Все проверки пройдены, показываем success
-    setUserData({
-      username: username.trim(),
-      user_id: userId,
-      avatar_url: `https://a.ppy.sh/${userId}`,
-    });
-    setIsDesktop(source === 'desktop');
-  }, [searchParams]);
+  }, [isDesktop]);
 
   useEffect(() => {
     if (!isDesktop || error) return;
@@ -84,31 +99,26 @@ export default function OAuthSuccess() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isDesktop, error]);
+  }, [isDesktop, error, autoClose]);
 
-  const autoClose = () => {
+  const handleClose = () => {
     if (isDesktop) {
       try {
         window.close();
-      } catch (e) {
-        // No fallback - leave the Close Window button as the user's option
+        setTimeout(() => {
+          if (!window.closed) {
+            navigate("/");
+          }
+        }, 100);
+      } catch {
+        navigate("/");
       }
-    }
-  };
-
-  const handleClose = () => {
-    try {
-      window.close();
-      // Проверяем через небольшую задержку, закрылось ли окно
-      setTimeout(() => {
-        // Если окно все еще открыто, делаем редирект
-        if (!window.closed) {
-          navigate("/");
-        }
-      }, 100);
-    } catch (e) {
-      // Если window.close() вызвал исключение, делаем редирект сразу
-      navigate("/");
+    } else {
+      if (userData?.username) {
+        navigate(`/profile/${userData.username}`);
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -224,7 +234,9 @@ export default function OAuthSuccess() {
               You have successfully authenticated with osu!
             </p>
             <p className="font-lostdescription text-sm mt-2 text-lavender-300">
-              You can now close this window and return to the application.
+              {isDesktop
+                ? "You can now close this window and return to the application."
+                : "You can now access your profile and start using the platform."}
             </p>
           </div>
         </div>
@@ -238,9 +250,11 @@ export default function OAuthSuccess() {
               "border-transparent text-white hover:text-white"
             )}
           >
-            {countdown > 0
-              ? `Close Window (${countdown})`
-              : "Close Window"}
+            {isDesktop
+              ? countdown > 0
+                ? `Close Window (${countdown})`
+                : "Close Window"
+              : "Continue to Profile"}
           </Button>
         </div>
       </motion.div>
