@@ -1,21 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import ProfileHeader from "@/components/profile/ProfileHeader";
-import ScansList from "@/components/profile/ScansList";
-import { MOCK_SCANS } from "@/data/mockScans";
+import TopRanks from "@/components/profile/TopRanks";
 import { motion } from "framer-motion";
 import { useSettings } from "@lemon-site/shared-ui";
+import { getSubmission } from "@/services/api";
+import type { SubmissionDetail } from "@/types/api";
 
 type TabType = "top-ranks" | "scans" | "statistics";
 
 export default function ProfilePage() {
   const { identifier } = useParams<{ identifier: string }>();
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { isMotionDisabled } = useSettings();
   const [activeTab, setActiveTab] = useState<TabType>("top-ranks");
+  const [submission, setSubmission] = useState<SubmissionDetail | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!identifier) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    getSubmission(identifier)
+      .then((data) => {
+        setSubmission(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch submission:", err);
+        setError("Failed to load submission data");
+        setIsLoading(false);
+      });
+  }, [identifier]);
+
+  if (authLoading || isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-white text-center">Loading...</div>
@@ -27,30 +49,21 @@ export default function ProfilePage() {
     return <Navigate to="/" replace />;
   }
 
-  const isNumericId = /^\d+$/.test(identifier);
-
-  let username: string;
-  let isOwnProfile: boolean;
-
-  if (isNumericId) {
-    const scan = MOCK_SCANS.find(
-      (s) => s.full_json.user_data.user_id.toString() === identifier
-    );
-    if (!scan) {
-      return (
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-white text-center">User not found</div>
+  if (error || !submission) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-white text-center">
+          <h2 className="text-2xl mb-2">Submission Not Found</h2>
+          <p>{error || "This user hasn't submitted any scans yet."}</p>
         </div>
-      );
-    }
-    username = scan.username;
-    isOwnProfile = isAuthenticated && user?.osu_user_id.toString() === identifier;
-  } else {
-    username = identifier;
-    isOwnProfile = isAuthenticated && user?.username === username;
+      </div>
+    );
   }
 
-  const userScans = MOCK_SCANS.filter((scan) => scan.username === username);
+  const username =
+    submission.current_user_stats?.username ||
+    submission.metadata.user_identifier;
+  const isOwnProfile = isAuthenticated && user?.username === username;
 
   const tabs: { id: TabType; label: string }[] = [
     { id: "top-ranks", label: "Top Ranks" },
@@ -62,7 +75,7 @@ export default function ProfilePage() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <ProfileHeader
         username={username}
-        scans={userScans}
+        submission={submission}
         isOwnProfile={isOwnProfile}
         tabs={tabs}
         activeTab={activeTab}
@@ -70,55 +83,45 @@ export default function ProfilePage() {
       />
 
       <div className="mt-8">
-          {activeTab === "scans" && (
-            <ScansList scans={userScans} isOwnProfile={isOwnProfile} />
-          )}
+        {activeTab === "scans" && (
+          <div className="bg-black/40 backdrop-blur-xl border border-lavender-500/30 rounded-lg p-8 theme-is-light:bg-white/60 theme-is-light:border-themeLight-cardBorder">
+            <h3 className="text-2xl font-lostbody text-white mb-4 theme-is-light:text-slate-900">
+              Scans History
+            </h3>
+            <p className="text-lavender-300 font-lostdescription theme-is-light:text-slate-600">
+              Multiple scans support coming soon
+            </p>
+          </div>
+        )}
 
-          {activeTab === "top-ranks" && (
-            <motion.div
-              initial={isMotionDisabled ? false : { opacity: 0, y: 20 }}
-              animate={isMotionDisabled ? false : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-black/40 backdrop-blur-xl border border-lavender-500/30 rounded-lg p-8 theme-is-light:bg-white/60 theme-is-light:border-themeLight-cardBorder"
-            >
-              <h3 className="text-2xl font-lostbody text-white mb-6 theme-is-light:text-slate-900">
-                Top Ranks
-              </h3>
-              <p className="text-lavender-300 font-lostdescription mb-4 theme-is-light:text-slate-600">
-                This section will display your top lost scores by PP gain and your potential top plays (actual + lost scores highlighted).
-              </p>
-              <ul className="mt-4 space-y-2 text-lavender-200 font-lostdescription list-disc list-inside theme-is-light:text-slate-600">
-                <li>Lost Scores Top - sorted by PP gain potential</li>
-                <li>Potential Top - your actual top plays combined with lost scores (lost scores highlighted in red)</li>
-                <li>Toggle between viewing modes</li>
-              </ul>
-            </motion.div>
-          )}
+        {activeTab === "top-ranks" && (
+          <TopRanks submission={submission} username={username} />
+        )}
 
-          {activeTab === "statistics" && (
-            <motion.div
-              initial={isMotionDisabled ? false : { opacity: 0, y: 20 }}
-              animate={isMotionDisabled ? false : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-black/40 backdrop-blur-xl border border-lavender-500/30 rounded-lg p-8 theme-is-light:bg-white/60 theme-is-light:border-themeLight-cardBorder"
-            >
-              <h3 className="text-2xl font-lostbody text-white mb-4 theme-is-light:text-slate-900">
-                Statistics Coming Soon
-              </h3>
-              <p className="text-lavender-300 font-lostdescription theme-is-light:text-slate-600">
-                Detailed statistics and analytics will be available here. This section
-                will include:
-              </p>
-              <ul className="mt-4 space-y-2 text-lavender-200 font-lostdescription list-disc list-inside theme-is-light:text-slate-600">
-                <li>PP gain trends over time</li>
-                <li>Most improved beatmaps</li>
-                <li>Accuracy distribution</li>
-                <li>Mod usage statistics</li>
-                <li>Performance comparison with previous scans</li>
-              </ul>
-            </motion.div>
-          )}
-        </div>
+        {activeTab === "statistics" && (
+          <motion.div
+            initial={isMotionDisabled ? false : { opacity: 0, y: 20 }}
+            animate={isMotionDisabled ? false : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="bg-black/40 backdrop-blur-xl border border-lavender-500/30 rounded-lg p-8 theme-is-light:bg-white/60 theme-is-light:border-themeLight-cardBorder"
+          >
+            <h3 className="text-2xl font-lostbody text-white mb-4 theme-is-light:text-slate-900">
+              Statistics Coming Soon
+            </h3>
+            <p className="text-lavender-300 font-lostdescription theme-is-light:text-slate-600">
+              Detailed statistics and analytics will be available here. This
+              section will include:
+            </p>
+            <ul className="mt-4 space-y-2 text-lavender-200 font-lostdescription list-disc list-inside theme-is-light:text-slate-600">
+              <li>PP gain trends over time</li>
+              <li>Most improved beatmaps</li>
+              <li>Accuracy distribution</li>
+              <li>Mod usage statistics</li>
+              <li>Performance comparison with previous scans</li>
+            </ul>
+          </motion.div>
+        )}
       </div>
+    </div>
   );
 }

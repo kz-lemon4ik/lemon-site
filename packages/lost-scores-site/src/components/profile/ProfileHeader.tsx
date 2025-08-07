@@ -1,8 +1,8 @@
-import { MockScan } from "@/data/mockScans";
 import CountryFlag from "@/components/atoms/CountryFlag";
 import { motion } from "framer-motion";
 import { useSettings } from "@lemon-site/shared-ui";
 import { TrendingUp } from "lucide-react";
+import type { SubmissionDetail } from "@/types/api";
 
 interface Tab {
   id: string;
@@ -11,7 +11,7 @@ interface Tab {
 
 interface ProfileHeaderProps {
   username: string;
-  scans: MockScan[];
+  submission: SubmissionDetail;
   isOwnProfile: boolean;
   tabs: Tab[];
   activeTab: string;
@@ -20,26 +20,22 @@ interface ProfileHeaderProps {
 
 export default function ProfileHeader({
   username,
-  scans,
+  submission,
   isOwnProfile,
   tabs,
   activeTab,
   onTabChange,
 }: ProfileHeaderProps) {
   const { isMotionDisabled } = useSettings();
-  const totalScans = scans.length;
-  const totalLostScores = scans.reduce(
-    (sum, scan) => sum + scan.summary.lost_scores_count,
-    0
-  );
-  const totalPPGain = scans.reduce((sum, scan) => sum + scan.summary.pp_gain, 0);
 
-  const latestScan = scans[0];
-  const avatarUrl = latestScan
-    ? `https://a.ppy.sh/${latestScan.full_json.user_data.user_id}?${Date.now()}.jpeg`
-    : "/images/avatars/avatar-default.webp";
+  const totalPPGain = submission.summary_stats.delta_pp;
+  const potentialPP = submission.summary_stats.potential_pp;
+  const lostScoresCount = submission.summary_stats.lost_scores_found;
 
-  const potentialPP = latestScan ? latestScan.full_json.user_data.current_pp + totalPPGain : 0;
+  const avatarUrl = submission.current_user_stats?.avatar_url || "/images/avatars/avatar-default.webp";
+  const countryCode = submission.current_user_stats?.country_code || "XX";
+  const globalRank = submission.current_user_stats?.current_global_rank || submission.summary_stats.current_global_rank;
+  const countryRank = submission.current_user_stats?.current_country_rank || 0;
 
   const MotionDiv = isMotionDisabled ? "div" : motion.div;
 
@@ -67,19 +63,19 @@ export default function ProfileHeader({
 
             <div className="flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-5xl font-lostbody text-white theme-is-light:text-slate-900">{username}</h1>
+                <h1 className="text-5xl font-lostbody text-white theme-is-light:text-slate-900">
+                  {username}
+                </h1>
                 {isOwnProfile && (
                   <span className="inline-block px-3 py-1 bg-lemon-400/20 text-lemon-400 rounded-md text-xs font-lostbody theme-is-light:bg-sky-600/20 theme-is-light:text-sky-600 whitespace-nowrap">
                     Your Profile
                   </span>
                 )}
               </div>
-              {latestScan && (
-                <div className="flex items-center gap-3 text-lg text-lavender-300 font-lostdescription theme-is-light:text-slate-600">
-                  <CountryFlag countryCode={latestScan.full_json.user_data.country} className="w-8 h-6" />
-                  <span>{latestScan.full_json.user_data.country}</span>
-                </div>
-              )}
+              <div className="flex items-center gap-3 text-lg text-lavender-300 font-lostdescription theme-is-light:text-slate-600">
+                <CountryFlag countryCode={countryCode} className="w-8 h-6" />
+                <span>{countryCode}</span>
+              </div>
             </div>
           </div>
 
@@ -129,7 +125,7 @@ export default function ProfileHeader({
                   Global Rank
                 </div>
                 <div className="text-lg font-lostbody text-white theme-is-light:text-slate-900">
-                  #{latestScan?.full_json.user_data.global_rank.toLocaleString()}
+                  #{globalRank.toLocaleString()}
                 </div>
               </div>
 
@@ -138,7 +134,7 @@ export default function ProfileHeader({
                   Country Rank
                 </div>
                 <div className="text-lg font-lostbody text-white theme-is-light:text-slate-900">
-                  #{latestScan?.full_json.user_data.country_rank.toLocaleString()}
+                  #{countryRank.toLocaleString()}
                 </div>
               </div>
             </div>
@@ -148,7 +144,9 @@ export default function ProfileHeader({
                 <div className="text-lavender-400 text-xs uppercase font-lostdescription theme-is-light:text-slate-500">
                   Scans
                 </div>
-                <div className="text-lg font-lostbody font-bold text-white theme-is-light:text-slate-900">{totalScans}</div>
+                <div className="text-lg font-lostbody font-bold text-white theme-is-light:text-slate-900">
+                  1
+                </div>
               </div>
 
               <div className="bg-black/20 rounded-lg px-4 py-2 border border-lavender-500/20 theme-is-light:bg-slate-100/70 theme-is-light:border-slate-300 flex flex-col items-center justify-center">
@@ -156,7 +154,7 @@ export default function ProfileHeader({
                   Lost Scores
                 </div>
                 <div className="text-lg font-lostbody font-bold text-white theme-is-light:text-slate-900">
-                  {totalLostScores}
+                  {lostScoresCount}
                 </div>
               </div>
             </div>
