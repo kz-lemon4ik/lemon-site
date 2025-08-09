@@ -1,6 +1,7 @@
 export interface LostScore {
   pp: number;
   beatmap_id: number;
+  beatmapset_id?: number;
   artist: string;
   title: string;
   creator: string;

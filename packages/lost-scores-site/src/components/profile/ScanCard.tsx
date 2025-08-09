@@ -42,8 +42,8 @@ export default function ScanCard({ scan, isOwnProfile, onDelete, index = 0 }: Sc
 
   return (
     <MotionDiv
-      initial={isMotionDisabled ? false : { opacity: 0, y: 20 }}
-      animate={isMotionDisabled ? false : { opacity: 1, y: 0 }}
+      initial={isMotionDisabled ? undefined : { opacity: 0, y: 20 }}
+      animate={isMotionDisabled ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       className="bg-black/30 backdrop-blur-xl border border-lavender-500/30 rounded-lg overflow-hidden hover:border-lavender-500/50 hover:shadow-lg transition-all theme-is-light:bg-white/60 theme-is-light:border-themeLight-cardBorder"
     >
@@ -136,9 +136,9 @@ export default function ScanCard({ scan, isOwnProfile, onDelete, index = 0 }: Sc
 
       {isExpanded && (
         <motion.div
-          initial={isMotionDisabled ? false : { height: 0, opacity: 0 }}
-          animate={isMotionDisabled ? false : { height: "auto", opacity: 1 }}
-          exit={isMotionDisabled ? false : { height: 0, opacity: 0 }}
+          initial={isMotionDisabled ? undefined : { height: 0, opacity: 0 }}
+          animate={isMotionDisabled ? undefined : { height: "auto", opacity: 1 }}
+          exit={isMotionDisabled ? undefined : { height: 0, opacity: 0 }}
           transition={{ duration: 0.2 }}
           className="border-t border-lavender-500/30 bg-gray-950/50 p-4 theme-is-light:bg-slate-100/50"
         >

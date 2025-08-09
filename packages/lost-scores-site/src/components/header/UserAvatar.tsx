@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Settings, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -20,7 +21,9 @@ export default function UserAvatar({
   const { user, isAuthenticated, login, logout } = useAuth();
   const { isMotionDisabled } = useSettings();
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,6 +41,32 @@ export default function UserAvatar({
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 8,
+        left: rect.right - 224
+      });
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isOpen]);
+
   const avatarUrl = user?.avatar_url || "/images/avatars/avatar-default.webp";
 
   const sizeClasses = isMobile
@@ -47,8 +76,9 @@ export default function UserAvatar({
       : "w-16 h-16 sm:w-20 sm:h-20";
 
   return (
-    <div className={clsx("relative", className)} ref={dropdownRef}>
+    <div className={clsx("relative", className)}>
       <button
+        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="relative group bg-transparent rounded-full"
         aria-label="User menu"
@@ -72,14 +102,16 @@ export default function UserAvatar({
         </div>
       </button>
 
-      <AnimatePresence>
-        {isOpen && (
+      {isOpen && dropdownPosition && createPortal(
+        <AnimatePresence>
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            ref={dropdownRef}
+            initial={isMotionDisabled ? undefined : { opacity: 0, y: -10 }}
+            animate={isMotionDisabled ? undefined : { opacity: 1, y: 0 }}
+            exit={isMotionDisabled ? undefined : { opacity: 0, y: -10 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 mt-2 w-56 backdrop-blur-xl bg-black/30 rounded-lg shadow-xl z-[9999] border border-white/10 py-3 px-2 theme-is-light:bg-white/95 theme-is-light:border-slate-200"
+            className="fixed w-56 backdrop-blur-2xl bg-[#1a1625]/98 rounded-lg shadow-2xl z-50 border border-lavender-500/30 py-3 px-2 theme-is-light:bg-white/98 theme-is-light:border-slate-300"
+            style={{ top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px` }}
           >
             {!isAuthenticated ? (
               <button
@@ -138,8 +170,9 @@ export default function UserAvatar({
               </>
             )}
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }
