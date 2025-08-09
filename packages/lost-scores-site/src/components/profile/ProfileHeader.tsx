@@ -99,13 +99,15 @@ export default function ProfileHeader({
         <div className="border-l border-white/10 theme-is-light:border-slate-300"></div>
 
         <div className="flex items-center gap-6 p-6">
-          <div className="flex flex-col items-center justify-center">
-            <div className="text-lavender-200 text-xs uppercase font-lostdescription mb-1 theme-is-light:text-slate-600 flex items-center gap-1">
-              <TrendingUp className="w-3 h-3" />
-              PP Gain
-            </div>
-            <div className="text-4xl font-lostbody text-lemon-400 theme-is-light:text-sky-600">
-              +{totalPPGain.toFixed(1)}
+          <div className="flex flex-col h-full">
+            <div className="flex flex-col items-center justify-center my-auto">
+              <div className="text-lavender-200 text-xs uppercase font-lostdescription mb-1 theme-is-light:text-slate-600 flex items-center gap-1">
+                <TrendingUp className="w-3 h-3" />
+                PP Gain
+              </div>
+              <div className="text-4xl font-lostbody text-lemon-400 theme-is-light:text-sky-600">
+                +{totalPPGain.toFixed(1)}
+              </div>
             </div>
           </div>
 
