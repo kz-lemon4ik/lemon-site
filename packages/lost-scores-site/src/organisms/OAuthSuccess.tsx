@@ -51,7 +51,12 @@ export default function OAuthSuccess() {
         return;
       }
 
-      document.cookie = `lost_scores_session=${jwtToken}; path=/; max-age=86400; SameSite=Lax`;
+      const isProduction = window.location.hostname.includes('lemon4ik.kz');
+      if (isProduction) {
+        document.cookie = `lost_scores_session=${jwtToken}; path=/; max-age=86400; domain=.lemon4ik.kz; Secure; SameSite=None`;
+      } else {
+        document.cookie = `lost_scores_session=${jwtToken}; path=/; max-age=86400; SameSite=Lax`;
+      }
 
       setUserData({
         username: username.trim(),
