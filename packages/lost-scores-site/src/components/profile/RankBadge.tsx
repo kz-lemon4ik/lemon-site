@@ -11,7 +11,7 @@ export default function RankBadge({
 }: RankBadgeProps) {
   const normalizedRank = rank === "X" ? "SS" : rank === "XH" ? "SSH" : rank;
 
-  const gradePath = `/assets/grades/${normalizedRank}.png`;
+  const gradePath = `/assets/grades/${normalizedRank}.svg`;
 
   return (
     <div className={`flex-shrink-0 ${className}`}>
