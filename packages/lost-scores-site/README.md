@@ -1,72 +1,32 @@
 # Lost Scores Site
 
-Documentation and download portal for the osu! Lost Scores Analyzer desktop application. Provides detailed installation guides with screenshots, comprehensive FAQ sections, troubleshooting resources, and a hall of fame showcasing user discoveries.
-
-## Tech Stack
-
-- **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Routing**: React Router DOM
-- **Image Handling**: Dynamic galleries with modal support
-- **Linting**: ESLint with TypeScript support
+Frontend for the Lost Scores project. This site hosts download links, installation guides, FAQ, troubleshooting steps, and the Hall of Fame. Production deployment lives at [lost.lemon4ik.kz](https://lost.lemon4ik.kz).
 
 ## Development
 
 ```bash
-# Install dependencies (from root)
+# from monorepo root
 yarn install
-
-# Start development server
-yarn dev:lost
-
-# Build for production
-yarn build:lost
-
-# Lint code
-yarn lint
-
-# Format code
-yarn format
+yarn dev:lost      # development server
+yarn build:lost    # production build
 ```
 
-## Project Structure
+## Structure
 
 ```
-lost-scores-site/
-├── src/
-│   ├── components/         # Reusable components
-│   ├── molecules/          # Molecular components
-│   ├── organisms/          # Page sections
-│   ├── utils/             # Utility functions
-│   ├── App.tsx            # Main app component
-│   └── main.tsx           # Entry point
-├── public/
-│   └── images/            # Static assets and screenshots
-├── package.json
-└── README.md
+src/
+  routes/         # page-level routes
+  sections/       # large content blocks (FAQ, HowItWorks, HallOfFame)
+  components/     # reusable widgets
+  content/        # markdown entries, copy, screenshots
 ```
 
-## Content Sections
+Shared components are imported from `@lemon-site/shared-ui`. When updating layout or styles, start with that package to keep both sites in sync.
 
-- **Home**: Introduction to the osu! Lost Scores Analyzer
-- **How It Works**: Technical explanation of the analysis process
-- **Installation**: Comprehensive setup guides for Windows
-- **Downloads**: Version management and download links
-- **FAQ**: Categorized frequently asked questions
-- **Hall of Fame**: Showcase of top user discoveries
-- **Feedback**: Contact information and support resources
+## Content maintenance
 
-## Environment
+- Installation steps and FAQ are kept in sync with the current desktop build and backend API.
+- Hall of Fame entries are curated manually; open an issue if you want to highlight a new find.
+- Static assets (screenshots, diagrams) live under `public/images`.
 
-This project is designed to run in modern browsers with ES2020+ support.
-
-## Dependencies
-
-Shared UI components are imported from the `@lemon-site/shared-ui` package within the monorepo.
-
-## License
-
-MIT License - see the root [LICENSE](../../LICENSE) file for details.
+If you spot outdated instructions or missing sections, please open an issue so I can refresh the content before the next release.
