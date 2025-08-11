@@ -1,71 +1,31 @@
 # Welcome Site
 
-Portfolio website showcasing development projects and technical articles.
-
-## Features
-
-- Responsive design optimized for all devices
-- Dark and light theme switching
-- Motion animations with accessibility controls
-- Portfolio project showcase
-- About section with personal information
-- Blog section for articles and updates
-- Social media integration
-- SEO optimized
-
-## Tech Stack
-
-- **Framework**: React 19 with TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React, React Icons
-- **Routing**: React Router DOM
-- **Linting**: ESLint with TypeScript support
+Personal portfolio and blog for [lemon4ik.kz](https://lemon4ik.kz). Built with React 19, TypeScript, Vite, Tailwind CSS, and Framer Motion.
 
 ## Development
 
 ```bash
-# Install dependencies (from root)
+# from the monorepo root
 yarn install
-
-# Start development server
-yarn dev:welcome
-
-# Build for production
-yarn build:welcome
-
-# Lint code
-yarn lint
-
-# Format code
-yarn format
+yarn dev:welcome     # development server
+yarn build:welcome   # production build
 ```
 
-## Project Structure
+## Sections
+
+- Hero and introduction with links to social profiles
+- Projects showcase with cards pulled from a JSON source
+- Blog section (Markdown + dynamic imports)
+- Theme and motion preferences (dark/light, reduced motion)
+
+## Structure
 
 ```
-welcome-site/
-├── src/
-│   ├── components/         # Reusable components
-│   ├── molecules/          # Molecular components
-│   ├── organisms/          # Page sections
-│   ├── utils/             # Utility functions
-│   ├── App.tsx            # Main app component
-│   └── main.tsx           # Entry point
-├── public/                # Static assets
-├── package.json
-└── README.md
+src/
+  pages/         # layout and routing
+  sections/      # large blocks (Hero, Projects, Blog)
+  components/    # local widgets
+  content/       # project data and blog posts
 ```
 
-## Environment
-
-This project is designed to run in modern browsers with ES2020+ support.
-
-## Dependencies
-
-Shared UI components are imported from the `@lemon-site/shared-ui` package within the monorepo.
-
-## License
-
-MIT License - see the root [LICENSE](../../LICENSE) file for details.
+Shared components such as buttons, cards, and settings modal come from `@lemon-site/shared-ui`. Update that package first if you want to change design tokens or common behaviours.

@@ -1,135 +1,58 @@
-# Lemon Site
+# Lemon Site monorepo
 
-This is a monorepo containing portfolio websites built with React 19, TypeScript, Vite, Tailwind CSS, and Framer Motion. Both sites feature theme switching, accessibility controls, and optimized performance.
+This repository hosts the public-facing websites and shared component library for the Lost Scores project. Everything runs on React 19, TypeScript, Vite and Tailwind CSS inside a Yarn workspaces setup.
 
-## Projects
+Packages:
 
-This repository contains three packages:
+- [`welcome-site`](./packages/welcome-site) - personal portfolio published at [lemon4ik.kz](https://lemon4ik.kz)
+- [`lost-scores-site`](./packages/lost-scores-site) - Lost Scores documentation portal at [lost.lemon4ik.kz](https://lost.lemon4ik.kz)
+- [`shared-ui`](./packages/shared-ui) - shared React components, contexts and hooks used by both sites
 
-- **[welcome-site](./packages/welcome-site)** - Personal portfolio website ([lemon4ik.kz](https://lemon4ik.kz))
-- **[lost-scores-site](./packages/lost-scores-site)** - osu! Lost Scores analyzer website ([lost.lemon4ik.kz](https://lost.lemon4ik.kz))
-- **[shared-ui](./packages/shared-ui)** - Shared UI components library
-
-## Tech Stack
-
-- **Frontend**: React 19, TypeScript, Vite
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: Lucide React, React Icons
-- **Package Manager**: Yarn Workspaces
-- **Linting**: ESLint, Prettier
-
-## Installation
+## Quick start
 
 ```bash
-# Clone the repository
 git clone https://github.com/kz-lemon4ik/lemon-site.git
 cd lemon-site
-
-# Install dependencies
 yarn install
 ```
 
-## Development
+Development servers:
 
 ```bash
-# Start welcome site development server
-yarn dev:welcome
-
-# Start lost scores site development server
-yarn dev:lost
-
-# Start both sites simultaneously
-yarn dev:welcome & yarn dev:lost
+yarn dev:welcome   # lemon4ik.kz development
+yarn dev:lost      # lost.lemon4ik.kz development
 ```
 
-## Building
+Build commands:
 
 ```bash
-# Build welcome site
 yarn build:welcome
-
-# Build lost scores site
 yarn build:lost
-
-# Build both sites
-yarn build:welcome && yarn build:lost
 ```
 
-## Code Quality
+Code quality:
 
 ```bash
-# Lint all packages
 yarn lint
-
-# Lint with auto-fix
 yarn lint:fix
-
-# Format code with Prettier
 yarn format
-
-# Run all quality checks
-yarn polish
 ```
 
-## Project Structure
+## Structure
 
 ```
-lemon-site/
-├── packages/
-│   ├── welcome-site/          # Personal portfolio
-│   ├── lost-scores-site/      # osu! analyzer website
-│   └── shared-ui/             # Shared components
-├── package.json               # Root package.json
-└── yarn.lock                  # Lockfile
+packages/
+  welcome-site/      # portfolio pages and blog
+  lost-scores-site/  # Lost Scores docs, FAQ, downloads
+  shared-ui/         # shared components, contexts, hooks
 ```
 
-## Features
+All packages use Tailwind CSS, Framer Motion and React Router. Shared UI exports atomic components that are reused across both sites.
 
-### Welcome Site
+## Notes
 
-- Responsive design with dark/light theme
-- Portfolio showcase
-- Social media integration
-- About section and blog
+- Welcome site (lemon4ik.kz) is deployed and updated whenever new projects or blog posts are published.
+- Lost Scores site (lost.lemon4ik.kz) stays aligned with the live backend and desktop release notes.
+- Shared UI is the source of truth for reusable components; update it first before tweaking the sites.
 
-### Lost Scores Site
-
-- osu! integration and analysis
-- Installation guides
-- Hall of fame
-- Download management
-- FAQ section
-
-### Shared UI
-
-- Atomic design components
-- Theme management
-- Motion controls
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Author
-
-**KZ_Lemon4ik**
-
-- Website: [lemon4ik.kz](https://lemon4ik.kz)
-- GitHub: [@kz-lemon4ik](https://github.com/kz-lemon4ik)
-- osu!: [KZ_Lemon4ik](https://osu.ppy.sh/users/8674298)
-
-## Acknowledgments
-
-- React and the amazing React ecosystem
-- Tailwind CSS for utility-first styling
-- Framer Motion for smooth animations
-- The open-source community
+If you want to contribute, check the root `package.json` for available scripts and open an issue before starting work. Pull requests are welcome as long as they keep the shared API consistent.

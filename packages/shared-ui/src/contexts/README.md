@@ -4,12 +4,12 @@
 
 ```
 contexts/
-├── ThemeContext.tsx      # Theme management (light/dark)
-├── MotionContext.tsx     # Animation preferences
-├── HeaderContext.tsx     # Header visibility
-├── SettingsContext.tsx   # Original (legacy)
-├── SettingsContextRefactored.tsx  # Unified wrapper
-└── index.ts             # Exports
+  ThemeContext.tsx               # Theme management (light/dark)
+  MotionContext.tsx              # Animation preferences
+  HeaderContext.tsx              # Header visibility
+  SettingsContext.tsx            # Original (legacy)
+  SettingsContextRefactored.tsx  # Unified wrapper
+  index.ts                       # Exports
 ```
 
 ## Design Principles
@@ -87,18 +87,18 @@ const ResponsiveCard = () => {
 
 ### Before (Monolithic SettingsContext)
 
-- ❌ 75 lines in one file
-- ❌ Multiple responsibilities
-- ❌ Unnecessary re-renders
-- ❌ Hard to test individual features
-- ❌ Tight coupling
+- Issues: 75 lines in one file
+- Issues: multiple responsibilities
+- Issues: unnecessary re-renders
+- Issues: difficult to test each concern
+- Issues: tight coupling
 
 ### After (Separated Contexts)
 
-- ✅ ~30 lines per context
-- ✅ Single responsibility each
-- ✅ Minimal re-renders
-- ✅ Easy isolated testing
-- ✅ Loose coupling
-- ✅ Backward compatible
-- ✅ Better performance
+- Improvement: about 30 lines per context
+- Improvement: single responsibility per file
+- Improvement: fewer re-renders
+- Improvement: easier isolated testing
+- Improvement: looser coupling
+- Improvement: backward compatible
+- Improvement: better performance
