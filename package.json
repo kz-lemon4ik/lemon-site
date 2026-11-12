@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "A monorepo containing portfolio websites built with React 19, TypeScript, Vite, Tailwind CSS, and Framer Motion",
   "author": {
-    "name": "KZ_Lemon4ik",
-    "email": "31770414+kz-lemon4ik@users.noreply.github.com"
+    "name": "KZ_Lemon4ik"
   },
   "repository": {
     "type": "git",
