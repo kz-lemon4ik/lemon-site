@@ -1,18 +1,40 @@
 import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import { HelmetProvider } from "react-helmet-async";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import "../../shared-ui/src/styles/fonts.css";
-import "./styles/exo2-fonts.css";
+import App from "@/App";
+import AbProvider from "@/components/AbProvider";
+import AuthProvider from "@/components/AuthProvider";
+import LangProvider from "@/components/LangProvider";
+import MotionProvider from "@/components/MotionProvider";
+import ThemeProvider from "@/components/ThemeProvider";
+import { loadDict, savedLang } from "@/lib/i18n";
+import { applyTheme, savedTheme } from "@/lib/theme";
+import "@/index.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <HelmetProvider>
+applyTheme(savedTheme());
+
+const root = document.getElementById("root");
+const lang = savedLang();
+
+void loadDict(lang).then((dict) => {
+  if (!root) {
+    return;
+  }
+  createRoot(root).render(
+    <StrictMode>
       <BrowserRouter>
-        <App />
+        <AbProvider>
+          <ThemeProvider>
+            <LangProvider initial={{ id: lang, dict }}>
+              <MotionProvider>
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
+              </MotionProvider>
+            </LangProvider>
+          </ThemeProvider>
+        </AbProvider>
       </BrowserRouter>
-    </HelmetProvider>
-  </StrictMode>
-);
+    </StrictMode>,
+  );
+});

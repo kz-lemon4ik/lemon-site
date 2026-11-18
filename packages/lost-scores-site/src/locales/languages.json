@@ -1,0 +1,4 @@
+[
+  { "id": "en", "name": "English", "flag": "gb", "locale": "en-US" },
+  { "id": "ru", "name": "Русский", "flag": "ru", "locale": "ru-RU" }
+]

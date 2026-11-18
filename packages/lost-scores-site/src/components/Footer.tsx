@@ -1,51 +1,36 @@
-import clsx from "clsx";
 import { Link } from "react-router-dom";
+import { AUTHOR, CONTACT, DONATE_URL } from "@/lib/author";
+import { useSection } from "@/lib/i18n";
+import { REPOSITORY } from "@/lib/release";
 
-interface FooterProps {
-  isHomePage: boolean;
-}
-
-export default function Footer({ isHomePage }: FooterProps) {
-  const linkStyles = clsx(
-    "text-sm transition-colors duration-200 font-lostnav",
-    isHomePage
-      ? "text-slate-300 hover:text-white theme-is-light:text-slate-600 theme-is-light:hover:text-slate-900"
-      : "text-slate-400 hover:text-slate-200 theme-is-light:text-slate-600 theme-is-light:hover:text-slate-900"
-  );
-
-  const copyrightStyles = clsx(
-    "text-xs mt-1.5 font-lostnav",
-    isHomePage
-      ? "text-slate-400/80 theme-is-light:text-slate-500"
-      : "text-slate-500 theme-is-light:text-slate-500"
-  );
-
-  const footerBaseClasses = "w-full h-16 flex items-center justify-center px-4 sm:px-6 lg:px-8";
-
-  const footerConditionalClasses = isHomePage
-    ? "absolute bottom-0 left-0 right-0 z-10 bg-transparent"
-    : "relative z-10 mt-auto bg-black/30 theme-is-light:bg-white/65 backdrop-blur-xl";
-
+export default function Footer() {
+  const t = useSection("footer");
   return (
-    <footer className={clsx(footerBaseClasses, footerConditionalClasses)}>
-      <div className="max-w-6xl mx-auto w-full flex items-center justify-center">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-x-6">
-            <Link to="/feedback" className={linkStyles}>
-              Feedback
-            </Link>
-            <a
-              href="https://www.paypal.com/ncp/payment/KBKQKZU6CNFGY"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={linkStyles}
-            >
-              Donate
-            </a>
-          </div>
-          <p className={copyrightStyles}>KZ_Lemon4ik powered | 2025</p>
-        </div>
+    <footer className="mt-10 border-t border-divider">
+      <div className="mx-auto flex max-w-page flex-col gap-4 px-4 pt-7 text-sm text-meta sm:px-6 md:flex-row md:items-center">
+        <nav aria-label={t("nav")} className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link to="/privacy" className="hover:text-lbl">
+            {t("privacy")}
+          </Link>
+          <a href={REPOSITORY} className="hover:text-lbl">
+            GitHub
+          </a>
+          <a href={`mailto:${CONTACT}`} className="hover:text-lbl">
+            {t("contact")}
+          </a>
+          <a href={DONATE_URL} className="hover:text-lbl">
+            {t("donate")}
+          </a>
+        </nav>
+        <p className="md:ml-auto">
+          {t("madeBy")}{" "}
+          <Link to={`/u/${AUTHOR.id}`} className="text-link hover:text-lbl">
+            {AUTHOR.name}
+          </Link>{" "}
+          · {t("notPpy")}
+        </p>
       </div>
+      <p className="mx-auto max-w-page px-4 pb-7 pt-4 text-xs text-faint sm:px-6">{t("credits")}</p>
     </footer>
   );
 }

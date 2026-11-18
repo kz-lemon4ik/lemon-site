@@ -1,0 +1,505 @@
+{
+  "format": {
+    "months": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ],
+    "justNow": "just now",
+    "mb": "MB"
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "rankings": "Hall of Copium",
+      "download": "Download",
+      "faq": "FAQ"
+    },
+    "logIn": "Log in",
+    "logInOsu": "Log in with osu!",
+    "logOut": "Log out",
+    "profile": "Your profile",
+    "accountOf": "Account menu of {{name}}",
+    "language": "Language",
+    "settings": "Settings",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNav": "Main"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "nav": "Footer",
+    "contact": "Contact",
+    "donate": "Donate",
+    "madeBy": "Made by",
+    "notPpy": "not affiliated with ppy",
+    "credits": "Lemon emoji by Twemoji, CC BY 4.0 · Fonts Fredoka and Exo 2, SIL OFL 1.1 · Avatars from osu!"
+  },
+  "settings": {
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "lightTheme": "Light theme",
+    "animations": "Animations",
+    "animationsHint": "Background motion and transitions"
+  },
+  "check": {
+    "verified": "verified",
+    "verifiedHint": "The plays that decide the place were checked against osu!",
+    "checking": "checking",
+    "checkingHint": "Waiting for the check against osu!",
+    "more": "Click to see what is checked."
+  },
+  "loading": "Loading",
+  "table": {
+    "beatmap": "Beatmap",
+    "player": "Player",
+    "mods": "Mods",
+    "hits": "Hits",
+    "score": "Score",
+    "accuracy": "Accuracy",
+    "by": "by",
+    "unknown": "Unknown map",
+    "replay": "replay",
+    "replayHint": "Download the replay",
+    "kept": "kept",
+    "keptScore": "The score of the play osu! kept on this map",
+    "keptPp": "osu! kept {{pp}}",
+    "lostOnMap": "Lost on this map: {{pp}}"
+  },
+  "chart": {
+    "title": "pp across your scans",
+    "profile": "profile",
+    "potential": "with lost plays",
+    "label": "Profile pp and pp with lost plays for each scan"
+  },
+  "zoom": {
+    "open": "Open the picture full size",
+    "close": "Close"
+  },
+  "notFound": {
+    "title": "Not found",
+    "heading": "This page is lost too",
+    "text": "Maybe a page with a higher score replaced it.",
+    "home": "Home"
+  },
+  "login": {
+    "errors": {
+      "access_denied": "You chose not to authorize Lost Scores on osu!. Nothing was saved.",
+      "login_expired": "The login took too long or was opened twice.",
+      "osu_refused": "osu! did not answer as expected.",
+      "busy": "Too many people are logging in right now."
+    },
+    "failedTitle": "Login failed",
+    "failedPage": "Login failed",
+    "unknownError": "Something went wrong on the way back from osu!.",
+    "tryAgain": "Try again.",
+    "fromProgram": "If you were logging in from the program, start the login there again.",
+    "logIn": "Log in with osu!",
+    "toHome": "Going to the home page in {{left}} s.",
+    "okTitle": "Login successful",
+    "okPage": "Logged in",
+    "welcome": "Welcome, {{name}}!",
+    "desktop": "You are logged in with osu!. Go back to Lost Scores: the program has your login.",
+    "desktopNote": "From now on every scan is saved to your profile, where only you see it until you press Share.",
+    "privacy": "Privacy",
+    "stayed": "Your browser kept this tab open. You can close it yourself.",
+    "closing": "This tab closes in {{left}} s.",
+    "web": "You are logged in with osu!. Your scans from the program are on your profile.",
+    "myProfile": "My profile",
+    "toProfile": "Opening your profile in {{left}} s.",
+    "toBack": "Taking you back to the page in {{left}} s.",
+    "alreadyTitle": "You are already logged in",
+    "already": "The login on osu! did not finish, but this browser is already logged in."
+  },
+  "home": {
+    "tagline": "See the <pp>pp</pp> peppy never gave you.",
+    "intro": "Until October 2024, osu! kept the play with the higher score, even when another play was worth more pp. Lost Scores finds those plays in your replays.",
+    "downloadFor": "Download for {{system}}",
+    "download": "Download",
+    "version": "Version {{version}} · {{size}}",
+    "allSystems": "For Windows, macOS and Linux",
+    "alsoFor": "Also for",
+    "and": " and ",
+    "free": "free and open source",
+    "toHow": "Scroll to how it works",
+    "howTitle": "How it works",
+    "howHint": "The first scan can take a few minutes while the maps load. After that it takes seconds.",
+    "steps": [
+      {
+        "title": "Point it at osu!",
+        "text": "The program finds your osu! folder and reads your local replays. Nothing in the folder changes."
+      },
+      {
+        "title": "Scan",
+        "text": "Each replay gets its pp. Plays worth more than your profile shows are your lost scores."
+      },
+      {
+        "title": "Share",
+        "text": "Get pictures for your friends, or publish your scan to the Hall of Copium."
+      }
+    ],
+    "window": "The Lost Scores window with {{name}}'s own scan",
+    "profileOf": "{{name}}'s profile",
+    "sampleCard": "A share card made by Lost Scores"
+  },
+  "download": {
+    "title": "Download",
+    "subtitle": "Free and open source, for Windows, macOS and Linux",
+    "platforms": {
+      "windows": {
+        "needs": "Windows 10 or 11, 64-bit",
+        "how": "One file, no installer. Put it anywhere and run it."
+      },
+      "macos": {
+        "needs": "macOS 11 or newer on Apple Silicon",
+        "how": "Unpack it and move Lost Scores to Applications. osu! runs on a Mac through Wine, so pick its osu! folder with the folder button."
+      },
+      "linux": {
+        "needs": "64-bit, glibc 2.35 or newer",
+        "how": "Unpack it and run ./lost-scores-gui, or ./install.sh to add it to your app menu."
+      }
+    },
+    "looking": "Looking for the latest version…",
+    "whatsNew": "What's new",
+    "mirror": "GitHub did not answer, so the files come from our mirror. They are the same signed files.",
+    "soon": "The first release is coming soon. It will appear here and on GitHub.",
+    "githubDown": "GitHub did not answer. The files are on the <link>releases page</link>.",
+    "yourSystem": "your system",
+    "download": "Download",
+    "notYet": "Not available yet",
+    "needTitle": "What you need",
+    "need": [
+      "osu!stable with your replays. The program only reads the osu! folder and never changes it.",
+      "Your osu! account to log in, or the keys of your own osu! OAuth application."
+    ],
+    "firstTitle": "First launch",
+    "first": [
+      {
+        "system": "Windows:",
+        "text": "SmartScreen may say \"Windows protected your PC\". Choose \"More info\", then \"Run anyway\". With Smart App Control turned on in Windows 11 the program cannot start until its builds are signed."
+      },
+      {
+        "system": "macOS 15 and newer:",
+        "text": "the system says it cannot verify Lost Scores. Choose Done, open System Settings, Privacy & Security, and choose \"Open Anyway\" next to Lost Scores."
+      },
+      {
+        "system": "macOS 14 and older:",
+        "text": "Control-click Lost Scores, choose Open, then Open again."
+      }
+    ],
+    "updatesTitle": "Updates",
+    "updates": "Once a day the program looks for a new version. It installs one only if the signature matches, and the new version runs the next time you open the program.",
+    "checkTitle": "Check a download",
+    "cliTitle": "Command line and source",
+    "cli": "The command line version, <code>lost-scores</code>, comes inside the Linux archive and as separate files for Windows and macOS on the <release>release page</release>. The source code is on <github>GitHub</github> under the AGPL-3.0 license.",
+    "nextTitle": "After the first scan",
+    "next": "Log in with osu! in the program and every scan is saved to your profile, where only you see it. Press Share on a scan to publish it to the Hall of Copium, with or without replays.",
+    "check": "Every release has a list of checksums signed with <minisign>minisign</minisign>. Download <sums/> and <signature/> next to the file, then run:",
+    "versionLine": "Version <v>{{version}}</v>, released {{day}}"
+  },
+  "hall": {
+    "subtitle": "Players who lost the most pp to osu!'s old score rule",
+    "tabsLabel": "Hall of Copium",
+    "players": "Players",
+    "plays": "Plays",
+    "find": "Find a player",
+    "open": "Open the profile",
+    "globalRank": "#{{rank}} in the world",
+    "failedTitle": "The Hall of Copium did not load",
+    "failed": "The server did not answer. Try again in a minute.",
+    "tryAgain": "Try again",
+    "emptyTitle": "Nobody is here yet",
+    "empty": "Scan your replays in the program, then press Share to be the first.",
+    "get": "Get Lost Scores",
+    "player": "Player",
+    "lost": "Lost",
+    "profilePp": "Profile pp",
+    "lostPlays": "Lost plays",
+    "check": "Check",
+    "note": "A verified scan had the plays that set its place checked against osu!. The rest are waiting for that check.",
+    "playsIntro": "Single plays that lost the most pp: what the play was worth against the play osu! kept on the same map. Five plays per player at most, from verified scans.",
+    "allPlays": "All",
+    "withReplay": "With replay",
+    "replayLabel": "Only plays with a shared replay",
+    "noPlaysTitle": "No plays yet",
+    "noPlays": "Plays show up here once published scans pass the check against osu!.",
+    "noReplays": "Nobody has shared a replay of a lost play yet.",
+    "previous": "Previous page",
+    "next": "Next page",
+    "pageOf": "Page {{page}}",
+    "known": "Well-known",
+    "knownIntro": "Players from the global top 50 and a few legends, once they publish a scan.",
+    "noKnownTitle": "No well-known players yet",
+    "noKnown": "As soon as a top-50 player or a legend publishes a scan, they appear here."
+  },
+  "profile": {
+    "profilePp": "Profile pp",
+    "lostPlays": "Lost plays",
+    "withLoved": "of {{total}} with loved and unranked",
+    "globalRank": "Global rank",
+    "scanned": "Scanned",
+    "osuProfile": "Profile on osu!",
+    "tabsLabel": "Profile",
+    "tabLost": "Lost scores",
+    "tabPotential": "Potential Top",
+    "tabScans": "Your scans",
+    "private": "private",
+    "checkFailed": "check failed",
+    "hidden": "hidden",
+    "hiddenHint": "This scan is not shown in the Hall of Copium",
+    "noScansTitle": "No scans yet",
+    "noScans": "Log in with osu! in the program, and every scan will be saved here. Only you can see them.",
+    "scanOf": " of {{total}}",
+    "topFailed": "The Potential Top did not load",
+    "tryAgain": "Try again",
+    "noTopTitle": "No Potential Top",
+    "noTop": "This scan was made without the online top.",
+    "topIntro": "The top {{size}} if lost plays counted. {{inTop}} of them get in, and accuracy would be {{to}} instead of {{from}}.",
+    "noScanTitle": "No published scan yet",
+    "noScan": "If this is you, log in to see the scans the program saved.",
+    "logIn": "Log in",
+    "hallPlace": "#{{place}} in Hall of Copium",
+    "sortLabel": "Sort by the pp lost on each map",
+    "byPp": "By pp",
+    "byGap": "By pp lost",
+    "privateNote": "Only you can see this scan. To publish it, open it in the program and press Share.",
+    "backToPublished": "Back to the published one",
+    "loadFailedTitle": "This profile did not load",
+    "loadFailed": "The server did not answer. Try again in a minute.",
+    "goneTitle": "This scan is gone",
+    "nothingTitle": "Nothing published yet",
+    "gone": "It was deleted or replaced by newer scans.",
+    "nothing": "Your scans are saved here privately. Press Share in the program to publish one to the Hall of Copium.",
+    "noLostTitle": "No lost plays",
+    "noLost": "This scan found no plays that a higher score replaced.",
+    "loading": "Loading…",
+    "showMore": "Show more",
+    "topIntroShort": "The top {{size}} if lost plays counted. {{inTop}} of them get in.",
+    "scanLost_one": "{{count}} lost play",
+    "scanLost_other": "{{count}} lost plays"
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Short answers about the program and the site",
+    "items": [
+      {
+        "id": "lost",
+        "question": "What is a lost score?",
+        "answer": [
+          "Until October 2024 the osu!stable server kept one play per beatmap and mod combination: the one with the highest score. A new play with a higher score replaced the old one even when the old play was worth more pp, and a play that scored less than your record was not kept at all.",
+          "That pp disappeared from your profile. Your local replays still have those plays, and Lost Scores reads them back."
+        ]
+      },
+      {
+        "id": "safe",
+        "question": "Is it safe for my account?",
+        "answer": [
+          "The program does not touch the game. It reads the replays and beatmaps in your osu! folder and asks the official osu! API about maps and your profile. It never changes files and never sends scores to osu!."
+        ]
+      },
+      {
+        "id": "login",
+        "question": "Why log in with osu!?",
+        "answer": [
+          "Logged in, the program asks the Lost Scores server instead of osu!. The server shares one map cache and one queue to osu! between all players, so you need no keys of your own. It also saves your scans to your profile and lets you publish them.",
+          "You log in on osu!'s own page, so the program never sees your password. You can use the keys of your own osu! OAuth application instead."
+        ]
+      },
+      {
+        "id": "who",
+        "question": "Who sees my scans?",
+        "answer": [
+          "Logged in, every scan is saved to your profile, where only you see it; the 20 newest are kept. Share in the program publishes a scan: then everyone sees it on your profile and in the <hall>Hall of Copium</hall>. Replays are shared only if you tick the replay box on the Share card. You can unpublish or delete a scan at any time."
+        ]
+      },
+      {
+        "id": "verified",
+        "question": "What does verified mean?",
+        "answer": [
+          "Every published scan is checked against osu! within a few minutes. The check compares your profile pp, rank and accuracy, your online top and how the Potential Top adds up.",
+          "Then it takes the ten lost plays that matter most for your place: the five highest and five more picked at random, with bigger plays more likely. For each one it checks the map and its status, that the play was set after the map was ranked and before 9 October 2024, that osu! has a play with the same mods and a higher score that replaced it, and that the lost play is not on osu! anymore. A scan that passes is verified. Until then it shows checking."
+        ]
+      },
+      {
+        "id": "hall",
+        "question": "How is the Hall of Copium counted?",
+        "answer": [
+          "Players are ordered by how much pp their profile would gain if their lost plays counted: the Potential Top total minus the profile pp osu! shows. Each player appears once, with the newest published scan.",
+          "The Plays tab ranks single plays instead, by the pp lost on one map: what the lost play was worth minus the play osu! kept with the same mods. The two numbers differ. A play that lost 80 pp on its map adds less to the profile, because the profile weights every play by its place in the top."
+        ]
+      },
+      {
+        "id": "replay",
+        "question": "How do I watch a replay?",
+        "answer": [
+          "If a player shared replays, their lost plays have a replay button on the profile and in the Plays tab. It downloads an .osr file. Open it with osu!stable, by double-clicking it or dragging it onto the game window, and the game plays it back. osu! needs the same version of the map the play was set on."
+        ]
+      },
+      {
+        "id": "lazer",
+        "question": "Does it work with lazer or other modes?",
+        "answer": [
+          "No. It reads osu!stable replays from the osu! folder, and only osu!standard plays."
+        ]
+      },
+      {
+        "id": "warning",
+        "question": "Why does Windows or macOS warn me?",
+        "answer": [
+          "The builds are not signed with a paid certificate yet, so the system does not know the publisher. <download>Download</download> shows how to open the program the first time."
+        ]
+      },
+      {
+        "id": "delete",
+        "question": "How do I delete my data?",
+        "answer": [
+          "The trash button next to Share deletes a scan from the server. To remove everything the server keeps about your account, write to <mail/>. The <privacy>privacy page</privacy> lists what is kept."
+        ]
+      },
+      {
+        "id": "bug",
+        "question": "Where do I report a bug?",
+        "answer": [
+          "Open an issue on <issues>GitHub</issues> or write to <mail/>."
+        ]
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "subtitle": "Updated 18 November 2026",
+    "sections": [
+      {
+        "title": "Who runs Lost Scores",
+        "text": [
+          "osu! Lost Scores is a fan project by KZ_Lemon4ik. It consists of the desktop program, this website at lost.lemon4ik.kz and the server behind both. It is not made or endorsed by ppy Pty Ltd, and osu! is a trademark of ppy Pty Ltd.",
+          "For questions about this policy or about your data, write to <mail/>."
+        ]
+      },
+      {
+        "title": "The program on your computer",
+        "text": [
+          "The program reads the replays and beatmaps in your osu! folder and does not change them. It has no telemetry and sends nothing about your computer. Unless you log in with osu!, scan results stay on your computer.",
+          "To scan, the program asks for public information about your osu! profile, your online top and the beatmaps that may hold a lost play, identified by beatmap ids and MD5 hashes. With the osu! login these requests go through our server, which asks osu! on your behalf; with your own osu! API keys they go to osu! directly. The program also loads avatars and beatmap covers from osu!, asks GitHub once a day whether a new version exists, or our mirror if GitHub cannot be reached, and uploads pictures to catbox.moe only when you press that button."
+        ]
+      },
+      {
+        "title": "Data we keep",
+        "text": [
+          "When you log in with osu!, we receive and keep your osu! user id, your username and your earlier usernames, and the times your account was first and last seen. We do not receive your password or your email address.",
+          "While you are logged in, every finished scan is saved on our server: the lost plays, the Potential Top and the summary figures. Replay files are uploaded only for the plays you choose to share. We also keep the results of the checks of published scans, a daily count of requests per account that keeps the shared queue fair, and map information shared by all players.",
+          "The server does not store IP addresses or browser details."
+        ]
+      },
+      {
+        "title": "How the data is used",
+        "text": [
+          "The data is used only to provide what you ask for: to find the maps of your scan, to keep your scans in your profile, to show the scans you publish and to check them against osu!. We do not sell data, show advertising or use your data for marketing."
+        ]
+      },
+      {
+        "title": "Who can see your scans",
+        "text": [
+          "Saved scans are private. Only you can see them, after logging in on this website or in the program.",
+          "When you publish a scan, anyone can see it on your profile page and in the Hall of Copium, together with your osu! username and avatar, and anyone can download the replays you shared with it. You can unpublish or delete a published scan at any time."
+        ]
+      },
+      {
+        "title": "How long data is kept",
+        "text": [
+          "We keep your 20 newest private scans and delete older ones automatically. A published scan and its replays stay until you unpublish or delete them. A login session lasts up to 90 days and ends when you log out. Answers from osu! about your profile are cached for five minutes.",
+          "When a published scan is deleted, we keep only a note that the account had a flagged check: the account, the number of flagged checks and the time of the last one. Nothing from the scan itself remains."
+        ]
+      },
+      {
+        "title": "Service providers",
+        "text": [
+          "The website and the server run on Cloudflare, which handles the network traffic and stores our data under its own privacy policy. The website loads avatars from osu! (a.ppy.sh), and the Download page asks GitHub for the latest version of the program."
+        ]
+      },
+      {
+        "title": "Cookies and local storage",
+        "text": [
+          "The website sets one cookie, and only after you log in: your session, which scripts on the page cannot read. Your choice of theme, language and animations is stored in your browser's local storage. There are no analytics, advertising or tracking cookies."
+        ]
+      },
+      {
+        "title": "Your choices",
+        "text": [
+          "You can see all your scans on your profile, publish, unpublish or delete them, and log out at any time. To delete your account and everything kept with it, or to ask what we keep about you, write to <mail/>."
+        ]
+      },
+      {
+        "title": "Changes to this policy",
+        "text": [
+          "When this policy changes, the date at the top of the page changes as well."
+        ]
+      }
+    ]
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Published scans, checks and actions",
+    "published": "published",
+    "waiting": "waiting for a check",
+    "flagged": "flagged",
+    "hidden": "hidden",
+    "tabs": {
+      "scans": "Scans",
+      "log": "Log"
+    },
+    "views": {
+      "all": "All",
+      "waiting": "Waiting",
+      "flagged": "Flagged",
+      "hidden": "Hidden"
+    },
+    "player": "Player",
+    "made": "Scan",
+    "lost": "Lost",
+    "status": "Status",
+    "check": "Check",
+    "notes": "Notes",
+    "flags": "Flags",
+    "replays": "Replays",
+    "noScans": "Nothing here.",
+    "loadFailed": "The admin data did not load.",
+    "tryAgain": "Try again",
+    "attempts": "Check attempts: {{count}}",
+    "checkedAt": "Checked {{when}}",
+    "notChecked": "Not checked yet",
+    "appFormula": "Program {{app}}, formula {{formula}}",
+    "previous": "Earlier names: {{names}}",
+    "noNotes": "The check left no notes.",
+    "flagNote": "flag",
+    "infoNote": "note",
+    "open": "Open the scan",
+    "profile": "Profile",
+    "actions": {
+      "hidden": "Hide",
+      "rejected": "Reject",
+      "verified": "Mark verified",
+      "unverified": "Restore and check again",
+      "recheck": "Check again",
+      "replays": "Delete shared replays"
+    },
+    "confirm": "Click again to confirm",
+    "done": "Done",
+    "failed": "The action failed",
+    "logEmpty": "No actions yet.",
+    "logWho": "Admin",
+    "logWhat": "Action",
+    "logWhen": "When",
+    "logScan": "Scan"
+  }
+}

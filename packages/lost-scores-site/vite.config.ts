@@ -4,8 +4,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import viteCompression from "vite-plugin-compression";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [react(), viteCompression()],
@@ -16,18 +15,26 @@ export default defineConfig({
   },
   server: {
     port: 5174,
+    proxy: {
+      "/api": {
+        target: process.env.LOST_SCORES_API ?? "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+      "/dl": {
+        target: process.env.LOST_SCORES_API ?? "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
+    },
   },
   build: {
+    target: "es2020",
+    minify: "esbuild",
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: ['framer-motion', 'lucide-react'],
+          react: ["react", "react-dom", "react-router-dom"],
         },
       },
     },
-    target: 'esnext',
-    minify: 'esbuild',
   },
 });

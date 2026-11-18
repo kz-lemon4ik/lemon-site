@@ -2,56 +2,283 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/fredoka-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/fredoka-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("/fonts/fredoka-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Exo 2";
+  src: url("/fonts/exo2-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Exo 2";
+  src: url("/fonts/exo2-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Exo 2";
+  src: url("/fonts/exo2-700.otf") format("opentype");
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+:root,
+.theme-dark {
+  --c-bg: 29 28 34;
+  --c-field: 17 16 20;
+  --c-card: 44 41 50;
+  --c-row: 41 39 47;
+  --c-row-hi: 50 45 61;
+  --c-row-lost: 69 47 56;
+  --c-divider: 42 40 48;
+  --c-btn: 58 55 67;
+  --c-btn-hover: 69 65 79;
+  --c-lbl: 231 226 243;
+  --c-ink: 224 219 240;
+  --c-muted: 159 154 172;
+  --c-meta: 156 151 168;
+  --c-faint: 111 106 124;
+  --c-link: 179 166 217;
+  --c-acc: 162 138 234;
+  --c-acc2: 101 74 181;
+  --c-osu: 255 102 170;
+  --c-up: 179 255 102;
+  --c-down: 255 102 102;
+  --c-lost: 255 107 129;
+  --c-gold: 246 216 96;
+  --c-dark: 27 24 37;
+  --c-header: 24 23 29;
+  --c-hero: 255 255 255;
+  --c-hero-dim: 207 200 226;
+  --c-shade: 0 0 0;
+  --c-thumb: 58 42 49;
+  --c-by: 171 166 183;
+  --c-bid: 209 201 232;
+  --c-score: 203 198 214;
+  --c-hit100: 179 217 68;
+  --c-hit50: 255 204 34;
+  --c-hitmiss: 255 102 102;
+  --c-ppbox: 29 28 34;
+  --c-tog-on: 47 42 63;
+  --art-desktop: url("/art/background.webp");
+  --art-portrait: url("/art/background-portrait.webp");
+  --art-hero-filter: blur(6px) brightness(0.45);
+  --art-cover-filter: blur(3px) brightness(0.5);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --c-bg: 243 241 247;
+  --c-field: 255 255 255;
+  --c-card: 255 255 255;
+  --c-row: 244 242 248;
+  --c-row-hi: 236 232 245;
+  --c-row-lost: 253 230 236;
+  --c-divider: 229 225 238;
+  --c-btn: 235 231 243;
+  --c-btn-hover: 221 215 234;
+  --c-lbl: 31 27 43;
+  --c-ink: 43 38 56;
+  --c-muted: 97 91 116;
+  --c-meta: 112 106 132;
+  --c-faint: 152 147 168;
+  --c-link: 90 69 181;
+  --c-acc: 118 86 216;
+  --c-acc2: 90 60 192;
+  --c-osu: 224 56 138;
+  --c-up: 59 143 28;
+  --c-down: 214 58 58;
+  --c-lost: 214 54 90;
+  --c-gold: 167 123 0;
+  --c-dark: 27 24 37;
+  --c-header: 250 249 252;
+  --c-hero: 31 27 43;
+  --c-hero-dim: 61 55 80;
+  --c-shade: 255 255 255;
+  --c-thumb: 239 221 228;
+  --c-by: 104 98 122;
+  --c-bid: 74 60 128;
+  --c-score: 72 66 90;
+  --c-hit100: 82 128 0;
+  --c-hit50: 168 120 0;
+  --c-hitmiss: 208 52 52;
+  --c-ppbox: 255 255 255;
+  --c-tog-on: 255 255 255;
+  --art-desktop: url("/art/background-light.webp");
+  --art-portrait: url("/art/background-light-portrait.webp");
+  --art-hero-filter: blur(6px) brightness(1.04) saturate(0.95);
+  --art-cover-filter: blur(3px) brightness(1.02);
+  color-scheme: light;
+}
+
+:root {
+  --font-sans: "Fredoka";
+}
+
+:root[data-font="b"] {
+  --font-sans: "Exo 2";
+}
+
 @layer base {
   html {
-    @apply antialiased;
-    --color-background: theme("colors.slate.900");
-    --color-text-base: theme("colors.slate.100");
-    --color-button-text: theme("colors.white");
-    --color-button-bg: theme("colors.purple.600");
-    --color-button-hover-bg: theme("colors.purple.500");
-    --color-heading-drop-shadow: transparent;
-
-    color: var(--color-text-base);
-    @apply selection:bg-lemon-400/60 selection:text-white;
-    overflow-y: scroll;
-  }
-
-  html.theme-is-light {
-    --color-background: theme("colors.themeLight.background");
-    --color-text-base: theme("colors.themeLight.text");
-    --color-button-text: theme("colors.themeLight.primaryText");
-    --color-button-bg: theme("colors.themeLight.primary");
-    --color-button-hover-bg: theme("colors.themeLight.primaryHover");
-    --color-heading-drop-shadow: theme("colors.themeLight.headingDropShadow");
-
-    @apply selection:bg-sky-600/40 selection:text-black;
+    background-color: rgb(var(--c-bg));
+    color: rgb(var(--c-ink));
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply relative bg-transparent;
-    font-family: theme('fontFamily.sans'), sans-serif;
-    color: var(--color-text-base);
+    @apply min-h-screen font-sans antialiased;
   }
 
-  @media (pointer: coarse) {
-    body {
-      overflow-x: hidden;
-    }
+  ::selection {
+    background-color: rgb(162 138 234 / 0.4);
   }
 
-  a {
-    @apply no-underline transition-colors;
-    @apply text-purple-400 hover:text-purple-300;
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-acc));
+    outline-offset: 2px;
   }
 
-  button:not([class*="bg-"]):not([class*="border-"]) {
-    color: var(--color-button-text);
-    background-color: var(--color-button-bg);
-    @apply px-4 py-2 rounded-xl font-medium transition;
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold text-lbl;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-colors;
   }
 
-  button:not([class*="bg-"]):not([class*="border-"]):hover {
-    background-color: var(--color-button-hover-bg);
+  .btn-primary {
+    @apply btn bg-gradient-to-b from-acc to-acc2 px-6 py-3 text-lg font-semibold text-white shadow-[0_6px_24px_rgba(101,74,181,0.45)] hover:brightness-110;
   }
+
+  .btn-secondary {
+    @apply btn bg-btn/90 px-5 py-3 text-lg text-lbl hover:bg-btn-hover;
+  }
+
+  .btn-small {
+    @apply btn bg-btn px-3 py-1.5 text-sm text-lbl hover:bg-btn-hover;
+  }
+
+  .btn-login {
+    @apply btn bg-gradient-to-b from-acc to-acc2 px-4 py-2 font-semibold text-white shadow-[0_4px_16px_rgba(101,74,181,0.45)] hover:brightness-110;
+  }
+
+  .link {
+    @apply text-link underline decoration-link/40 underline-offset-2 transition-colors hover:text-lbl hover:decoration-lbl/60;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+}
+
+.art {
+  background-image: var(--art-portrait);
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .art {
+    background-image: var(--art-desktop);
+  }
+}
+
+.art-hero {
+  filter: var(--art-hero-filter);
+}
+
+.art-cover {
+  filter: var(--art-cover-filter);
+  background-position: center 30%;
+}
+
+.osu-cookie {
+  -webkit-mask: url("/brand/osu-logo-white.svg") center / contain no-repeat;
+  mask: url("/brand/osu-logo-white.svg") center / contain no-repeat;
+  background-color: currentColor;
+}
+
+.zoom::backdrop {
+  background: rgb(0 0 0 / 0.86);
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, rgb(var(--c-acc)), rgb(var(--c-osu)));
+  box-shadow: 0 0 10px rgb(162 138 234 / 0.7);
+}
+
+.page-enter {
+  animation: page-enter 280ms ease-out both;
+}
+
+.menu-pop {
+  animation: menu-pop 160ms ease-out both;
+  transform-origin: top right;
+}
+
+.result-pop {
+  animation: result-pop 300ms ease-out both;
+}
+
+@keyframes result-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes menu-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 280ms;
+  animation-timing-function: ease;
+}
+
+.motion-off *,
+.motion-off *::before,
+.motion-off *::after {
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+  scroll-behavior: auto !important;
 }

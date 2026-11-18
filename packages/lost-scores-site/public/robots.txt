@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /oauth/
 
 Sitemap: https://lost.lemon4ik.kz/sitemap.xml

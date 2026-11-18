@@ -5,7 +5,7 @@ This repository hosts the public-facing websites and shared component library fo
 Packages:
 
 - [`welcome-site`](./packages/welcome-site) - personal portfolio published at [lemon4ik.kz](https://lemon4ik.kz)
-- [`lost-scores-site`](./packages/lost-scores-site) - Lost Scores documentation portal at [lost.lemon4ik.kz](https://lost.lemon4ik.kz)
+- [`lost-scores-site`](./packages/lost-scores-site) - the osu! Lost Scores site at [lost.lemon4ik.kz](https://lost.lemon4ik.kz): downloads, the Hall of Copium and player profiles
 - [`shared-ui`](./packages/shared-ui) - shared React components, contexts and hooks used by both sites
 
 ## Quick start
@@ -43,16 +43,16 @@ yarn format
 ```
 packages/
   welcome-site/      # portfolio pages and blog
-  lost-scores-site/  # Lost Scores docs, FAQ, downloads
+  lost-scores-site/  # osu! Lost Scores: downloads, Hall of Copium, profiles
   shared-ui/         # shared components, contexts, hooks
 ```
 
-All packages use Tailwind CSS, Framer Motion and React Router. Shared UI exports atomic components that are reused across both sites.
+All packages use Tailwind CSS and React Router. The welcome site builds on Shared UI and Framer Motion; the Lost Scores site has its own components in the program's look.
 
 ## Notes
 
 - Welcome site (lemon4ik.kz) is deployed and updated whenever new projects or blog posts are published.
 - Lost Scores site (lost.lemon4ik.kz) stays aligned with the live backend and desktop release notes.
-- Shared UI is the source of truth for reusable components; update it first before tweaking the sites.
+- Shared UI is the source of truth for the welcome site's components.
 
 If you want to contribute, check the root `package.json` for available scripts and open an issue before starting work. Pull requests are welcome as long as they keep the shared API consistent.
