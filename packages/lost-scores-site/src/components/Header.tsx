@@ -1,5 +1,5 @@
 import { LogIn, Menu, SlidersHorizontal, User, X } from "lucide-react";
-import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useCallback, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Brand from "@/components/Brand";
 import Flag from "@/components/Flag";
@@ -9,6 +9,7 @@ import { useAb } from "@/lib/ab";
 import { LOGIN_URL, type Me } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
+import { useDismiss } from "@/lib/dismiss";
 import { LANGS, useLang, useSection, type Words } from "@/lib/i18n";
 import { useScrolled } from "@/lib/scroll";
 import { useSlider } from "@/lib/slider";
@@ -21,30 +22,6 @@ function navOf(t: Text) {
     { to: "/download", label: t("nav.download") },
     { to: "/faq", label: t("nav.faq") },
   ];
-}
-
-function useDismiss(open: boolean, close: () => void, box: RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-    const onPointer = (event: PointerEvent) => {
-      if (box.current && !box.current.contains(event.target as Node)) {
-        close();
-      }
-    };
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        close();
-      }
-    };
-    document.addEventListener("pointerdown", onPointer);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("pointerdown", onPointer);
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open, close, box]);
 }
 
 function Popover({ button, label, children, width = "w-72" }: { button: ReactNode; label: string; children: (close: () => void) => ReactNode; width?: string }) {
