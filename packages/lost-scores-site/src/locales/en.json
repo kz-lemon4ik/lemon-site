@@ -308,8 +308,9 @@
     "pp": "{{have}}% of the pp back, {{need}}% needed",
     "notYet": "Not earned yet",
     "colFixed": "Fixed",
+    "later": "Found in later scans: {{count}}",
     "noneTitle": "Nothing fixed yet",
-    "none": "A lost play counts as fixed once a new score on its map is worth at least as much pp. Fixes show up here after the next scan.",
+    "none": "A lost play counts as fixed once a new score on its map is worth at least as much pp. Fixes show up after your next scan, and we also check osu! for them every day.",
     "names": {
       "first": "First fix",
       "quarter": "A quarter",

@@ -14,6 +14,7 @@ const ICONS: Partial<Record<MedalId, LucideIcon>> = { first: Wrench, biggest: Tr
 const TEXTS: Partial<Record<MedalId, string>> = { five: "5", fc: "FC", ss: "SS" };
 const FRACTIONS: Partial<Record<MedalId, string>> = { ppQuarter: "¼", ppHalf: "½" };
 const TIP_ROOM = 136;
+const TIP_HEIGHT = 300;
 
 function pie(cx: number, cy: number, radius: number, share: number): string {
   const end = -Math.PI / 2 + share * 2 * Math.PI;
@@ -99,29 +100,47 @@ function nameOf(medal: MedalState, t: Text): [string, string] {
   return [t(`names.${medal.id}` as SectionKey<"progress">), t(`texts.${medal.id}` as SectionKey<"progress">)];
 }
 
-function useAlign(): [Align, (element: HTMLElement) => void] {
+function useAlign(): [Align, boolean, (element: HTMLElement) => void] {
   const [align, setAlign] = useState<Align>("center");
+  const [below, setBelow] = useState(false);
   const measure = useCallback((element: HTMLElement) => {
     const box = element.getBoundingClientRect();
     const middle = box.left + box.width / 2;
     setAlign(middle < TIP_ROOM ? "start" : middle > window.innerWidth - TIP_ROOM ? "end" : "center");
+    setBelow(box.top < TIP_HEIGHT);
   }, []);
-  return [align, measure];
+  return [align, below, measure];
 }
 
 function Tipped({ medal, className, style, button, children }: { medal: MedalState; className: string; style?: CSSProperties; button: string; children?: ReactNode }) {
   const t = useSection("progress");
   const f = useFormat();
-  const [align, measure] = useAlign();
+  const [align, below, measure] = useAlign();
   const [open, setOpen] = useState(false);
+  const [muted, setMuted] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   const close = useCallback(() => setOpen(false), []);
   useDismiss(open, close, box);
   const [name, text] = nameOf(medal, t);
   const line = status(medal, t, f);
   const place = align === "start" ? "left-0" : align === "end" ? "right-0" : "left-1/2 -translate-x-1/2";
+  const side = below ? "top-full mt-3" : "bottom-full mb-3";
   return (
-    <div ref={box} className={`group ${className}`} style={style} onMouseEnter={(event) => measure(event.currentTarget)} onFocus={(event) => measure(event.currentTarget)}>
+    <div
+      ref={box}
+      className={`group ${className}`}
+      style={style}
+      onMouseEnter={(event) => measure(event.currentTarget)}
+      onMouseLeave={() => setMuted(false)}
+      onFocus={(event) => measure(event.currentTarget)}
+      onBlur={() => setMuted(false)}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          setMuted(true);
+          setOpen(false);
+        }
+      }}
+    >
       <button
         type="button"
         aria-label={`${name}. ${line.text}`}
@@ -138,7 +157,7 @@ function Tipped({ medal, className, style, button, children }: { medal: MedalSta
       </button>
       <div
         role="tooltip"
-        className={`pointer-events-none absolute bottom-full z-20 mb-3 w-64 rounded-xl bg-bg text-center shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-focus-within:block group-hover:block ${place} ${open ? "block" : "hidden"}`}
+        className={`pointer-events-none absolute z-20 w-64 rounded-xl bg-bg text-center shadow-[0_10px_30px_rgba(0,0,0,0.5)] ${side} ${place} ${open ? "block" : "hidden"} ${muted ? "" : "group-focus-within:block group-hover:block"}`}
       >
         <div className="px-5 pb-4 pt-5">
           <span className="mx-auto block w-fit">
@@ -182,11 +201,12 @@ export function FixBar({ progress }: { progress: Progress }) {
                 medal={medal}
                 className="absolute top-0"
                 style={{ left: at >= 1 ? "calc(100% - 14px)" : `calc(${at * 100}% - 7px)` }}
-                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-card transition-transform duration-150 ease-out focus-visible:outline-none motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
+                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-card transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-acc motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
               />
             );
           })}
       </div>
+      {progress.later > 0 && <p className="mt-2 text-xs text-meta">{t("later", { count: f.whole(progress.later) })}</p>}
     </div>
   );
 }

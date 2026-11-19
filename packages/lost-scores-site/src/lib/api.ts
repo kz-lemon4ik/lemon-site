@@ -105,6 +105,7 @@ export interface Fix {
 export interface Progress {
   total: number;
   fixed: number;
+  later: number;
   medals: MedalState[];
   fixes: Fix[];
   fixes_total: number;
