@@ -73,6 +73,43 @@ export interface Plays {
   rows: PlayRow[];
 }
 
+export type MedalId = "first" | "quarter" | "half" | "threeQuarters" | "all" | "ppQuarter" | "ppHalf" | "biggest" | "five" | "oldest" | "fc" | "ss" | "harder";
+
+export interface MedalState {
+  id: MedalId;
+  at: number | null;
+  have?: number;
+  need?: number;
+  percent?: boolean;
+}
+
+export interface Fix {
+  beatmap_id: number;
+  beatmapset_id: number | null;
+  title: string | null;
+  artist: string | null;
+  version: string | null;
+  creator: string | null;
+  status: string | null;
+  lost_pp: number;
+  kept_pp: number;
+  pp: number | null;
+  grade: string | null;
+  accuracy: number | null;
+  mods: string[];
+  fc: boolean;
+  lazer: boolean;
+  fixed_at: number;
+}
+
+export interface Progress {
+  total: number;
+  fixed: number;
+  medals: MedalState[];
+  fixes: Fix[];
+  fixes_total: number;
+}
+
 export interface PageQuery {
   offset: number;
   limit: number;
@@ -217,6 +254,8 @@ export const api = {
   plays: (offset: number, limit: number, replay: boolean, signal?: AbortSignal) =>
     get<Plays>(`/api/plays?offset=${offset}&limit=${limit}${replay ? "&replay=1" : ""}`, signal),
   player: (id: string, query: PageQuery, signal?: AbortSignal) => get<ScanPage>(`/api/submissions/${encodeURIComponent(id)}?${page(query)}`, signal),
+  progress: (osuId: number, offset: number, limit: number, signal?: AbortSignal) =>
+    get<Progress>(`/api/v1/progress/${osuId}?offset=${offset}&limit=${limit}`, signal),
   scan: (id: string, query: PageQuery, signal?: AbortSignal) => get<ScanPage>(`/api/submission/${encodeURIComponent(id)}?${page(query)}`, signal),
   me: (signal?: AbortSignal) => get<Me>("/api/user/me", signal),
   ownScans: (signal?: AbortSignal) => get<OwnScan[]>("/api/user/submissions", signal),
