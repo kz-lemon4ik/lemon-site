@@ -228,3 +228,7 @@ export const api = {
 export function replayUrl(sha256: string): string {
   return `/api/v1/replays/${sha256}`;
 }
+
+export function mapUrl(beatmapId: number | null): string | null {
+  return beatmapId ? `https://osu.ppy.sh/beatmaps/${beatmapId}` : null;
+}
