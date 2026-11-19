@@ -1,6 +1,7 @@
 import { ChevronsUp, Hourglass, Trophy, Wrench, type LucideIcon } from "lucide-react";
-import { useCallback, useState, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { MedalId, MedalState, Progress } from "@/lib/api";
+import { useDismiss } from "@/lib/dismiss";
 import { useFormat, type Format } from "@/lib/format";
 import { useSection, type SectionKey, type Words } from "@/lib/i18n";
 
@@ -108,19 +109,36 @@ function useAlign(): [Align, (element: HTMLElement) => void] {
   return [align, measure];
 }
 
-function Tipped({ medal, className, style, children }: { medal: MedalState; className: string; style?: CSSProperties; children: ReactNode }) {
+function Tipped({ medal, className, style, button, children }: { medal: MedalState; className: string; style?: CSSProperties; button: string; children?: ReactNode }) {
   const t = useSection("progress");
   const f = useFormat();
   const [align, measure] = useAlign();
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  const close = useCallback(() => setOpen(false), []);
+  useDismiss(open, close, box);
   const [name, text] = nameOf(medal, t);
   const line = status(medal, t, f);
   const place = align === "start" ? "left-0" : align === "end" ? "right-0" : "left-1/2 -translate-x-1/2";
   return (
-    <div className={`group ${className}`} style={style} onMouseEnter={(event) => measure(event.currentTarget)} onFocus={(event) => measure(event.currentTarget)}>
-      {children}
+    <div ref={box} className={`group ${className}`} style={style} onMouseEnter={(event) => measure(event.currentTarget)} onFocus={(event) => measure(event.currentTarget)}>
+      <button
+        type="button"
+        aria-label={`${name}. ${line.text}`}
+        aria-expanded={open}
+        onClick={() => {
+          if (box.current) {
+            measure(box.current);
+          }
+          setOpen((current) => !current);
+        }}
+        className={button}
+      >
+        {children}
+      </button>
       <div
         role="tooltip"
-        className={`pointer-events-none absolute bottom-full z-20 mb-3 hidden w-64 rounded-xl bg-bg text-center shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-focus-within:block group-hover:block ${place}`}
+        className={`pointer-events-none absolute bottom-full z-20 mb-3 w-64 rounded-xl bg-bg text-center shadow-[0_10px_30px_rgba(0,0,0,0.5)] group-focus-within:block group-hover:block ${place} ${open ? "block" : "hidden"}`}
       >
         <div className="px-5 pb-4 pt-5">
           <span className="mx-auto block w-fit">
@@ -158,15 +176,14 @@ export function FixBar({ progress }: { progress: Progress }) {
           .filter((medal) => MILESTONES[medal.id] !== undefined)
           .map((medal) => {
             const at = MILESTONES[medal.id] ?? 0;
-            const [name] = nameOf(medal, t);
             return (
-              <Tipped key={medal.id} medal={medal} className="absolute top-0" style={{ left: at >= 1 ? "calc(100% - 14px)" : `calc(${at * 100}% - 7px)` }}>
-                <button
-                  type="button"
-                  aria-label={`${name}. ${status(medal, t, f).text}`}
-                  className={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-card transition-transform duration-150 ease-out focus-visible:outline-none motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
-                />
-              </Tipped>
+              <Tipped
+                key={medal.id}
+                medal={medal}
+                className="absolute top-0"
+                style={{ left: at >= 1 ? "calc(100% - 14px)" : `calc(${at * 100}% - 7px)` }}
+                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-card transition-transform duration-150 ease-out focus-visible:outline-none motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
+              />
             );
           })}
       </div>
@@ -176,7 +193,6 @@ export function FixBar({ progress }: { progress: Progress }) {
 
 export function MedalRow({ medals }: { medals: MedalState[] }) {
   const t = useSection("progress");
-  const f = useFormat();
   const earned = COINS.map((id) => medals.find((medal) => medal.id === id)).filter((medal): medal is MedalState => medal !== undefined && medal.at !== null);
   if (earned.length === 0) {
     return null;
@@ -185,20 +201,16 @@ export function MedalRow({ medals }: { medals: MedalState[] }) {
     <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
       <span className="text-sm text-meta">{t("medals")}</span>
       <div className="flex flex-wrap gap-1.5">
-        {earned.map((medal) => {
-          const [name] = nameOf(medal, t);
-          return (
-            <Tipped key={medal.id} medal={medal} className="relative">
-              <button
-                type="button"
-                aria-label={`${name}. ${status(medal, t, f).text}`}
-                className="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-card motion-safe:hover:scale-110"
-              >
-                <Coin id={medal.id} earned className="h-8 w-8" />
-              </button>
-            </Tipped>
-          );
-        })}
+        {earned.map((medal) => (
+          <Tipped
+            key={medal.id}
+            medal={medal}
+            className="relative"
+            button="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-card motion-safe:hover:scale-110"
+          >
+            <Coin id={medal.id} earned className="h-8 w-8" />
+          </Tipped>
+        ))}
       </div>
     </div>
   );
