@@ -1,20 +1,21 @@
-import { lazy, Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import AbPanel from "@/components/AbPanel";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
+import { lazyPage } from "@/lib/lazyPage";
 import { startProgress } from "@/lib/progress";
 import Home from "@/pages/Home";
 
-const Download = lazy(() => import("@/pages/Download"));
-const Rankings = lazy(() => import("@/pages/Rankings"));
-const Profile = lazy(() => import("@/pages/Profile"));
-const Faq = lazy(() => import("@/pages/Faq"));
-const Privacy = lazy(() => import("@/pages/Privacy"));
-const LoginResult = lazy(() => import("@/pages/LoginResult"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
-const Admin = lazy(() => import("@/pages/Admin"));
+const Download = lazyPage(() => import("@/pages/Download"));
+const Rankings = lazyPage(() => import("@/pages/Rankings"));
+const Profile = lazyPage(() => import("@/pages/Profile"));
+const Faq = lazyPage(() => import("@/pages/Faq"));
+const Privacy = lazyPage(() => import("@/pages/Privacy"));
+const LoginResult = lazyPage(() => import("@/pages/LoginResult"));
+const NotFound = lazyPage(() => import("@/pages/NotFound"));
+const Admin = lazyPage(() => import("@/pages/Admin"));
 
 function OldProfile() {
   const { identifier = "" } = useParams();
