@@ -28,7 +28,7 @@ export default function ModeSwitch<T extends string>({ value, options, onChange,
     >
       <span
         aria-hidden
-        className={`absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-lg border-2 border-acc bg-tog-on transition-transform duration-[180ms] ease-out ${second ? "translate-x-full" : ""}`}
+        className={`absolute inset-y-[3px] left-[3px] w-[calc(50%-3px)] rounded-lg border-2 border-acc bg-tog-on transition-transform duration-[250ms] ease-in-out ${second ? "translate-x-full" : ""}`}
       />
       {options.map((option) => (
         <span

@@ -47,6 +47,10 @@ export default {
   content: [join(__dirname, "index.html"), join(__dirname, "src/**/*.{ts,tsx}")],
   theme: {
     extend: {
+      transitionTimingFunction: {
+        out: "var(--ease-out)",
+        "in-out": "var(--ease-in-out)",
+      },
       colors: Object.fromEntries(TOKENS.map((token) => [token, `rgb(var(--c-${token}) / <alpha-value>)`])),
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
