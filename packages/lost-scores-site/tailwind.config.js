@@ -45,6 +45,9 @@ const TOKENS = [
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [join(__dirname, "index.html"), join(__dirname, "src/**/*.{ts,tsx}")],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       transitionTimingFunction: {
