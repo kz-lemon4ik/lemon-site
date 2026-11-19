@@ -13,6 +13,7 @@ import { FEATURED } from "@/lib/featured";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { track } from "@/lib/progress";
+import { smoothly } from "@/lib/smooth";
 import { useTitle } from "@/lib/title";
 
 const SIZE = 50;
@@ -30,12 +31,21 @@ function useLoad<T>(load: (signal: AbortSignal) => Promise<T>, key: string): [Lo
   const [state, setState] = useState<Load<T>>({ status: "loading" });
   const [attempt, setAttempt] = useState(0);
   const latest = useRef(load);
+  const shown = useRef(false);
   latest.current = load;
   useEffect(() => {
     const controller = new AbortController();
-    setState({ status: "loading" });
+    setState((current) => (current.status === "ready" ? current : { status: "loading" }));
     track(latest.current(controller.signal)).then(
-      (data) => setState({ status: "ready", data }),
+      (data) => {
+        const show = () => setState({ status: "ready", data });
+        if (shown.current) {
+          smoothly(show);
+        } else {
+          show();
+        }
+        shown.current = true;
+      },
       () => {
         if (!controller.signal.aborted) {
           setState({ status: "error" });

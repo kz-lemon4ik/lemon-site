@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import { Check } from "@/components/Chips";
@@ -15,6 +15,7 @@ import { rememberPage } from "@/lib/back";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { track } from "@/lib/progress";
+import { smoothly } from "@/lib/smooth";
 import { useTitle } from "@/lib/title";
 
 type Text = Words<"profile">;
@@ -179,6 +180,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const [version, setVersion] = useState(0);
   const [failed, setFailed] = useState(false);
   const navigate = useNavigate();
+  const shown = useRef(false);
   const gap = sort === "gap";
 
   useEffect(() => {
@@ -186,7 +188,15 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
     const query = { offset: 0, limit: PAGE, gap };
     const request = scan ? api.scan(scan, query, controller.signal) : api.player(id, query, controller.signal);
     track(request).then(
-      (page) => setLoad({ status: "ready", page, rows: page.lost_scores }),
+      (page) => {
+        const show = () => setLoad({ status: "ready", page, rows: page.lost_scores });
+        if (shown.current) {
+          smoothly(show);
+        } else {
+          show();
+        }
+        shown.current = true;
+      },
       (error: unknown) => {
         if (!controller.signal.aborted) {
           setLoad({ status: error instanceof ApiError && error.status === 404 ? "missing" : "error" });
