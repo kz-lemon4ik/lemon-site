@@ -185,6 +185,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const [failed, setFailed] = useState(false);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [fixes, setFixes] = useState<Fix[]>([]);
+  const [fixesBusy, setFixesBusy] = useState(false);
+  const loadingFixes = useRef(false);
   const navigate = useNavigate();
   const shown = useRef(false);
   const gap = sort === "gap";
@@ -283,13 +285,20 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   }, [progressId]);
 
   const moreFixes = () => {
-    if (progressId === null) {
+    if (progressId === null || loadingFixes.current) {
       return;
     }
-    track(api.progress(progressId, fixes.length, FIX_PAGE)).then(
-      (next) => setFixes((current) => [...current, ...next.fixes]),
-      () => undefined,
-    );
+    loadingFixes.current = true;
+    setFixesBusy(true);
+    track(api.progress(progressId, fixes.length, FIX_PAGE))
+      .then(
+        (next) => setFixes((current) => [...current, ...next.fixes.filter((fix) => !current.some((known) => known.beatmap_id === fix.beatmap_id))]),
+        () => undefined,
+      )
+      .finally(() => {
+        loadingFixes.current = false;
+        setFixesBusy(false);
+      });
   };
   const tracked = progress !== null && progress.total > 0 ? progress : null;
 
@@ -411,7 +420,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
             <Rows count={3} />
           ))}
 
-        {view === "fixed" && tracked && <FixedTable fixes={fixes} total={tracked.fixes_total} more={moreFixes} />}
+        {view === "fixed" && tracked && <FixedTable fixes={fixes} total={tracked.fixes_total} more={moreFixes} busy={fixesBusy} />}
 
         {view === "potential" && <PotentialTop top={top} page={page} retry={() => openView("potential")} t={t} />}
 

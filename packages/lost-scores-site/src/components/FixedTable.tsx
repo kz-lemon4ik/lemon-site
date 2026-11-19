@@ -65,7 +65,7 @@ function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unkn
   );
 }
 
-export default function FixedTable({ fixes, total, more }: { fixes: Fix[]; total: number; more: () => void }) {
+export default function FixedTable({ fixes, total, more, busy }: { fixes: Fix[]; total: number; more: () => void; busy: boolean }) {
   const t = useSection("progress");
   const table = useSection("table");
   const profile = useSection("profile");
@@ -92,7 +92,7 @@ export default function FixedTable({ fixes, total, more }: { fixes: Fix[]; total
       </ol>
       {fixes.length < total && (
         <div className="mt-4 text-center">
-          <button type="button" className="btn-small px-5 py-2" onClick={more}>
+          <button type="button" className="btn-small px-5 py-2" disabled={busy} onClick={more}>
             {profile("showMore")}
           </button>
         </div>
