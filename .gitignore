@@ -36,7 +36,6 @@ ehthumbs.db
 *.swp
 *.swo
 *~
-yarn.lock
 *.tgz
 *.tar.gz
 pids/
