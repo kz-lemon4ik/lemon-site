@@ -5,15 +5,20 @@ import { smoothly } from "@/lib/smooth";
 export default function LangProvider({ initial, children }: { initial: { id: string; dict: Dict }; children: ReactNode }) {
   const [state, setState] = useState(() => ({ language: languageOf(initial.id), dict: initial.dict }));
   const wanted = useRef(initial.id);
+  const [chosen, setChosen] = useState(false);
   useEffect(() => {
     document.documentElement.lang = state.language.id;
+    if (!chosen) {
+      return;
+    }
     try {
       localStorage.setItem("lang", state.language.id);
     } catch {
       return;
     }
-  }, [state.language]);
+  }, [state.language, chosen]);
   const setLang = useCallback((id: string) => {
+    setChosen(true);
     wanted.current = id;
     void loadDict(id).then((dict) => {
       if (wanted.current === id) {
