@@ -3,13 +3,15 @@ import { Link, useLocation, useNavigate, useParams, useSearchParams } from "reac
 import Avatar from "@/components/Avatar";
 import { Check } from "@/components/Chips";
 import ConfirmButton from "@/components/ConfirmButton";
+import FixedTable from "@/components/FixedTable";
 import { Cover, PageShell, Sheet } from "@/components/Layout";
 import ScansChart from "@/components/ScansChart";
 import ModeSwitch from "@/components/ModeSwitch";
+import { CoinDefs, FixBar, MedalRow } from "@/components/Progress";
 import ScoreTable from "@/components/ScoreTable";
 import { Message, Rows } from "@/components/States";
 import Tabs from "@/components/Tabs";
-import { ApiError, LOGIN_URL, api, type LostScore, type Me, type OwnScan, type PotentialRow, type ScanPage } from "@/lib/api";
+import { ApiError, LOGIN_URL, api, type Fix, type LostScore, type Me, type OwnScan, type PotentialRow, type Progress, type ScanPage } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
 import { useFormat } from "@/lib/format";
@@ -21,6 +23,7 @@ import { useTitle } from "@/lib/title";
 type Text = Words<"profile">;
 
 const PAGE = 50;
+const FIX_PAGE = 20;
 
 type Load =
   | { status: "loading" }
@@ -30,7 +33,7 @@ type Load =
 
 type Top = { status: "idle" } | { status: "loading" } | { status: "ready"; rows: PotentialRow[] } | { status: "error" };
 
-type View = "lost" | "potential" | "scans";
+type View = "lost" | "fixed" | "potential" | "scans";
 
 function isOwner(me: Me | null, id: string): me is Me {
   return me !== null && (String(me.id) === id || me.username.toLowerCase() === id.toLowerCase());
@@ -167,6 +170,7 @@ function PotentialTop({ top, page, retry, t }: { top: Top; page: ScanPage | null
 
 function Profile({ id, scan }: { id: string; scan: string | null }) {
   const t = useSection("profile");
+  const fixedText = useSection("progress");
   const f = useFormat();
   const { me, ready } = useAuth();
   const owner = isOwner(me, id);
@@ -179,6 +183,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const [sort, setSort] = useState<"pp" | "gap">("pp");
   const [version, setVersion] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [progress, setProgress] = useState<Progress | null>(null);
+  const [fixes, setFixes] = useState<Fix[]>([]);
   const navigate = useNavigate();
   const shown = useRef(false);
   const gap = sort === "gap";
@@ -254,6 +260,38 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const name = page?.metadata.user_identifier ?? (owner ? me.username : id);
   const userId = page?.metadata.user_id ?? (owner ? me.id : /^\d+$/.test(id) ? Number(id) : null);
   useTitle(name);
+  const progressId = page?.metadata.user_id ?? null;
+
+  useEffect(() => {
+    if (progressId === null) {
+      return;
+    }
+    const controller = new AbortController();
+    api.progress(progressId, 0, FIX_PAGE, controller.signal).then(
+      (next) => {
+        setProgress(next);
+        setFixes(next.fixes);
+      },
+      () => {
+        if (!controller.signal.aborted) {
+          setProgress(null);
+          setFixes([]);
+        }
+      },
+    );
+    return () => controller.abort();
+  }, [progressId]);
+
+  const moreFixes = () => {
+    if (progressId === null) {
+      return;
+    }
+    track(api.progress(progressId, fixes.length, FIX_PAGE)).then(
+      (next) => setFixes((current) => [...current, ...next.fixes]),
+      () => undefined,
+    );
+  };
+  const tracked = progress !== null && progress.total > 0 ? progress : null;
 
   const showMore = async () => {
     if (load.status !== "ready") {
@@ -272,6 +310,9 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   };
 
   const tabs: { id: View; label: string }[] = [{ id: "lost", label: page ? `${t("tabLost")} · ${f.whole(page.total_count)}` : t("tabLost") }];
+  if (tracked) {
+    tabs.push({ id: "fixed", label: `${fixedText("tabFixed")} · ${f.whole(tracked.fixed)}` });
+  }
   if (page) {
     tabs.push({ id: "potential", label: t("tabPotential") });
   }
@@ -307,6 +348,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
 
   return (
     <PageShell>
+      {tracked && <CoinDefs />}
       <Cover tall />
       <Sheet>
         <div className="relative z-10 -mt-12 flex items-end gap-4 sm:gap-5">
@@ -344,6 +386,12 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         {page && (
           <div className="mt-6 border-b border-divider pb-6">
             <Stats page={page} t={t} />
+            {tracked && (
+              <>
+                <FixBar progress={tracked} />
+                <MedalRow medals={tracked.medals} />
+              </>
+            )}
           </div>
         )}
 
@@ -362,6 +410,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
           ) : (
             <Rows count={3} />
           ))}
+
+        {view === "fixed" && tracked && <FixedTable fixes={fixes} total={tracked.fixes_total} more={moreFixes} />}
 
         {view === "potential" && <PotentialTop top={top} page={page} retry={() => openView("potential")} t={t} />}
 
