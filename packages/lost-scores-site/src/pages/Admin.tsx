@@ -2,6 +2,7 @@ import { ExternalLink } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@/components/Avatar";
+import ConfirmButton from "@/components/ConfirmButton";
 import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import { Message, Rows } from "@/components/States";
 import Tabs from "@/components/Tabs";
@@ -35,37 +36,6 @@ function VerdictChip({ verdict }: { verdict: string | null }) {
   }
   const look = verdict === "passed" ? "bg-up/10 text-up" : verdict === "flagged" ? "bg-gold/15 text-gold" : "bg-down/10 text-down";
   return <span className={`chip ${look}`}>{verdict}</span>;
-}
-
-function ActionButton({ label, confirmText, run }: { label: string; confirmText: string; run: () => Promise<void> }) {
-  const [armed, setArmed] = useState(false);
-  const [busy, setBusy] = useState(false);
-  useEffect(() => {
-    if (!armed) {
-      return;
-    }
-    const timer = setTimeout(() => setArmed(false), 3000);
-    return () => clearTimeout(timer);
-  }, [armed]);
-  return (
-    <button
-      type="button"
-      disabled={busy}
-      onClick={async () => {
-        if (!armed) {
-          setArmed(true);
-          return;
-        }
-        setArmed(false);
-        setBusy(true);
-        await run();
-        setBusy(false);
-      }}
-      className={`btn-small px-3 py-1.5 ${armed ? "bg-down/20 text-down hover:bg-down/30" : ""}`}
-    >
-      {armed ? confirmText : label}
-    </button>
-  );
 }
 
 function Notes({ notes, t }: { notes: AdminNote[]; t: Text }) {
@@ -134,7 +104,7 @@ function ScanDetail({ id, t, changed }: { id: string; t: Text; changed: () => vo
         {actions
           .filter((action) => action !== detail.status)
           .map((action) => (
-            <ActionButton key={action} label={t(`actions.${action}`)} confirmText={t("confirm")} run={run(action)} />
+            <ConfirmButton key={action} label={t(`actions.${action}`)} confirmText={t("confirm")} run={run(action)} />
           ))}
         {message && <span className="text-sm text-meta">{message}</span>}
       </div>

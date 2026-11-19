@@ -122,6 +122,13 @@ async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
   return (await response.json()) as T;
 }
 
+async function remove(path: string): Promise<void> {
+  const response = await fetch(path, { method: "DELETE", headers: { accept: "application/json" } });
+  if (!response.ok) {
+    throw new ApiError(response.status);
+  }
+}
+
 function page({ offset, limit, potential = false, gap = false }: PageQuery): string {
   return `offset=${offset}&limit=${limit}${potential ? "&with=potential" : ""}${gap ? "&sort=gap" : ""}`;
 }
@@ -213,6 +220,8 @@ export const api = {
   scan: (id: string, query: PageQuery, signal?: AbortSignal) => get<ScanPage>(`/api/submission/${encodeURIComponent(id)}?${page(query)}`, signal),
   me: (signal?: AbortSignal) => get<Me>("/api/user/me", signal),
   ownScans: (signal?: AbortSignal) => get<OwnScan[]>("/api/user/submissions", signal),
+  unpublishOwn: (id: string) => post<{ id: string; visibility: string }>(`/api/user/submissions/${encodeURIComponent(id)}/unpublish`),
+  deleteOwn: (id: string) => remove(`/api/user/submissions/${encodeURIComponent(id)}`),
   logout: () => fetch("/api/auth/logout", { method: "POST" }),
 };
 

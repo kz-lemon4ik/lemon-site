@@ -1,7 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import { Check } from "@/components/Chips";
+import ConfirmButton from "@/components/ConfirmButton";
 import { Cover, PageShell, Sheet } from "@/components/Layout";
 import ScansChart from "@/components/ScansChart";
 import ModeSwitch from "@/components/ModeSwitch";
@@ -78,7 +79,21 @@ function ScanState({ scan, t }: { scan: OwnScan; t: Text }) {
   );
 }
 
-function OwnScans({ id, scans, current, t }: { id: string; scans: OwnScan[]; current: string | null; t: Text }) {
+type Action = "unpublish" | "delete";
+
+function OwnScans({
+  id,
+  scans,
+  current,
+  act,
+  t,
+}: {
+  id: string;
+  scans: OwnScan[];
+  current: string | null;
+  act: (scan: OwnScan, action: Action) => Promise<void>;
+  t: Text;
+}) {
   const f = useFormat();
   if (scans.length === 0) {
     return <Message title={t("noScansTitle")}>{t("noScans")}</Message>;
@@ -86,13 +101,14 @@ function OwnScans({ id, scans, current, t }: { id: string; scans: OwnScan[]; cur
   return (
     <ol className="space-y-1.5 pt-3">
       {scans.map((scan) => (
-        <li key={scan.id}>
+        <li
+          key={scan.id}
+          className={`flex flex-wrap items-center gap-x-3 rounded-lg bg-row pr-3 ${scan.id === current ? "ring-1 ring-acc/50" : ""}`}
+        >
           <Link
             to={`/u/${encodeURIComponent(id)}?scan=${scan.id}`}
             aria-current={scan.id === current ? "page" : undefined}
-            className={`flex flex-wrap items-center gap-x-5 gap-y-1 rounded-lg px-4 py-3 transition-colors hover:bg-btn ${
-              scan.id === current ? "bg-btn ring-1 ring-acc/50" : "bg-row"
-            }`}
+            className="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-1 rounded-lg px-4 py-3 transition-colors hover:bg-btn/60"
           >
             <span className="font-medium text-lbl">{f.day(scan.made_at * 1000)}</span>
             <span className="font-semibold text-up">{f.gain(scan.lost_pp)}</span>
@@ -104,6 +120,12 @@ function OwnScans({ id, scans, current, t }: { id: string; scans: OwnScan[]; cur
               <ScanState scan={scan} t={t} />
             </span>
           </Link>
+          <span className="flex w-full gap-2 pb-3 pl-4 sm:w-auto sm:pb-0 sm:pl-0">
+            {scan.visibility === "public" && (
+              <ConfirmButton label={t("unpublish")} hint={t("unpublishHint")} confirmText={t("confirmAgain")} run={() => act(scan, "unpublish")} />
+            )}
+            <ConfirmButton label={t("delete")} hint={t("deleteHint")} confirmText={t("confirmAgain")} run={() => act(scan, "delete")} />
+          </span>
         </li>
       ))}
     </ol>
@@ -149,10 +171,14 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const owner = isOwner(me, id);
   const [load, setLoad] = useState<Load>({ status: "loading" });
   const [own, setOwn] = useState<OwnScan[] | null>(null);
-  const [view, setView] = useState<View>("lost");
+  const location = useLocation();
+  const [view, setView] = useState<View>(() => ((location.state as { view?: View } | null)?.view === "scans" ? "scans" : "lost"));
   const [more, setMore] = useState<"idle" | "loading" | "error">("idle");
   const [top, setTop] = useState<Top>({ status: "idle" });
   const [sort, setSort] = useState<"pp" | "gap">("pp");
+  const [version, setVersion] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const navigate = useNavigate();
   const gap = sort === "gap";
 
   useEffect(() => {
@@ -168,7 +194,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
     );
     return () => controller.abort();
-  }, [id, scan, gap]);
+  }, [id, scan, gap, version]);
 
   useEffect(() => {
     if (!owner) {
@@ -184,7 +210,21 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
     );
     return () => controller.abort();
-  }, [owner]);
+  }, [owner, version]);
+
+  const act = async (target: OwnScan, action: Action) => {
+    setFailed(false);
+    try {
+      await (action === "unpublish" ? api.unpublishOwn(target.id) : api.deleteOwn(target.id));
+    } catch {
+      setFailed(true);
+      return;
+    }
+    if (action === "delete" && scan === target.id) {
+      navigate(`/u/${encodeURIComponent(id)}`, { replace: true, state: { view: "scans" } });
+    }
+    setVersion((value) => value + 1);
+  };
 
   const openView = (next: View) => {
     setView(next);
@@ -306,7 +346,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
           (own ? (
             <>
               <ScansChart scans={own} />
-              <OwnScans id={id} scans={own} current={scan} t={t} />
+              {failed && <p className="pt-3 text-sm text-down">{t("actionFailed")}</p>}
+              <OwnScans id={id} scans={own} current={scan} act={act} t={t} />
             </>
           ) : (
             <Rows count={3} />
