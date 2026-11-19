@@ -81,7 +81,7 @@ function Row({ score, kind, t, f }: { score: LostScore | PotentialRow | PlayRow;
             </span>
           )}
         </p>
-        <p className="mt-0.5 flex min-w-0 items-center gap-x-2.5 text-[12.5px]">
+        <p className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12.5px]">
           {play && (
             <Link to={`/u/${play.user_id}`} className="shrink-0 font-medium text-lbl hover:underline lg:hidden">
               {play.username}

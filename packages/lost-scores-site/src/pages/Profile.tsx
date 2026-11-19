@@ -282,7 +282,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
     );
     return () => controller.abort();
-  }, [progressId]);
+  }, [progressId, version]);
 
   const moreFixes = () => {
     if (progressId === null || loadingFixes.current) {

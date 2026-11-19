@@ -33,7 +33,7 @@ function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unkn
             </span>
           )}
         </p>
-        <p className="mt-0.5 flex min-w-0 items-center gap-x-2.5 text-[12.5px]">
+        <p className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12.5px]">
           <span className="shrink-0 sm:hidden">
             <Mods mods={fix.mods} />
           </span>

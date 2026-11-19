@@ -1,5 +1,5 @@
 import { Download, ExternalLink, Eye, MoreVertical, X } from "lucide-react";
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import { Grade, MapStatus, Mods } from "@/components/Chips";
@@ -128,6 +128,8 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
   const box = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const menu = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const close = useCallback(() => setOpen(false), []);
@@ -137,6 +139,26 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
       dialog.current?.showModal();
     }
   }, [shown]);
+  useEffect(() => {
+    if (open) {
+      menu.current?.querySelector<HTMLElement>("[role=menuitem]")?.focus();
+    }
+  }, [open]);
+  const onMenuKey = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      close();
+      trigger.current?.focus();
+      return;
+    }
+    const items = [...(menu.current?.querySelectorAll<HTMLElement>("[role=menuitem]") ?? [])];
+    const index = items.findIndex((item) => item === document.activeElement);
+    const moves: Record<string, number> = { ArrowDown: index + 1, ArrowUp: index - 1, Home: 0, End: items.length - 1 };
+    const next = moves[event.key];
+    if (next !== undefined && items.length > 0) {
+      event.preventDefault();
+      items[(next + items.length) % items.length].focus();
+    }
+  };
   const view = () => {
     close();
     setShown(true);
@@ -145,6 +167,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
   return (
     <div ref={box} className="relative justify-self-center">
       <button
+        ref={trigger}
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
@@ -156,12 +179,12 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
         <MoreVertical aria-hidden size={18} />
       </button>
       {open && (
-        <div role="menu" className="menu-pop absolute right-0 top-full z-30 mt-1 w-52 rounded-xl bg-card p-1 shadow-2xl ring-1 ring-divider">
+        <div ref={menu} role="menu" onKeyDown={onMenuKey} className="menu-pop absolute right-0 top-full z-30 mt-1 w-52 rounded-xl bg-card p-1 shadow-2xl ring-1 ring-divider">
           <button
             type="button"
             role="menuitem"
             onClick={view}
-            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-lbl transition-colors hover:bg-btn"
+            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-lbl transition-colors hover:bg-btn focus-visible:bg-btn focus-visible:outline-none"
           >
             <Eye aria-hidden size={16} className="text-muted" />
             {t("viewScore")}
@@ -171,7 +194,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
               role="menuitem"
               href={replayUrl(row.replay)}
               onClick={close}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-lbl transition-colors hover:bg-btn"
+              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-lbl transition-colors hover:bg-btn focus-visible:bg-btn focus-visible:outline-none"
             >
               <Download aria-hidden size={16} className="text-muted" />
               {t("downloadReplay")}
@@ -183,7 +206,10 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
         <dialog
           ref={dialog}
           aria-labelledby={titleId}
-          onClose={() => setShown(false)}
+          onClose={() => {
+            setShown(false);
+            trigger.current?.focus();
+          }}
           onClick={(event) => {
             if (event.target === dialog.current) {
               hide();
