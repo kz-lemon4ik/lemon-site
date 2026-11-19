@@ -90,12 +90,12 @@ export function parseRelease(data: GithubRelease, mirror = false): Release {
 
 let latest: Promise<ReleaseState> | null = null;
 
-async function fromMirror(): Promise<ReleaseState> {
+async function fromMirror(): Promise<ReleaseState | null> {
   try {
     const response = await fetch(MIRROR, { headers: { accept: "application/json" } });
-    return response.ok ? { status: "ready", release: parseRelease((await response.json()) as GithubRelease, true) } : { status: "error" };
+    return response.ok ? { status: "ready", release: parseRelease((await response.json()) as GithubRelease, true) } : null;
   } catch {
-    return { status: "error" };
+    return null;
   }
 }
 
@@ -109,13 +109,17 @@ async function fromGithub(): Promise<ReleaseState> {
       return { status: "ready", release: parseRelease((await response.json()) as GithubRelease) };
     }
   } catch {
-    return fromMirror();
+    return { status: "error" };
   }
-  return fromMirror();
+  return { status: "error" };
+}
+
+async function lookUp(): Promise<ReleaseState> {
+  return (await fromMirror()) ?? fromGithub();
 }
 
 function loadLatest(): Promise<ReleaseState> {
-  latest ??= fromGithub();
+  latest ??= lookUp();
   return latest;
 }
 
