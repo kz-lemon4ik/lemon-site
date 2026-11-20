@@ -42,7 +42,7 @@
     "donate": "Donate",
     "madeBy": "Made by",
     "notPpy": "not affiliated with ppy",
-    "credits": "Lemon emoji by Twemoji, CC BY 4.0 · Fonts Fredoka and Nunito, SIL OFL 1.1 · Avatars from osu!"
+    "credits": "Lemon emoji by Twemoji, CC BY 4.0 · Fonts Fredoka and Nunito, SIL OFL 1.1 · Grade and mod icons from osu-web, AGPL-3.0 · Avatars from osu!"
   },
   "settings": {
     "theme": "Theme",
@@ -78,7 +78,18 @@
     "miss": "Miss",
     "mappedBy": "mapped by {{name}}",
     "played": "Played {{date}}",
-    "keptBy": "osu! kept a play with a score of {{score}} and {{pp}}"
+    "keptBy": "osu! kept a play with a score of {{score}} and {{pp}}",
+    "status": {
+      "lost": "Lost play",
+      "ranked": "Ranked",
+      "approved": "Approved",
+      "qualified": "Qualified",
+      "loved": "Loved",
+      "pending": "Pending",
+      "wip": "Work in progress",
+      "graveyard": "Graveyard",
+      "unknown": "Unknown status"
+    }
   },
   "chart": {
     "title": "pp across your scans",

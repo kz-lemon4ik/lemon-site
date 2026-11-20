@@ -1,14 +1,18 @@
 import { Download, ExternalLink, Eye, MoreVertical, X } from "lucide-react";
-import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useImperativeHandle, useRef, useState, type KeyboardEvent, type ReactNode, type Ref } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "@/components/Avatar";
-import { Grade, MapStatus, Mods } from "@/components/Chips";
+import { Grade, Mods, StatusLabel } from "@/components/Chips";
 import { mapUrl, replayUrl, type LostScore, type PlayRow, type PotentialRow } from "@/lib/api";
 import { useDismiss } from "@/lib/dismiss";
 import { useFormat } from "@/lib/format";
 import { useSection } from "@/lib/i18n";
 
 type Row = LostScore | PotentialRow | PlayRow;
+
+export interface MenuHandle {
+  view: (from?: HTMLElement) => void;
+}
 
 function Figure({ label, tint = "text-meta", children }: { label: string; tint?: string; children: ReactNode }) {
   return (
@@ -94,7 +98,7 @@ function ScoreCard({ row, lost, titleId, onClose }: { row: Row; lost: boolean; t
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
         <Mods mods={row.mods} />
         {row.score_time && <span className="text-meta">{t("played", { date: f.day(row.score_time) })}</span>}
-        <MapStatus status={row.status} />
+        <StatusLabel status={row.status} />
       </div>
 
       {lost && row.kept_score !== null && row.kept_pp !== null && (
@@ -123,7 +127,7 @@ function ScoreCard({ row, lost, titleId, onClose }: { row: Row; lost: boolean; t
   );
 }
 
-export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
+export default function ScoreMenu({ row, lost, ref }: { row: Row; lost: boolean; ref?: Ref<MenuHandle> }) {
   const t = useSection("table");
   const [open, setOpen] = useState(false);
   const [shown, setShown] = useState(false);
@@ -131,6 +135,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
   const trigger = useRef<HTMLButtonElement>(null);
   const menu = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
   const titleId = useId();
   const close = useCallback(() => setOpen(false), []);
   useDismiss(open, close, box);
@@ -159,13 +164,18 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
       items[(next + items.length) % items.length].focus();
     }
   };
-  const view = () => {
-    close();
-    setShown(true);
-  };
+  const view = useCallback(
+    (from?: HTMLElement) => {
+      close();
+      opener.current = from ?? trigger.current;
+      setShown(true);
+    },
+    [close],
+  );
+  useImperativeHandle(ref, () => ({ view }), [view]);
   const hide = () => dialog.current?.close();
   return (
-    <div ref={box} className="relative justify-self-center">
+    <div ref={box} className="relative flex shrink-0">
       <button
         ref={trigger}
         type="button"
@@ -174,7 +184,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
         aria-label={t("actions")}
         title={t("actions")}
         onClick={() => setOpen((current) => !current)}
-        className="grid h-8 w-8 place-items-center rounded-full text-muted transition-colors hover:bg-btn hover:text-lbl aria-expanded:bg-btn aria-expanded:text-lbl"
+        className="grid w-8 place-items-center text-lbl/60 group-hover:text-lbl aria-expanded:text-lbl"
       >
         <MoreVertical aria-hidden size={18} />
       </button>
@@ -183,7 +193,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
           <button
             type="button"
             role="menuitem"
-            onClick={view}
+            onClick={() => view()}
             className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm text-lbl transition-colors hover:bg-btn focus-visible:bg-btn focus-visible:outline-none"
           >
             <Eye aria-hidden size={16} className="text-muted" />
@@ -208,7 +218,7 @@ export default function ScoreMenu({ row, lost }: { row: Row; lost: boolean }) {
           aria-labelledby={titleId}
           onClose={() => {
             setShown(false);
-            trigger.current?.focus();
+            (opener.current ?? trigger.current)?.focus();
           }}
           onClick={(event) => {
             if (event.target === dialog.current) {

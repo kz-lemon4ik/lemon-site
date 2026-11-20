@@ -1,89 +1,121 @@
+import { ChevronsUp, Heart, HelpCircle, TrendingDown } from "lucide-react";
+import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import { useSection } from "@/lib/i18n";
+import { useSection, type SectionKey } from "@/lib/i18n";
 
-const GRADES: Record<string, { label: string; color: string; name: string }> = {
-  XH: { label: "SS", color: "#dfe6ee", name: "Silver SS" },
-  X: { label: "SS", color: "#de31ae", name: "SS" },
-  SH: { label: "S", color: "#c8d3dd", name: "Silver S" },
-  S: { label: "S", color: "#02b5c3", name: "S" },
-  A: { label: "A", color: "#88da20", name: "A" },
-  B: { label: "B", color: "#e3b130", name: "B" },
-  C: { label: "C", color: "#ff8e5d", name: "C" },
-  D: { label: "D", color: "#ff5a5a", name: "D" },
+const GRADES: Record<string, { file: string; name: string }> = {
+  XH: { file: "SS-Silver", name: "Silver SS" },
+  X: { file: "SS", name: "SS" },
+  SH: { file: "S-Silver", name: "Silver S" },
+  S: { file: "S", name: "S" },
+  A: { file: "A", name: "A" },
+  B: { file: "B", name: "B" },
+  C: { file: "C", name: "C" },
+  D: { file: "D", name: "D" },
 };
 
 export function Grade({ grade }: { grade: string | null }) {
   const shown = grade ? GRADES[grade] : undefined;
   if (!shown) {
-    return <span aria-hidden className="h-6 w-11 shrink-0" />;
+    return <span aria-hidden className="h-5 w-10 shrink-0 sm:h-6 sm:w-12" />;
   }
+  return <img src={`/icons/grade-${shown.file}.svg`} alt={shown.name} title={shown.name} width={48} height={24} className="h-5 w-10 shrink-0 sm:h-6 sm:w-12" />;
+}
+
+const INCREASE = "#ff6666";
+const REDUCTION = "#b2ff66";
+const AUTOMATION = "#66ccff";
+const SYSTEM = "#ffcc22";
+
+const MOD_ICONS: Record<string, [string, string]> = {
+  HD: ["hidden", INCREASE],
+  DT: ["double-time", INCREASE],
+  NC: ["nightcore", INCREASE],
+  HR: ["hard-rock", INCREASE],
+  FL: ["flashlight", INCREASE],
+  SD: ["sudden-death", INCREASE],
+  PF: ["perfect", INCREASE],
+  EZ: ["easy", REDUCTION],
+  NF: ["no-fail", REDUCTION],
+  HT: ["half-time", REDUCTION],
+  SO: ["spun-out", AUTOMATION],
+  TD: ["touch-device", SYSTEM],
+};
+
+function masked(url: string): CSSProperties {
+  const mask = `url(${url}) center / contain no-repeat`;
+  return { mask, WebkitMask: mask };
+}
+
+function Mod({ mod }: { mod: string }) {
+  const icon = MOD_ICONS[mod];
+  const colour = icon?.[1] ?? SYSTEM;
+  const ink = `color-mix(in srgb-linear, black, ${colour} 10%)`;
   return (
-    <span
-      title={shown.name}
-      className="inline-grid h-6 w-11 shrink-0 place-items-center rounded-full text-[13px] font-semibold text-dark"
-      style={{ backgroundColor: shown.color }}
-    >
-      {shown.label}
+    <span title={mod} className="relative inline-block h-[23px] w-[33px] shrink-0" style={{ backgroundColor: colour, ...masked("/icons/mod-icon.svg") }}>
+      {icon ? (
+        <span className="absolute inset-0" style={{ backgroundColor: ink, ...masked(`/icons/mod-${icon[0]}.svg`) }} />
+      ) : (
+        <span className="absolute inset-0 grid place-items-center text-[10px] font-semibold" style={{ color: ink }}>
+          {mod}
+        </span>
+      )}
     </span>
   );
 }
 
-function modColor(mod: string): string {
-  if (["HD", "DT", "NC", "HR", "FL", "SD", "PF"].includes(mod)) {
-    return "#ff6666";
-  }
-  if (["EZ", "NF", "HT"].includes(mod)) {
-    return "#b3ff66";
-  }
-  if (["SO", "AP", "RX"].includes(mod)) {
-    return "#66ccff";
-  }
-  if (mod === "TD") {
-    return "#ffcc22";
-  }
-  return "#9aa0aa";
-}
+export const MOD_WIDTH = 37;
 
 export function Mods({ mods }: { mods: string[] }) {
   if (mods.length === 0) {
     return null;
   }
   return (
-    <span className="inline-flex flex-wrap gap-1" aria-label={mods.join(" ")}>
+    <span role="img" aria-label={mods.join(" ")} className="inline-flex flex-wrap gap-1">
       {mods.map((mod, index) => (
-        <span
-          key={`${mod}-${index}`}
-          aria-hidden
-          className="inline-grid h-[17px] min-w-[26px] place-items-center rounded-[5px] px-1 text-[11px] font-semibold text-dark"
-          style={{ backgroundColor: modColor(mod) }}
-        >
-          {mod}
-        </span>
+        <Mod key={`${mod}-${index}`} mod={mod} />
       ))}
     </span>
   );
 }
 
-const MAP_STATUS: Record<string, { label: string; background: string; color: string }> = {
-  loved: { label: "loved", background: "#ff66ab", color: "#1b1825" },
-  qualified: { label: "qualified", background: "#66ccff", color: "#1b1825" },
-  pending: { label: "pending", background: "#55535c", color: "#e5e2ec" },
-  wip: { label: "WIP", background: "#55535c", color: "#e5e2ec" },
-  graveyard: { label: "graveyard", background: "#55535c", color: "#e5e2ec" },
-  unknown: { label: "unknown", background: "#3a3743", color: "#9f9aac" },
-};
+const STATUSES = new Set(["ranked", "approved", "qualified", "loved", "pending", "wip", "graveyard"]);
 
-export function MapStatus({ status }: { status: string | null }) {
-  const shown = status ? MAP_STATUS[status] : undefined;
-  if (!shown) {
-    return null;
+function statusName(status: string | null, lost: boolean): string {
+  return lost ? "lost" : status && STATUSES.has(status) ? status : "unknown";
+}
+
+function StatusGlyph({ name }: { name: string }) {
+  if (name === "lost") {
+    return <TrendingDown aria-hidden size={19} strokeWidth={2.6} className="text-down" />;
   }
+  if (name === "ranked" || name === "approved") {
+    return <ChevronsUp aria-hidden size={19} strokeWidth={2.6} className="text-ranked" />;
+  }
+  if (name === "loved") {
+    return <Heart aria-hidden size={16} fill="currentColor" className="text-loved" />;
+  }
+  return <HelpCircle aria-hidden size={17} className="text-meta" />;
+}
+
+export function StatusIcon({ status, lost = false }: { status: string | null; lost?: boolean }) {
+  const t = useSection("table");
+  const name = statusName(status, lost);
+  const label = t(`status.${name}` as SectionKey<"table">);
   return (
-    <span
-      className="inline-grid h-[17px] shrink-0 place-items-center rounded px-1.5 text-[11px] font-semibold"
-      style={{ backgroundColor: shown.background, color: shown.color }}
-    >
-      {shown.label}
+    <span role="img" aria-label={label} title={label} className="grid place-items-center">
+      <StatusGlyph name={name} />
+    </span>
+  );
+}
+
+export function StatusLabel({ status }: { status: string | null }) {
+  const t = useSection("table");
+  const name = statusName(status, false);
+  return (
+    <span className="inline-flex items-center gap-1.5 text-meta">
+      <StatusGlyph name={name} />
+      {t(`status.${name}` as SectionKey<"table">)}
     </span>
   );
 }

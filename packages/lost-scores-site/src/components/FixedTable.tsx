@@ -1,13 +1,13 @@
 import { TrendingUp } from "lucide-react";
 import type { CSSProperties } from "react";
-import { Grade, Mods } from "@/components/Chips";
+import { Grade, MOD_WIDTH, Mods, StatusIcon } from "@/components/Chips";
 import { Message } from "@/components/States";
 import { mapUrl, type Fix } from "@/lib/api";
 import { useFormat, type Format } from "@/lib/format";
 import { useSection } from "@/lib/i18n";
 
 const GRID =
-  "grid-cols-[44px_minmax(0,1fr)_5.25rem] sm:grid-cols-[44px_minmax(0,1fr)_var(--mods)_76px_100px] lg:grid-cols-[44px_minmax(0,1fr)_var(--mods)_128px_76px_126px]";
+  "grid-cols-[18px_40px_minmax(0,1fr)_5rem] sm:grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_64px_6.5rem] lg:grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_128px_64px_6.5rem]";
 
 function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unknown: string }) {
   const map = mapUrl(fix.beatmap_id);
@@ -15,31 +15,39 @@ function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unkn
   const accuracy = fix.accuracy !== null ? f.accuracy(fix.accuracy) : "";
   const gain = fix.pp !== null ? fix.pp - fix.kept_pp : null;
   const at = fix.fixed_at * 1000;
+  const names = (
+    <>
+      <span className="min-w-0 truncate text-[15px] font-medium text-lbl decoration-lbl/40 underline-offset-2 group-hover/map:underline">{title}</span>
+      {fix.artist && (
+        <span className="hidden min-w-[3rem] shrink-[2] truncate text-[13px] text-by decoration-by/40 underline-offset-2 group-hover/map:underline sm:inline">
+          {by} {fix.artist}
+        </span>
+      )}
+    </>
+  );
   return (
-    <li className={`grid min-h-[58px] items-center gap-x-3 rounded-lg bg-row py-0.5 pl-3 pr-0.5 sm:gap-x-3.5 ${GRID}`}>
+    <li className={`group grid min-h-[58px] items-center gap-x-2 rounded-lg bg-row py-0.5 pl-2 pr-0.5 hover:bg-row-hover sm:gap-x-3.5 sm:pl-3 ${GRID}`}>
+      <StatusIcon status={fix.status} />
       <Grade grade={fix.grade} />
       <div className="min-w-0 py-1.5">
-        <p className="flex min-w-0 items-baseline gap-2">
+        <p className="flex min-w-0">
           {map ? (
-            <a href={map} className="truncate text-[15px] font-medium text-lbl decoration-lbl/40 underline-offset-2 hover:underline">
-              {title}
+            <a href={map} className="group/map inline-flex min-w-0 max-w-full items-baseline gap-2">
+              {names}
             </a>
           ) : (
-            <span className="truncate text-[15px] font-medium text-lbl">{title}</span>
-          )}
-          {fix.artist && (
-            <span className="hidden min-w-[3rem] truncate text-[13px] text-by sm:inline">
-              {by} {fix.artist}
-            </span>
+            <span className="inline-flex min-w-0 max-w-full items-baseline gap-2">{names}</span>
           )}
         </p>
         <p className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12.5px]">
-          <span className="shrink-0 sm:hidden">
+          <span className="min-w-0 sm:hidden">
             <Mods mods={fix.mods} />
           </span>
           {accuracy && <span className="shrink-0 tabular-nums text-lbl sm:hidden">{accuracy}</span>}
           {fix.version && <span className="min-w-0 truncate text-acc">{fix.version}</span>}
-          <span className="shrink-0 text-meta lg:hidden">{f.ago(at)}</span>
+          <time dateTime={new Date(at).toISOString()} title={f.moment(at)} className="shrink-0 text-meta lg:hidden">
+            {f.ago(at)}
+          </time>
         </p>
       </div>
       <span className="hidden sm:block">
@@ -74,10 +82,11 @@ export default function FixedTable({ fixes, total, more, busy }: { fixes: Fix[];
     return <Message title={t("noneTitle")}>{t("none")}</Message>;
   }
   const widest = Math.max(1, ...fixes.map((fix) => fix.mods.length));
-  const style = { "--mods": `${widest * 30 - 4}px` } as CSSProperties;
+  const style = { "--mods": `${widest * MOD_WIDTH - 4}px` } as CSSProperties;
   return (
     <div style={style} className="pt-3">
       <div aria-hidden className={`hidden items-end gap-x-3.5 pb-2 pl-3 pr-0.5 text-xs text-meta sm:grid ${GRID}`}>
+        <span />
         <span />
         <span>{table("beatmap")}</span>
         <span>{table("mods")}</span>

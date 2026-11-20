@@ -19,6 +19,7 @@ export interface Format {
   tenths: (value: number) => string;
   accuracy: (value: number) => string;
   day: (value: string | number) => string;
+  moment: (value: string | number) => string;
   ago: (value: string | number, now?: number) => string;
   size: (bytes: number) => string;
 }
@@ -28,6 +29,7 @@ function formatter(locale: string, words: Dict["format"]): Format {
   const tenths = new Intl.NumberFormat(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const hundredths = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const relative = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
+  const clock = new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit" });
   const months = words.months.length === 12 ? words.months : enDict.format.months;
   return {
     whole: (value) => whole.format(value),
@@ -39,6 +41,10 @@ function formatter(locale: string, words: Dict["format"]): Format {
     day: (value) => {
       const date = new Date(value);
       return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    },
+    moment: (value) => {
+      const date = new Date(value);
+      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}, ${clock.format(date)}`;
     },
     ago: (value, now = Date.now()) => {
       const seconds = (new Date(value).getTime() - now) / 1000;

@@ -42,7 +42,7 @@
     "donate": "Поддержать",
     "madeBy": "Автор:",
     "notPpy": "проект не связан с ppy",
-    "credits": "Эмодзи лимона: Twemoji, CC BY 4.0 · Шрифты Fredoka и Nunito, SIL OFL 1.1 · Аватарки: osu!"
+    "credits": "Эмодзи лимона: Twemoji, CC BY 4.0 · Шрифты Fredoka и Nunito, SIL OFL 1.1 · Значки оценок и модов: osu-web, AGPL-3.0 · Аватарки: osu!"
   },
   "settings": {
     "theme": "Тема",
@@ -78,7 +78,18 @@
     "miss": "Промахи",
     "mappedBy": "маппер {{name}}",
     "played": "Сыгран {{date}}",
-    "keptBy": "osu! оставил скор со счётом {{score}} и {{pp}}"
+    "keptBy": "osu! оставил скор со счётом {{score}} и {{pp}}",
+    "status": {
+      "lost": "Потерянный скор",
+      "ranked": "Рейтинговая",
+      "approved": "Одобренная",
+      "qualified": "Квалифицированная",
+      "loved": "Любимая",
+      "pending": "На рассмотрении",
+      "wip": "В работе",
+      "graveyard": "Заброшенная",
+      "unknown": "Статус неизвестен"
+    }
   },
   "chart": {
     "title": "pp по вашим сканам",
