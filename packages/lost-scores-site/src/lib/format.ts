@@ -24,7 +24,9 @@ export interface Format {
   size: (bytes: number) => string;
 }
 
-function formatter(locale: string, words: Dict["format"]): Format {
+type Words = Dict["format"] & { ago?: Partial<Record<string, string>> };
+
+function formatter(locale: string, words: Words): Format {
   const whole = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
   const tenths = new Intl.NumberFormat(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const hundredths = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -50,7 +52,9 @@ function formatter(locale: string, words: Dict["format"]): Format {
       const seconds = (new Date(value).getTime() - now) / 1000;
       for (const [unit, size] of STEPS) {
         if (Math.abs(seconds) >= size) {
-          return relative.format(Math.round(seconds / size), unit);
+          const count = Math.round(seconds / size);
+          const own = count < 0 ? (count === -1 ? words.ago?.[`${unit}1`] : undefined) ?? words.ago?.[unit] : undefined;
+          return own ? own.replace("{{count}}", whole.format(-count)) : relative.format(count, unit);
         }
       }
       return words.justNow;
@@ -61,5 +65,5 @@ function formatter(locale: string, words: Dict["format"]): Format {
 
 export function useFormat(): Format {
   const { language, dict } = useLang();
-  return useMemo(() => formatter(language.locale, { ...enDict.format, ...dict.format }), [language, dict]);
+  return useMemo(() => formatter(language.numbers ?? language.locale, { ...enDict.format, ...dict.format }), [language, dict]);
 }

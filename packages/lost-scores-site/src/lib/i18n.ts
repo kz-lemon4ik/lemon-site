@@ -9,6 +9,7 @@ export interface Language {
   name: string;
   flag: string;
   locale: string;
+  numbers?: string;
 }
 
 export const LANGS: Language[] = languages;
@@ -81,7 +82,7 @@ export function renderRich(text: string, parts: Parts): ReactNode {
 
 export function translator(language: Language, dict: Dict): Translator {
   const rules = new Intl.PluralRules(language.locale);
-  const numbers = new Intl.NumberFormat(language.locale);
+  const numbers = new Intl.NumberFormat(language.numbers ?? language.locale);
   const find = (key: string): unknown => walk(dict, key) ?? walk(en, key);
   const fill = (text: string, vars?: Vars) =>
     text.replace(/\{\{(\w+)\}\}/g, (match, name: string) => {
