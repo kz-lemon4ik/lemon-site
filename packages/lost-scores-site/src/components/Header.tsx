@@ -10,6 +10,7 @@ import { LOGIN_URL, admin, type Me } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
 import { useDismiss } from "@/lib/dismiss";
+import { flagOf } from "@/lib/flag";
 import { LANGS, useLang, useSection, type Words } from "@/lib/i18n";
 import { useScrolled } from "@/lib/scroll";
 import { useSlider } from "@/lib/slider";
@@ -55,7 +56,7 @@ function AvatarCircle({ me, large }: { me: Me | null; large: boolean }) {
       ) : (
         <User aria-hidden className="absolute inset-0 m-auto h-1/2 w-1/2 text-muted" />
       )}
-      <span className="absolute inset-0 rounded-full ring-[3px] ring-inset ring-transparent transition-shadow duration-200 group-hover:ring-acc group-focus-visible:ring-acc" />
+      <span className={`absolute inset-0 rounded-full ring-[3px] ring-inset ring-transparent transition-shadow duration-200 ${me ? "group-hover:ring-white group-focus-visible:ring-white" : "group-hover:ring-acc group-focus-visible:ring-acc"}`} />
     </span>
   );
 }
@@ -126,7 +127,7 @@ function MenuItems({ me, flagged, close, t }: { me: Me | null; flagged: number |
             className={`${ITEM} relative pl-5 ${item.id === language.id ? "" : "text-muted"}`}
           >
             {item.id === language.id && <span aria-hidden className="absolute inset-y-2.5 left-2 w-1 rounded-full bg-acc" />}
-            <Flag code={item.flag} className="!h-5 !w-5" />
+            <Flag code={flagOf(item)} className="!h-5 !w-5" />
             {item.name}
           </button>
         ))}
