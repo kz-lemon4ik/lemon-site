@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
-import { Check } from "@/components/Chips";
+import { CheckMark } from "@/components/Chips";
 import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import ModeSwitch from "@/components/ModeSwitch";
 import ScoreTable from "@/components/ScoreTable";
@@ -156,13 +156,13 @@ function PlayerRow({ row, mine, world }: { row: RankingRow; mine: boolean; world
             {world ? <span className="block text-sm text-meta">{world}</span> : row.scan_date && <span className="block text-sm text-meta">{f.ago(row.scan_date)}</span>}
           </span>
         </span>
-        <span className="text-right text-lg font-semibold text-up md:text-left">{f.gain(row.total_pp_gain)}</span>
+        <span className="text-right text-lg text-up md:text-left">{f.gain(row.total_pp_gain)}</span>
         <span className="hidden text-ink md:block">
           {f.whole(row.current_pp)} → <span className="font-semibold text-up">{f.whole(row.potential_pp)}</span>
         </span>
         <span className="hidden text-ink lg:block">{f.whole(row.lost_scores_count)}</span>
         <span className="hidden md:block">
-          <Check verified={row.verified} />
+          <CheckMark verified={row.verified} />
         </span>
       </Link>
     </li>
@@ -205,6 +205,12 @@ function PlayersView({ t }: { t: Text }) {
     return () => controller.abort();
   }, [me, page, setParams]);
   const [load, retry] = useLoad<Hall>((signal) => api.rankings((page - 1) * SIZE, SIZE, signal), String(page));
+  const ready = load.status === "ready";
+  useEffect(() => {
+    if (ready) {
+      void Promise.allSettled([api.plays(0, SIZE, false), api.players(FEATURED), api.notable()]);
+    }
+  }, [ready]);
 
   return (
     <>

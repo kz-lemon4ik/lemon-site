@@ -1,4 +1,4 @@
-import { ChevronsUp, Heart, HelpCircle, TrendingDown } from "lucide-react";
+import { CheckCircle2, ChevronsUp, Heart, HelpCircle, TrendingDown } from "lucide-react";
 import type { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { useSection, type SectionKey } from "@/lib/i18n";
@@ -116,6 +116,17 @@ export function StatusLabel({ status }: { status: string | null }) {
     <span className="inline-flex items-center gap-1.5 text-meta">
       <StatusGlyph name={name} />
       {t(`status.${name}` as SectionKey<"table">)}
+    </span>
+  );
+}
+
+export function CheckMark({ verified }: { verified: boolean }) {
+  const t = useSection("check");
+  const label = verified ? `${t("verified")}. ${t("verifiedHint")}` : `${t("checking")}. ${t("checkingHint")}`;
+  const Icon = verified ? CheckCircle2 : HelpCircle;
+  return (
+    <span role="img" aria-label={label} title={label} className="inline-grid place-items-center">
+      <Icon aria-hidden size={20} className={verified ? "text-up" : "text-meta"} />
     </span>
   );
 }

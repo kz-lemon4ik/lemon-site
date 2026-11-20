@@ -179,6 +179,19 @@ async function get<T>(path: string, signal?: AbortSignal): Promise<T> {
   return (await response.json()) as T;
 }
 
+const SHARED_MS = 60_000;
+const recent = new Map<string, { at: number; data: unknown }>();
+
+async function shared<T>(path: string, signal?: AbortSignal): Promise<T> {
+  const known = recent.get(path);
+  if (known && Date.now() - known.at < SHARED_MS) {
+    return known.data as T;
+  }
+  const data = await get<T>(path, signal);
+  recent.set(path, { at: Date.now(), data });
+  return data;
+}
+
 async function remove(path: string): Promise<void> {
   const response = await fetch(path, { method: "DELETE", headers: { accept: "application/json" } });
   if (!response.ok) {
@@ -266,11 +279,11 @@ export const admin = {
 export const LOGIN_URL = "/api/auth/web-login";
 
 export const api = {
-  rankings: (offset: number, limit: number, signal?: AbortSignal) => get<Hall>(`/api/submissions/list?offset=${offset}&limit=${limit}`, signal),
-  players: (ids: number[], signal?: AbortSignal) => get<Hall>(`/api/submissions/list?ids=${ids.join(",")}&limit=${ids.length}`, signal),
-  notable: (signal?: AbortSignal) => get<Hall>("/api/submissions/list?notable=1", signal),
+  rankings: (offset: number, limit: number, signal?: AbortSignal) => shared<Hall>(`/api/submissions/list?offset=${offset}&limit=${limit}`, signal),
+  players: (ids: number[], signal?: AbortSignal) => shared<Hall>(`/api/submissions/list?ids=${ids.join(",")}&limit=${ids.length}`, signal),
+  notable: (signal?: AbortSignal) => shared<Hall>("/api/submissions/list?notable=1", signal),
   plays: (offset: number, limit: number, replay: boolean, signal?: AbortSignal) =>
-    get<Plays>(`/api/plays?offset=${offset}&limit=${limit}${replay ? "&replay=1" : ""}`, signal),
+    shared<Plays>(`/api/plays?offset=${offset}&limit=${limit}${replay ? "&replay=1" : ""}`, signal),
   player: (id: string, query: PageQuery, signal?: AbortSignal) => get<ScanPage>(`/api/submissions/${encodeURIComponent(id)}?${page(query)}`, signal),
   progress: (osuId: number, offset: number, limit: number, signal?: AbortSignal) =>
     get<Progress>(`/api/v1/progress/${osuId}?offset=${offset}&limit=${limit}`, signal),
