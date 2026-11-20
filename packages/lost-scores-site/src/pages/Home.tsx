@@ -1,4 +1,4 @@
-import { ChevronDown, Download, FolderOpen, ScanSearch, Share2 } from "lucide-react";
+import { ChevronDown, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Art from "@/components/Art";
@@ -118,8 +118,6 @@ function LiveBadge({ page, t }: { page: Banner; t: Text }) {
   );
 }
 
-const STEP_ICONS = [FolderOpen, ScanSearch, Share2];
-
 export default function Home() {
   const t = useSection("home");
   useTitle();
@@ -188,18 +186,13 @@ export default function Home() {
         <h2 className="text-3xl">{t("howTitle")}</h2>
         <p className="mt-1 text-muted">{t("howHint")}</p>
         <ol className="mt-6 grid gap-4 md:grid-cols-3">
-          {t.raw<{ title: string; text: string }[]>("steps").map((step, index) => {
-            const Icon = STEP_ICONS[index] ?? Share2;
-            return (
-              <li key={step.title} className="rounded-2xl bg-card p-5 sm:p-6">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-btn text-acc">
-                  <Icon aria-hidden size={19} />
-                </span>
-                <h3 className="mt-3 text-xl">{step.title}</h3>
-                <p className="mt-1 text-muted">{step.text}</p>
-              </li>
-            );
-          })}
+          {t.raw<{ title: string; text: string }[]>("steps").map((step, index) => (
+            <li key={step.title} className="rounded-2xl bg-card p-5 sm:p-6">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-btn font-semibold text-acc">{index + 1}</span>
+              <h3 className="mt-3 text-xl">{step.title}</h3>
+              <p className="mt-1 text-muted">{step.text}</p>
+            </li>
+          ))}
         </ol>
         <div className="mt-10">{program}</div>
         <div className="mt-10">
