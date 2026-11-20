@@ -1,0 +1,542 @@
+{
+  "format": {
+    "months": [
+      "gen",
+      "feb",
+      "mar",
+      "apr",
+      "mag",
+      "giu",
+      "lug",
+      "ago",
+      "set",
+      "ott",
+      "nov",
+      "dic"
+    ],
+    "justNow": "proprio ora",
+    "mb": "MB"
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "rankings": "Hall of Copium",
+      "download": "Download",
+      "faq": "FAQ"
+    },
+    "logIn": "Accedi",
+    "logInOsu": "Accedi con osu!",
+    "logOut": "Esci",
+    "profile": "Il tuo profilo",
+    "accountOf": "Menu dell'account di {{name}}",
+    "language": "Lingua",
+    "settings": "Impostazioni",
+    "openMenu": "Apri il menu",
+    "closeMenu": "Chiudi il menu",
+    "mainNav": "Principale",
+    "admin": "Amministrazione",
+    "flaggedWaiting": "{{count}} scansioni segnalate aspettano te",
+    "back": "Indietro"
+  },
+  "footer": {
+    "privacy": "Privacy",
+    "nav": "Piè di pagina",
+    "contact": "Contatti",
+    "donate": "Dona",
+    "madeBy": "Creato da",
+    "notPpy": "non affiliato a ppy",
+    "credits": "Emoji del limone e bandiere: Twemoji, CC BY 4.0 · Font Fredoka e Nunito, SIL OFL 1.1 · Icone di gradi e mod: osu-web, AGPL-3.0 · Avatar da osu!"
+  },
+  "settings": {
+    "theme": "Tema",
+    "dark": "Scuro",
+    "light": "Chiaro",
+    "lightTheme": "Tema chiaro",
+    "animations": "Animazioni",
+    "animationsHint": "Movimento dello sfondo e transizioni"
+  },
+  "check": {
+    "verified": "verificato",
+    "verifiedHint": "I punteggi che decidono la posizione sono stati confrontati con osu!",
+    "checking": "in verifica",
+    "checkingHint": "In attesa del confronto con osu!",
+    "more": "Clicca per vedere cosa viene verificato."
+  },
+  "loading": "Caricamento",
+  "table": {
+    "beatmap": "Beatmap",
+    "player": "Giocatore",
+    "mods": "Mod",
+    "score": "Punteggio",
+    "accuracy": "Precisione",
+    "by": "di",
+    "unknown": "Mappa sconosciuta",
+    "keptPp": "osu! ha tenuto {{pp}}",
+    "lostOnMap": "Perso su questa mappa: {{pp}}",
+    "actions": "Azioni del punteggio",
+    "viewScore": "Vedi il punteggio",
+    "downloadReplay": "Scarica il replay",
+    "openMap": "Apri su osu!",
+    "close": "Chiudi",
+    "miss": "Miss",
+    "mappedBy": "mappata da {{name}}",
+    "played": "Giocato il {{date}}",
+    "keptBy": "osu! ha tenuto un punteggio da {{score}} punti e {{pp}}",
+    "status": {
+      "lost": "Punteggio perso",
+      "ranked": "Classificata",
+      "approved": "Approvata",
+      "qualified": "Qualificata",
+      "loved": "Amata",
+      "pending": "In attesa",
+      "wip": "WIP",
+      "graveyard": "Abbandonata",
+      "unknown": "Stato sconosciuto"
+    }
+  },
+  "chart": {
+    "title": "pp nelle tue scansioni",
+    "profile": "profilo",
+    "potential": "con i punteggi persi",
+    "label": "pp del profilo e pp con i punteggi persi per ogni scansione"
+  },
+  "zoom": {
+    "open": "Apri l'immagine a grandezza piena",
+    "close": "Chiudi"
+  },
+  "notFound": {
+    "title": "Non trovata",
+    "heading": "Anche questa pagina si è persa",
+    "text": "Forse l'ha sostituita una pagina con un punteggio più alto.",
+    "home": "Home"
+  },
+  "login": {
+    "errors": {
+      "access_denied": "Hai scelto di non autorizzare Lost Scores su osu!. Non è stato salvato nulla.",
+      "login_expired": "L'accesso ha impiegato troppo tempo o è stato aperto due volte.",
+      "osu_refused": "osu! non ha risposto come previsto.",
+      "busy": "Troppe persone stanno accedendo in questo momento."
+    },
+    "failedTitle": "Accesso non riuscito",
+    "failedPage": "Accesso non riuscito",
+    "unknownError": "Qualcosa è andato storto al ritorno da osu!.",
+    "tryAgain": "Riprova.",
+    "fromProgram": "Se stavi accedendo dal programma, riavvia l'accesso da lì.",
+    "logIn": "Accedi con osu!",
+    "toHome": "Vai alla home tra {{left}} s.",
+    "okTitle": "Accesso riuscito",
+    "okPage": "Accesso effettuato",
+    "welcome": "Ciao, {{name}}!",
+    "desktop": "Hai effettuato l'accesso con osu!. Torna a Lost Scores: il programma ha il tuo accesso.",
+    "desktopNote": "Da ora ogni scansione viene salvata nel tuo profilo, dove la vedi solo tu finché non premi Share.",
+    "privacy": "Privacy",
+    "stayed": "Il browser ha lasciato aperta questa scheda. Puoi chiuderla tu.",
+    "closing": "Questa scheda si chiude tra {{left}} s.",
+    "web": "Hai effettuato l'accesso con osu!. Le tue scansioni dal programma sono nel tuo profilo.",
+    "myProfile": "Il mio profilo",
+    "toProfile": "Apro il tuo profilo tra {{left}} s.",
+    "toBack": "Ti riporto alla pagina tra {{left}} s.",
+    "alreadyTitle": "Hai già effettuato l'accesso",
+    "already": "L'accesso su osu! non si è concluso, ma questo browser ha già effettuato l'accesso."
+  },
+  "home": {
+    "tagline": "Scopri quanti <pp>pp</pp> peppy non ti ha mai dato.",
+    "intro": "Fino a ottobre 2024 osu! teneva il punteggio con più punti, anche quando un altro valeva più pp. Lost Scores ritrova quei punteggi nei tuoi replay.",
+    "downloadFor": "Scarica per {{system}}",
+    "download": "Scarica",
+    "version": "Versione {{version}} · {{size}}",
+    "allSystems": "Per Windows, macOS e Linux",
+    "alsoFor": "Anche per",
+    "and": " e ",
+    "free": "gratuito e open source",
+    "toHow": "Scorri fino a come funziona",
+    "howTitle": "Come funziona",
+    "howHint": "La prima scansione può richiedere qualche minuto mentre si caricano le mappe. Dopo bastano pochi secondi.",
+    "steps": [
+      {
+        "title": "Indica la cartella di osu!",
+        "text": "Il programma trova la tua cartella di osu! e legge i replay salvati. Nella cartella non cambia nulla."
+      },
+      {
+        "title": "Scansiona",
+        "text": "Ogni replay riceve i suoi pp. I punteggi che valgono più di quanto mostra il profilo sono i tuoi punteggi persi."
+      },
+      {
+        "title": "Condividi",
+        "text": "Crea immagini per i tuoi amici o pubblica la scansione nella Hall of Copium."
+      }
+    ],
+    "window": "La finestra di Lost Scores con la scansione di {{name}}",
+    "profileOf": "Profilo di {{name}}",
+    "sampleCard": "Una scheda condivisa creata da Lost Scores",
+    "badgeLost_one": "{{count}} punteggio perso, {{ranked}} classificati",
+    "badgeLost_other": "{{count}} punteggi persi, {{ranked}} classificati"
+  },
+  "download": {
+    "title": "Download",
+    "subtitle": "Gratuito e open source, per Windows, macOS e Linux",
+    "platforms": {
+      "windows": {
+        "needs": "Windows 10 o 11, 64 bit",
+        "how": "Un solo file, senza installazione. Mettilo dove vuoi e avvialo."
+      },
+      "macos": {
+        "needs": "macOS 11 o successivo su Apple Silicon",
+        "how": "Estrai l'archivio e sposta Lost Scores in Applicazioni. Su Mac osu! gira con Wine, quindi scegli la sua cartella di osu! con il pulsante della cartella."
+      },
+      "linux": {
+        "needs": "64 bit, glibc 2.35 o successiva",
+        "how": "Estrai l'archivio e avvia ./lost-scores-gui, oppure ./install.sh per aggiungerlo al menu delle applicazioni."
+      }
+    },
+    "looking": "Cerco l'ultima versione…",
+    "whatsNew": "Novità",
+    "mirror": "GitHub non ha risposto, quindi i file arrivano dal nostro mirror. Sono gli stessi file firmati.",
+    "soon": "La prima versione arriverà presto. Apparirà qui e su GitHub.",
+    "githubDown": "GitHub non ha risposto. I file sono nella <link>pagina delle versioni</link>.",
+    "yourSystem": "il tuo sistema",
+    "download": "Scarica",
+    "notYet": "Non ancora disponibile",
+    "needTitle": "Cosa serve",
+    "need": [
+      "osu!stable con i tuoi replay. Il programma legge soltanto la cartella di osu! e non la modifica mai.",
+      "Il tuo account osu! per accedere, oppure le chiavi di una tua applicazione OAuth di osu!."
+    ],
+    "firstTitle": "Primo avvio",
+    "first": [
+      {
+        "system": "Windows:",
+        "text": "SmartScreen può dire \"Windows ha protetto il PC\". Scegli \"Ulteriori informazioni\", poi \"Esegui comunque\". Con Smart App Control attivo su Windows 11 il programma non può avviarsi finché le sue build non sono firmate."
+      },
+      {
+        "system": "macOS 15 e successivi:",
+        "text": "il sistema dice che non può verificare Lost Scores. Scegli Fine, apri Impostazioni di Sistema, Privacy e sicurezza, e scegli \"Apri comunque\" accanto a Lost Scores."
+      },
+      {
+        "system": "macOS 14 e precedenti:",
+        "text": "fai Ctrl-clic su Lost Scores, scegli Apri, poi di nuovo Apri."
+      }
+    ],
+    "updatesTitle": "Aggiornamenti",
+    "updates": "Una volta al giorno il programma cerca una nuova versione. La installa solo se la firma corrisponde, e la nuova versione parte al prossimo avvio del programma.",
+    "checkTitle": "Verifica un download",
+    "cliTitle": "Riga di comando e codice sorgente",
+    "cli": "La versione a riga di comando, <code>lost-scores</code>, è inclusa nell'archivio per Linux e come file separati per Windows e macOS nella <release>pagina della versione</release>. Il codice sorgente è su <github>GitHub</github> con licenza AGPL-3.0.",
+    "nextTitle": "Dopo la prima scansione",
+    "next": "Accedi con osu! nel programma e ogni scansione viene salvata nel tuo profilo, dove la vedi solo tu. Premi Share su una scansione per pubblicarla nella Hall of Copium, con o senza replay.",
+    "check": "Ogni versione ha un elenco di checksum firmato con <minisign>minisign</minisign>. Scarica <sums/> e <signature/> accanto al file, poi esegui:",
+    "versionLine": "Versione <v>{{version}}</v>, pubblicata il {{day}}"
+  },
+  "hall": {
+    "subtitle": "I giocatori a cui la vecchia regola di osu! sui punteggi ha tolto più pp",
+    "tabsLabel": "Hall of Copium",
+    "players": "Giocatori",
+    "plays": "Punteggi",
+    "find": "Cerca un giocatore",
+    "open": "Apri il profilo",
+    "globalRank": "#{{rank}} nel mondo",
+    "failedTitle": "La Hall of Copium non si è caricata",
+    "failed": "Il server non ha risposto. Riprova tra un minuto.",
+    "tryAgain": "Riprova",
+    "emptyTitle": "Qui non c'è ancora nessuno",
+    "empty": "Scansiona i tuoi replay nel programma, poi premi Share per essere il primo.",
+    "get": "Scarica Lost Scores",
+    "player": "Giocatore",
+    "lost": "Persi",
+    "profilePp": "pp del profilo",
+    "lostPlays": "Punteggi persi",
+    "check": "Verifica",
+    "note": "Una scansione verificata ha avuto i punteggi che ne decidono la posizione confrontati con osu!. Le altre aspettano quel confronto.",
+    "playsIntro": "I singoli punteggi che hanno perso più pp: quanto valeva il punteggio rispetto a quello che osu! ha tenuto sulla stessa mappa. Al massimo cinque per giocatore, solo da scansioni verificate.",
+    "allPlays": "Tutti",
+    "withReplay": "Con replay",
+    "replayLabel": "Solo i punteggi con un replay condiviso",
+    "noPlaysTitle": "Ancora nessun punteggio",
+    "noPlays": "I punteggi compaiono qui quando le scansioni pubblicate superano il confronto con osu!.",
+    "noReplays": "Nessuno ha ancora condiviso il replay di un punteggio perso.",
+    "previous": "Pagina precedente",
+    "next": "Pagina successiva",
+    "pageOf": "Pagina {{page}}",
+    "known": "Famosi",
+    "knownIntro": "Giocatori della top 50 mondiale e alcune leggende, quando pubblicano una scansione.",
+    "noKnownTitle": "Ancora nessun giocatore famoso",
+    "noKnown": "Appena un giocatore della top 50 o una leggenda pubblica una scansione, compare qui."
+  },
+  "profile": {
+    "profilePp": "pp del profilo",
+    "lostPlays": "Punteggi persi",
+    "withLoved": "su {{total}} con amate e non classificate",
+    "globalRank": "Posizione globale",
+    "scanned": "Scansione",
+    "osuProfile": "Profilo su osu!",
+    "tabsLabel": "Profilo",
+    "tabLost": "Punteggi persi",
+    "tabPotential": "Potential Top",
+    "tabScans": "Le tue scansioni",
+    "private": "privata",
+    "checkFailed": "verifica non riuscita",
+    "hidden": "nascosta",
+    "hiddenHint": "Questa scansione non compare nella Hall of Copium",
+    "unpublish": "Ritira",
+    "unpublishHint": "Togli questa scansione dalla Hall of Copium. Resta qui e la vedi solo tu.",
+    "delete": "Elimina",
+    "deleteHint": "Rimuovi per sempre questa scansione e i suoi replay dal server.",
+    "confirmAgain": "Clicca di nuovo per confermare",
+    "actionFailed": "Non ha funzionato. Riprova tra un minuto.",
+    "noScansTitle": "Ancora nessuna scansione",
+    "noScans": "Accedi con osu! nel programma e ogni scansione verrà salvata qui. Le vedi solo tu.",
+    "scanOf": " su {{total}}",
+    "topFailed": "La Potential Top non si è caricata",
+    "tryAgain": "Riprova",
+    "noTopTitle": "Nessuna Potential Top",
+    "noTop": "Questa scansione è stata fatta senza la top online.",
+    "topIntro": "La top {{size}} se i punteggi persi contassero. {{inTop}} di loro ci entrano, e la precisione sarebbe {{to}} invece di {{from}}.",
+    "noScanTitle": "Ancora nessuna scansione pubblicata",
+    "noScan": "Se sei tu, accedi per vedere le scansioni salvate dal programma.",
+    "logIn": "Accedi",
+    "hallPlace": "#{{place}} nella Hall of Copium",
+    "sortLabel": "Ordina per pp persi su ogni mappa",
+    "byPp": "Per pp",
+    "byGap": "Per pp persi",
+    "privateNote": "Questa scansione la vedi solo tu. Per pubblicarla, aprila nel programma e premi Share.",
+    "backToPublished": "Torna a quella pubblicata",
+    "loadFailedTitle": "Questo profilo non si è caricato",
+    "loadFailed": "Il server non ha risposto. Riprova tra un minuto.",
+    "goneTitle": "Questa scansione non c'è più",
+    "nothingTitle": "Ancora niente di pubblicato",
+    "gone": "È stata eliminata o sostituita da scansioni più recenti.",
+    "nothing": "Le tue scansioni sono salvate qui in privato. Premi Share nel programma per pubblicarne una nella Hall of Copium.",
+    "noLostTitle": "Nessun punteggio perso",
+    "noLost": "Questa scansione non ha trovato punteggi sostituiti da uno con più punti.",
+    "loading": "Caricamento…",
+    "showMore": "Mostra altri",
+    "topIntroShort": "La top {{size}} se i punteggi persi contassero. {{inTop}} di loro ci entrano.",
+    "scanLost_one": "{{count}} punteggio perso",
+    "scanLost_other": "{{count}} punteggi persi",
+    "potentialRank": "Posizione potenziale",
+    "potentialPp": "pp potenziali",
+    "potentialAccuracy": "Precisione potenziale",
+    "now": "ora {{value}}",
+    "byLostPp": "per pp persi",
+    "onRanked": "Su mappe classificate",
+    "averageLost": "pp persi in media",
+    "biggestLoss": "Perdita più grande",
+    "oldestLost": "Punteggio perso più vecchio",
+    "scannedOn": "Scansione del {{date}}",
+    "noMedals": "Ancora nessuna medaglia. La prima arriva con il primo recupero.",
+    "verifiedState": "Verificata",
+    "checkingState": "In attesa della verifica"
+  },
+  "progress": {
+    "fixed": "Recuperati",
+    "of": "su {{total}}",
+    "medals": "Medaglie",
+    "tabFixed": "Recuperati",
+    "earned": "Ottenuta il {{date}}",
+    "count": "{{have}} su {{need}} recuperati",
+    "pp": "{{have}}% dei pp recuperati, ne serve il {{need}}%",
+    "notYet": "Non ancora ottenuta",
+    "colFixed": "Recuperato",
+    "later": "Trovati in scansioni successive: {{count}}",
+    "noneTitle": "Ancora niente di recuperato",
+    "none": "Un punteggio perso conta come recuperato quando un nuovo punteggio sulla sua mappa vale almeno altrettanti pp. I recuperi compaiono dopo la tua prossima scansione, e li cerchiamo anche su osu! ogni giorno.",
+    "names": {
+      "first": "Primo recupero",
+      "quarter": "Un quarto",
+      "half": "A metà strada",
+      "threeQuarters": "Tre quarti",
+      "all": "Tabula rasa",
+      "ppQuarter": "Un quarto dei pp",
+      "ppHalf": "Metà dei pp",
+      "ppThreeQuarters": "Tre quarti dei pp",
+      "biggest": "Il più grosso",
+      "five": "I cinque grandi",
+      "oldest": "Vecchie ferite",
+      "fc": "Niente miss stavolta",
+      "ss": "Rifatto alla perfezione",
+      "harder": "Più difficile stavolta"
+    },
+    "texts": {
+      "first": "Recupera uno dei tuoi punteggi persi",
+      "quarter": "Recupera un quarto dei tuoi punteggi persi",
+      "half": "Recupera metà dei tuoi punteggi persi",
+      "threeQuarters": "Recupera tre quarti dei tuoi punteggi persi",
+      "all": "Recupera tutti i tuoi punteggi persi",
+      "ppQuarter": "Riconquista un quarto dei pp persi sulle tue mappe",
+      "ppHalf": "Riconquista metà dei pp persi sulle tue mappe",
+      "ppThreeQuarters": "Riconquista tre quarti dei pp persi sulle tue mappe",
+      "biggest": "Recupera il punteggio che ti ha fatto perdere più pp",
+      "five": "Recupera le tue cinque perdite più grandi",
+      "oldest": "Recupera il tuo punteggio perso più vecchio",
+      "fc": "Recupera un punteggio perso con una full combo",
+      "ss": "Recupera un punteggio perso con una SS",
+      "harder": "Recupera un punteggio perso con mod più difficili di quelle che aveva"
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Risposte brevi sul programma e sul sito",
+    "items": [
+      {
+        "id": "lost",
+        "question": "Cos'è un punteggio perso?",
+        "answer": [
+          "Fino a ottobre 2024 il server di osu!stable teneva un solo punteggio per ogni beatmap e combinazione di mod: quello con più punti. Un nuovo punteggio con più punti sostituiva il vecchio anche quando il vecchio valeva più pp, e un punteggio con meno punti del record non veniva salvato affatto.",
+          "Quei pp sono spariti dal tuo profilo. I tuoi replay locali hanno ancora quei punteggi, e Lost Scores li rilegge."
+        ]
+      },
+      {
+        "id": "safe",
+        "question": "È sicuro per il mio account?",
+        "answer": [
+          "Il programma non tocca il gioco. Legge i replay e le beatmap nella tua cartella di osu! e chiede all'API ufficiale di osu! informazioni sulle mappe e sul tuo profilo. Non modifica mai i file e non invia mai punteggi a osu!."
+        ]
+      },
+      {
+        "id": "login",
+        "question": "Perché accedere con osu!?",
+        "answer": [
+          "Dopo l'accesso il programma chiede al server di Lost Scores invece che a osu!. Il server condivide una cache delle mappe e una coda verso osu! tra tutti i giocatori, quindi non ti servono chiavi tue. Salva anche le tue scansioni nel profilo e ti permette di pubblicarle.",
+          "Accedi sulla pagina di osu!, quindi il programma non vede mai la tua password. Al posto dell'accesso puoi usare le chiavi di una tua applicazione OAuth di osu!."
+        ]
+      },
+      {
+        "id": "who",
+        "question": "Chi vede le mie scansioni?",
+        "answer": [
+          "Dopo l'accesso ogni scansione viene salvata nel tuo profilo, dove la vedi solo tu; vengono tenute le 20 più recenti. Share nel programma pubblica una scansione: allora tutti la vedono nel tuo profilo e nella <hall>Hall of Copium</hall>. I replay vengono condivisi solo se spunti la casella dei replay sulla scheda Share. Puoi ritirare o eliminare una scansione in qualsiasi momento."
+        ]
+      },
+      {
+        "id": "verified",
+        "question": "Cosa vuol dire verificata?",
+        "answer": [
+          "Ogni scansione pubblicata viene confrontata con osu! entro pochi minuti. La verifica confronta i pp, la posizione e la precisione del tuo profilo, la tua top online e come torna il totale della Potential Top.",
+          "Poi prende i dieci punteggi persi che contano di più per la tua posizione: i cinque più alti e altri cinque scelti a caso, con più probabilità per quelli più grandi. Per ognuno verifica la mappa e il suo stato, che il punteggio sia stato fatto dopo la classificazione della mappa e prima del 9 ottobre 2024, che su osu! ci sia un punteggio con le stesse mod e più punti che l'ha sostituito, e che il punteggio perso non sia più su osu!. Una scansione che supera la verifica diventa verificata. Fino ad allora risulta in verifica."
+        ]
+      },
+      {
+        "id": "hall",
+        "question": "Come si calcola la Hall of Copium?",
+        "answer": [
+          "I giocatori sono ordinati per quanti pp guadagnerebbe il loro profilo se i punteggi persi contassero: il totale della Potential Top meno i pp del profilo che mostra osu!. Ogni giocatore compare una volta, con la scansione pubblicata più recente.",
+          "La scheda Punteggi invece ordina i singoli punteggi per i pp persi su una mappa: quanto valeva il punteggio perso meno quello che osu! ha tenuto con le stesse mod. I due numeri sono diversi. Un punteggio che ha perso 80 pp sulla sua mappa aggiunge meno al profilo, perché il profilo pesa ogni punteggio in base alla sua posizione nella top."
+        ]
+      },
+      {
+        "id": "replay",
+        "question": "Come guardo un replay?",
+        "answer": [
+          "Se un giocatore ha condiviso i replay, i suoi punteggi persi hanno un pulsante replay nel profilo e nella scheda Punteggi. Scarica un file .osr. Aprilo con osu!stable, con un doppio clic o trascinandolo sulla finestra del gioco, e il gioco lo riproduce. A osu! serve la stessa versione della mappa su cui è stato fatto il punteggio."
+        ]
+      },
+      {
+        "id": "lazer",
+        "question": "Funziona con lazer o con altre modalità?",
+        "answer": [
+          "No. Legge i replay di osu!stable dalla cartella di osu!, e solo i punteggi di osu!standard."
+        ]
+      },
+      {
+        "id": "warning",
+        "question": "Perché Windows o macOS mi avvisano?",
+        "answer": [
+          "Le build non sono ancora firmate con un certificato a pagamento, quindi il sistema non conosce l'editore. <download>Download</download> spiega come aprire il programma la prima volta."
+        ]
+      },
+      {
+        "id": "delete",
+        "question": "Come elimino i miei dati?",
+        "answer": [
+          "Il pulsante del cestino accanto a Share elimina una scansione dal server. Per rimuovere tutto quello che il server tiene sul tuo account, scrivi a <mail/>. La <privacy>pagina della privacy</privacy> elenca cosa viene conservato."
+        ]
+      },
+      {
+        "id": "bug",
+        "question": "Dove segnalo un bug?",
+        "answer": [
+          "Apri una issue su <issues>GitHub</issues> oppure scrivi a <mail/>."
+        ]
+      }
+    ],
+    "groups": {
+      "about": "Il progetto",
+      "safety": "Sicurezza e privacy",
+      "hall": "Hall of Copium",
+      "help": "Installazione e aiuto"
+    },
+    "topics": "Argomenti"
+  },
+  "privacy": {
+    "title": "Informativa sulla privacy",
+    "subtitle": "Aggiornata il 20 novembre 2026",
+    "sections": [
+      {
+        "title": "Chi gestisce Lost Scores",
+        "text": [
+          "osu! Lost Scores è un progetto amatoriale di KZ_Lemon4ik. Comprende il programma per computer, questo sito su lost.lemon4ik.kz e il server dietro entrambi. Non è realizzato né approvato da ppy Pty Ltd, e osu! è un marchio di ppy Pty Ltd.",
+          "Per domande su questa informativa o sui tuoi dati, scrivi a <mail/>."
+        ]
+      },
+      {
+        "title": "Il programma sul tuo computer",
+        "text": [
+          "Il programma legge i replay e le beatmap nella tua cartella di osu! e non li modifica. Non ha telemetria e non invia nulla sul tuo computer. Se non accedi con osu!, i risultati delle scansioni restano sul tuo computer.",
+          "Per una scansione il programma chiede informazioni pubbliche sul tuo profilo osu!, sulla tua top online e sulle beatmap che possono contenere un punteggio perso, identificate dagli id e dagli hash MD5. Con l'accesso osu! queste richieste passano dal nostro server, che chiede a osu! per tuo conto; con le tue chiavi API di osu! vanno direttamente a osu!. Il programma carica anche avatar e copertine delle beatmap da osu!, chiede a GitHub una volta al giorno se esiste una nuova versione, o al nostro mirror se GitHub non risponde, e carica immagini su catbox.moe solo quando premi quel pulsante."
+        ]
+      },
+      {
+        "title": "Dati che conserviamo",
+        "text": [
+          "Quando accedi con osu!, riceviamo e conserviamo il tuo id di osu!, il tuo nome utente e i nomi precedenti, e i momenti in cui l'account è stato visto la prima e l'ultima volta. Non riceviamo la tua password né il tuo indirizzo email.",
+          "Mentre hai effettuato l'accesso, ogni scansione completata viene salvata sul nostro server: i punteggi persi, la Potential Top e i dati riassuntivi. I file dei replay vengono caricati solo per i punteggi che scegli di condividere. Conserviamo anche i risultati delle verifiche delle scansioni pubblicate, un conteggio giornaliero delle richieste per account che mantiene equa la coda condivisa e le informazioni sulle mappe condivise da tutti i giocatori. Per le scansioni pubblicate conserviamo anche l'elenco dei tuoi punteggi persi, con i recuperi e le medaglie che il server trova per loro su osu!.",
+          "Il server non conserva indirizzi IP né dati del browser."
+        ]
+      },
+      {
+        "title": "Come vengono usati i dati",
+        "text": [
+          "I dati servono solo a fornire ciò che chiedi: trovare le mappe della tua scansione, tenere le scansioni nel tuo profilo, mostrare quelle che pubblichi e verificarle con osu!. Non vendiamo dati, non mostriamo pubblicità e non usiamo i tuoi dati per il marketing."
+        ]
+      },
+      {
+        "title": "Chi può vedere le tue scansioni",
+        "text": [
+          "Le scansioni salvate sono private. Le vedi solo tu, dopo l'accesso su questo sito o nel programma.",
+          "Quando pubblichi una scansione, chiunque può vederla nella pagina del tuo profilo e nella Hall of Copium, insieme al tuo nome utente e all'avatar di osu!, e chiunque può scaricare i replay che hai condiviso con essa. Puoi ritirare o eliminare una scansione pubblicata in qualsiasi momento."
+        ]
+      },
+      {
+        "title": "Per quanto tempo conserviamo i dati",
+        "text": [
+          "Conserviamo le tue 20 scansioni private più recenti ed eliminiamo automaticamente quelle più vecchie. Una scansione pubblicata e i suoi replay restano finché non li ritiri o li elimini. Una sessione di accesso dura fino a 90 giorni e finisce quando esci. Le risposte di osu! sul tuo profilo restano in cache per cinque minuti.",
+          "L'elenco dei tuoi punteggi persi, i recuperi e le medaglie restano finché non chiedi di eliminarli o di eliminare l'account; ritirare o eliminare le scansioni non li rimuove."
+        ]
+      },
+      {
+        "title": "Fornitori di servizi",
+        "text": [
+          "Il sito e il server funzionano su Cloudflare, che gestisce il traffico di rete e conserva i nostri dati secondo la propria informativa sulla privacy. Il sito carica gli avatar da osu! (a.ppy.sh), e la pagina Download chiede a GitHub l'ultima versione del programma. Per mostrare la posizione che raggiungerebbero i tuoi pp potenziali, il server invia a osu!daily solo quel numero di pp e nient'altro."
+        ]
+      },
+      {
+        "title": "Cookie e archiviazione locale",
+        "text": [
+          "Il sito imposta un solo cookie, e solo dopo l'accesso: la tua sessione, che gli script della pagina non possono leggere. Le tue scelte di tema, lingua e animazioni restano nell'archiviazione locale del browser. Non ci sono cookie di analisi, pubblicità o tracciamento."
+        ]
+      },
+      {
+        "title": "Le tue scelte",
+        "text": [
+          "Puoi vedere tutte le tue scansioni nel profilo, pubblicarle, ritirarle o eliminarle, e uscire in qualsiasi momento. Per eliminare il tuo account e tutto ciò che è conservato con esso, o per chiedere cosa conserviamo su di te, scrivi a <mail/>."
+        ]
+      },
+      {
+        "title": "Modifiche a questa informativa",
+        "text": [
+          "Quando questa informativa cambia, cambia anche la data in cima alla pagina."
+        ]
+      }
+    ]
+  }
+}

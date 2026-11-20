@@ -24,4 +24,4 @@ That is all: the language appears in the language menu.
 
 ## Checking
 
-Run `yarn dev:lost` in `lemon-site` and pick the language in the menu (the flag in the header). A key shown instead of a text means the key is misspelled or missing in `en.json`.
+Run `yarn dev:lost` in `lemon-site` and pick the language in the menu (the avatar in the header, or the menu button on a phone). A key shown instead of a text means the key is misspelled or missing in `en.json`.
