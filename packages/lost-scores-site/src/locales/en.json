@@ -73,6 +73,7 @@
     "by": "by",
     "unknown": "Unknown map",
     "keptPp": "osu! kept {{pp}}",
+    "weighted": "weighted {{percent}}%",
     "lostOnMap": "Lost on this map: {{pp}}",
     "actions": "Score actions",
     "viewScore": "View score",

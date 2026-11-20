@@ -14,12 +14,13 @@ const GRADES: Record<string, { file: string; name: string }> = {
   D: { file: "D", name: "D" },
 };
 
-export function Grade({ grade }: { grade: string | null }) {
+export function Grade({ grade, large = false }: { grade: string | null; large?: boolean }) {
   const shown = grade ? GRADES[grade] : undefined;
+  const size = large ? "h-7 w-14" : "h-5 w-10 sm:h-6 sm:w-12";
   if (!shown) {
-    return <span aria-hidden className="h-5 w-10 shrink-0 sm:h-6 sm:w-12" />;
+    return <span aria-hidden className={`${size} shrink-0`} />;
   }
-  return <img src={`/icons/grade-${shown.file}.svg`} alt={shown.name} title={shown.name} width={48} height={24} className="h-5 w-10 shrink-0 sm:h-6 sm:w-12" />;
+  return <img src={`/icons/grade-${shown.file}.svg`} alt={shown.name} title={shown.name} width={48} height={24} className={`${size} shrink-0`} />;
 }
 
 const INCREASE = "#ff6666";

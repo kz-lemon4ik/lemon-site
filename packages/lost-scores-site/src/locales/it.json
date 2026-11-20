@@ -73,6 +73,7 @@
     "by": "di",
     "unknown": "Mappa sconosciuta",
     "keptPp": "osu! ha tenuto {{pp}}",
+    "weighted": "peso {{percent}}%",
     "lostOnMap": "Perso su questa mappa: {{pp}}",
     "actions": "Azioni del punteggio",
     "viewScore": "Vedi punteggio",

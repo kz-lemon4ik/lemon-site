@@ -1,13 +1,13 @@
 import { TrendingUp } from "lucide-react";
 import type { CSSProperties } from "react";
 import { Grade, MOD_WIDTH, Mods, StatusIcon } from "@/components/Chips";
+import MobileScore from "@/components/MobileScore";
 import { Message } from "@/components/States";
 import { mapUrl, type Fix } from "@/lib/api";
 import { useFormat, type Format } from "@/lib/format";
 import { useSection } from "@/lib/i18n";
 
-const GRID =
-  "grid-cols-[18px_40px_minmax(0,1fr)_5rem] sm:grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_64px_6.5rem] lg:grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_128px_64px_6.5rem]";
+const GRID = "grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_64px_6.5rem] lg:grid-cols-[18px_48px_minmax(0,1fr)_var(--mods)_128px_64px_6.5rem]";
 
 function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unknown: string }) {
   const map = mapUrl(fix.beatmap_id);
@@ -19,56 +19,78 @@ function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unkn
     <>
       <span className="min-w-0 truncate text-[15px] font-medium text-lbl decoration-lbl/40 underline-offset-2 group-hover/map:underline">{title}</span>
       {fix.artist && (
-        <span className="hidden min-w-[3rem] shrink-[2] truncate text-[13px] text-by decoration-by/40 underline-offset-2 group-hover/map:underline sm:inline">
+        <span className="min-w-[3rem] shrink-[2] truncate text-[13px] text-by decoration-by/40 underline-offset-2 group-hover/map:underline">
           {by} {fix.artist}
         </span>
       )}
     </>
   );
+  const gained = gain !== null && gain > 0 && (
+    <span className="flex items-center gap-1 font-medium text-up">
+      <TrendingUp aria-hidden size={14} />+{f.tenths(gain)} pp
+    </span>
+  );
   return (
-    <li className={`group grid min-h-[58px] items-center gap-x-2 rounded-lg bg-row py-0.5 pl-2 pr-0.5 hover:bg-row-hover sm:gap-x-3.5 sm:pl-3 ${GRID}`}>
-      <StatusIcon status={fix.status} />
-      <Grade grade={fix.grade} />
-      <div className="min-w-0 py-1.5">
-        <p className="flex min-w-0">
-          {map ? (
-            <a href={map} className="group/map inline-flex min-w-0 max-w-full items-baseline gap-2">
-              {names}
-            </a>
-          ) : (
-            <span className="inline-flex min-w-0 max-w-full items-baseline gap-2">{names}</span>
-          )}
-        </p>
-        <p className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12.5px]">
-          <span className="min-w-0 sm:hidden">
-            <Mods mods={fix.mods} />
-          </span>
-          {accuracy && <span className="shrink-0 tabular-nums text-lbl sm:hidden">{accuracy}</span>}
-          {fix.version && <span className="min-w-0 truncate text-acc">{fix.version}</span>}
-          <time dateTime={new Date(at).toISOString()} title={f.moment(at)} className="shrink-0 text-meta lg:hidden">
+    <li className="group">
+      <MobileScore
+        title={title}
+        artist={fix.artist}
+        by={by}
+        map={map}
+        version={fix.version && <span className="min-w-0 truncate text-acc">{fix.version}</span>}
+        when={
+          <time dateTime={new Date(at).toISOString()} title={f.moment(at)} className="shrink-0 text-meta">
             {f.ago(at)}
           </time>
-        </p>
-      </div>
-      <span className="hidden sm:block">
-        <Mods mods={fix.mods} />
-      </span>
-      <span className="hidden text-sm lg:block">
-        <span className="block text-lbl">{f.day(at)}</span>
-        <span className="block text-xs text-muted">{f.ago(at)}</span>
-      </span>
-      <span className="hidden text-right text-sm font-medium tabular-nums text-lbl sm:block">{accuracy}</span>
-      <span className="flex flex-col items-center justify-center self-stretch rounded-md bg-ppbox px-1 py-1.5">
-        <span className="text-lg font-semibold leading-tight tabular-nums text-lbl">
-          {fix.pp !== null ? Math.round(fix.pp) : "–"}
-          <span className="ml-0.5 text-xs font-normal text-muted">pp</span>
+        }
+        grade={fix.grade}
+        accuracy={accuracy}
+        extra={gained}
+        mods={fix.mods}
+        status={<StatusIcon status={fix.status} />}
+        pp={fix.pp}
+        menu={null}
+      />
+      <div className={`hidden min-h-[58px] items-center gap-x-3.5 rounded-lg bg-row py-0.5 pl-3 pr-0.5 hover:bg-row-hover sm:grid ${GRID}`}>
+        <StatusIcon status={fix.status} />
+        <Grade grade={fix.grade} />
+        <div className="min-w-0 py-1.5">
+          <p className="flex min-w-0">
+            {map ? (
+              <a href={map} className="group/map inline-flex min-w-0 max-w-full items-baseline gap-2">
+                {names}
+              </a>
+            ) : (
+              <span className="inline-flex min-w-0 max-w-full items-baseline gap-2">{names}</span>
+            )}
+          </p>
+          <p className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12.5px]">
+            {fix.version && <span className="min-w-0 truncate text-acc">{fix.version}</span>}
+            <time dateTime={new Date(at).toISOString()} title={f.moment(at)} className="shrink-0 text-meta lg:hidden">
+              {f.ago(at)}
+            </time>
+          </p>
+        </div>
+        <span>
+          <Mods mods={fix.mods} />
         </span>
-        {gain !== null && gain > 0 && (
-          <span className="flex items-center gap-1 text-xs font-medium tabular-nums text-up">
-            <TrendingUp aria-hidden size={12} />+{f.tenths(gain)} pp
+        <span className="hidden text-sm lg:block">
+          <span className="block text-lbl">{f.day(at)}</span>
+          <span className="block text-xs text-muted">{f.ago(at)}</span>
+        </span>
+        <span className="text-right text-sm font-medium tabular-nums text-lbl">{accuracy}</span>
+        <span className="flex flex-col items-center justify-center self-stretch rounded-md bg-ppbox px-1 py-1.5">
+          <span className="text-lg font-semibold leading-tight tabular-nums text-lbl">
+            {fix.pp !== null ? Math.round(fix.pp) : "–"}
+            <span className="ml-0.5 text-xs font-normal text-muted">pp</span>
           </span>
-        )}
-      </span>
+          {gain !== null && gain > 0 && (
+            <span className="flex items-center gap-1 text-xs font-medium tabular-nums text-up">
+              <TrendingUp aria-hidden size={12} />+{f.tenths(gain)} pp
+            </span>
+          )}
+        </span>
+      </div>
     </li>
   );
 }
