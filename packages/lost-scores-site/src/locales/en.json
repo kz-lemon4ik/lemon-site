@@ -286,7 +286,6 @@
     "tryAgain": "Try again",
     "noTopTitle": "No Potential Top",
     "noTop": "This scan was made without the online top.",
-    "topIntro": "The top {{size}} if lost plays counted. {{inTop}} of them get in, and accuracy would be {{to}} instead of {{from}}.",
     "noScanTitle": "No published scan yet",
     "noScan": "If this is you, log in to see the scans the program saved.",
     "logIn": "Log in",
@@ -306,7 +305,6 @@
     "noLost": "This scan found no plays that a higher score replaced.",
     "loading": "Loading…",
     "showMore": "Show more",
-    "topIntroShort": "The top {{size}} if lost plays counted. {{inTop}} of them get in.",
     "scanLost_one": "{{count}} lost play",
     "scanLost_other": "{{count}} lost plays",
     "potentialRank": "Potential rank",
@@ -319,7 +317,6 @@
     "biggestLoss": "Biggest loss",
     "oldestLost": "Oldest lost play",
     "scannedOn": "Scanned {{date}}",
-    "noMedals": "No medals yet. The first one comes with the first fix.",
     "verifiedState": "Verified",
     "checkingState": "Waiting for the check"
   },

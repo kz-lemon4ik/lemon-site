@@ -1,5 +1,5 @@
 import { CheckCircle2, HelpCircle, XCircle } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import ConfirmButton from "@/components/ConfirmButton";
@@ -132,15 +132,11 @@ function ScanState({ scan, t }: { scan: OwnScan; t: Text }) {
   );
 }
 
-function Band({ progress, t }: { progress: Progress | "loading"; t: Text }) {
+function Band({ progress }: { progress: Progress | "loading" }) {
   return (
     <div className="-mx-4 mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 border-y border-divider bg-band px-4 py-4 sm:-mx-6 sm:px-6">
       <div className="flex min-h-10 min-w-0 flex-1 flex-col justify-center">
-        {progress === "loading" ? (
-          <span aria-hidden className="block h-8 w-40 animate-pulse rounded-full bg-btn" />
-        ) : (
-          <MedalRow medals={progress.medals} empty={<p className="text-sm text-meta">{t("noMedals")}</p>} />
-        )}
+        <MedalRow medals={progress === "loading" ? null : progress.medals} />
       </div>
       <div className="w-full sm:w-80">
         {progress === "loading" ? (
@@ -209,8 +205,7 @@ function OwnScans({
   );
 }
 
-function PotentialTop({ top, page, retry, t }: { top: Top; page: ScanPage | null; retry: () => void; t: Text }) {
-  const f = useFormat();
+function PotentialTop({ top, retry, t }: { top: Top; retry: () => void; t: Text }) {
   if (top.status === "idle" || top.status === "loading") {
     return <Rows />;
   }
@@ -229,16 +224,7 @@ function PotentialTop({ top, page, retry, t }: { top: Top; page: ScanPage | null
   if (top.rows.length === 0) {
     return <Message title={t("noTopTitle")}>{t("noTop")}</Message>;
   }
-  const stats = page?.summary_stats;
-  const inTop = stats?.lost_in_top ?? top.rows.filter((row) => row.lost).length;
-  const from = stats?.current_accuracy != null ? f.accuracy(stats.current_accuracy) : null;
-  const to = stats?.potential_accuracy != null ? f.accuracy(stats.potential_accuracy) : null;
-  return (
-    <>
-      <p className="pt-4 text-muted">{from && to ? t("topIntro", { size: top.rows.length, inTop, from, to }) : t("topIntroShort", { size: top.rows.length, inTop })}</p>
-      <ScoreTable rows={top.rows} kind="potential" />
-    </>
-  );
+  return <ScoreTable rows={top.rows} kind="potential" />;
 }
 
 function Profile({ id, scan }: { id: string; scan: string | null }) {
@@ -262,21 +248,59 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const loadingFixes = useRef(false);
   const navigate = useNavigate();
   const shown = useRef(false);
+  const pages = useRef(new Map<string, ScanPage>());
+  const topRequest = useRef<Promise<PotentialRow[]> | null>(null);
   const gap = sort === "gap";
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const query = { offset: 0, limit: PAGE, gap };
-    const request = scan ? api.scan(scan, query, controller.signal) : api.player(id, query, controller.signal);
-    track(request).then(
-      (page) => {
-        const show = () => setLoad({ status: "ready", page, rows: page.lost_scores });
-        if (shown.current) {
-          smoothly(show);
-        } else {
-          show();
+  const fetchTop = useCallback(() => {
+    if (!topRequest.current) {
+      const query = { offset: 0, limit: 1, potential: true };
+      const request = (scan ? api.scan(scan, query) : api.player(id, query)).then((found) => found.potential_top ?? []);
+      topRequest.current = request;
+      request.catch(() => {
+        if (topRequest.current === request) {
+          topRequest.current = null;
         }
-        shown.current = true;
+      });
+    }
+    return topRequest.current;
+  }, [id, scan]);
+
+  useEffect(() => {
+    const keyOf = (sorted: boolean) => `${version}:${sorted ? "gap" : "pp"}`;
+    const show = (page: ScanPage) => {
+      const apply = () => setLoad({ status: "ready", page, rows: page.lost_scores });
+      if (shown.current) {
+        smoothly(apply);
+      } else {
+        apply();
+      }
+      shown.current = true;
+    };
+    const cached = pages.current.get(keyOf(gap));
+    if (cached) {
+      show(cached);
+      return;
+    }
+    const controller = new AbortController();
+    const ask = (sorted: boolean) => {
+      const query = { offset: 0, limit: PAGE, gap: sorted };
+      return scan ? api.scan(scan, query, controller.signal) : api.player(id, query, controller.signal);
+    };
+    track(ask(gap)).then(
+      (page) => {
+        pages.current.set(keyOf(gap), page);
+        show(page);
+        if (!pages.current.has(keyOf(!gap))) {
+          ask(!gap).then(
+            (other) => pages.current.set(keyOf(!gap), other),
+            () => undefined,
+          );
+        }
+        fetchTop().then(
+          (rows) => setTop((current) => (current.status === "ready" ? current : { status: "ready", rows })),
+          () => undefined,
+        );
       },
       (error: unknown) => {
         if (!controller.signal.aborted) {
@@ -285,7 +309,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
     );
     return () => controller.abort();
-  }, [id, scan, gap, version]);
+  }, [id, scan, gap, version, fetchTop]);
 
   useEffect(() => {
     if (!owner) {
@@ -323,23 +347,23 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       return;
     }
     setTop({ status: "loading" });
-    const query = { offset: 0, limit: 1, potential: true };
-    const request = scan ? api.scan(scan, query) : api.player(id, query);
-    track(request).then(
-      (page) => setTop({ status: "ready", rows: page.potential_top ?? [] }),
+    track(fetchTop()).then(
+      (rows) => setTop({ status: "ready", rows }),
       () => setTop({ status: "error" }),
     );
   };
 
   const page = load.status === "ready" ? load.page : null;
-  const name = page?.metadata.user_identifier ?? (owner ? me.username : id);
+  const name = page?.metadata.user_identifier ?? (owner ? me.username : /^\d+$/.test(id) ? null : id);
   const userId = page?.metadata.user_id ?? (owner ? me.id : /^\d+$/.test(id) ? Number(id) : null);
-  useTitle(name);
-  const progressId = page?.metadata.user_id ?? null;
-  const latest = progressId !== null && page?.hall_rank != null;
+  useTitle(name ?? undefined);
+  const early = scan === null && /^\d+$/.test(id) ? Number(id) : null;
+  const progressId = page?.metadata.user_id ?? early;
+  const latest = page !== null && progressId !== null && page.hall_rank != null;
+  const wanted = page === null ? early !== null : latest;
 
   useEffect(() => {
-    if (!latest || progressId === null) {
+    if (!wanted || progressId === null) {
       return;
     }
     const controller = new AbortController();
@@ -356,7 +380,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
     );
     return () => controller.abort();
-  }, [latest, progressId, version]);
+  }, [wanted, progressId, version]);
 
   const moreFixes = () => {
     if (progressId === null || loadingFixes.current) {
@@ -438,16 +462,16 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         <div className="relative z-10 flex flex-wrap items-end gap-x-5 gap-y-2 pt-1">
           <div className="-mt-[64px] shrink-0 sm:-mt-[84px]">
             <span className="sm:hidden">
-              <Avatar id={userId} name={name} size={96} square className="border-4 border-card" />
+              <Avatar id={userId} name={name ?? ""} size={96} square className="border-4 border-card" />
             </span>
             <span className="hidden sm:block">
-              <Avatar id={userId} name={name} size={124} square className="border-4 border-card" />
+              <Avatar id={userId} name={name ?? ""} size={124} square className="border-4 border-card" />
             </span>
           </div>
           <div className="min-w-0 flex-1 pb-1.5 pr-12">
             <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
-              <h1 title={name} className="truncate text-xl sm:text-4xl">
-                {name}
+              <h1 title={name ?? undefined} className="truncate text-xl sm:text-4xl">
+                {name ?? <span aria-hidden className="inline-block h-[0.8em] w-40 animate-pulse rounded-lg bg-btn align-middle sm:w-56" />}
               </h1>
               {page?.hall_rank && page.hall_rank <= HALL_TITLE && !viewing && userId && (
                 <Link to={`/rankings?me=${userId}`} className="chip bg-acc/15 text-acc transition-colors hover:bg-acc/25">
@@ -479,7 +503,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         )}
 
         {page && <Figures page={page} userId={userId} t={t} />}
-        {banded && <Band progress={tracked ?? "loading"} t={t} />}
+        {banded && <Band progress={tracked ?? "loading"} />}
 
         <div className="mt-2">
           <Tabs label={t("tabsLabel")} tabs={tabs} active={view} onChange={openView} />
@@ -506,7 +530,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
             <Rows count={3} />
           ))}
 
-        {view === "potential" && <PotentialTop top={top} page={page} retry={() => openView("potential")} t={t} />}
+        {view === "potential" && <PotentialTop top={top} retry={() => openView("potential")} t={t} />}
 
         {view === "lost" && (
           <>

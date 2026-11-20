@@ -26,21 +26,21 @@ function pie(cx: number, cy: number, radius: number, share: number): string {
 function Glyph({ id }: { id: MedalId }) {
   const Icon = ICONS[id];
   if (Icon) {
-    return <Icon x={14} y={14} width={20} height={20} color="#ffffff" strokeWidth={2.4} />;
+    return <Icon x={14} y={14} width={20} height={20} color="currentColor" strokeWidth={2.4} />;
   }
   const share = MILESTONES[id];
   if (share !== undefined) {
     return (
       <g>
-        <circle cx="24" cy="24" r="8" fill="none" stroke="#ffffff" strokeWidth="2" />
-        {share >= 1 ? <circle cx="24" cy="24" r="8" fill="#ffffff" /> : <path d={pie(24, 24, 8, share)} fill="#ffffff" />}
+        <circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
+        {share >= 1 ? <circle cx="24" cy="24" r="8" fill="currentColor" /> : <path d={pie(24, 24, 8, share)} fill="currentColor" />}
       </g>
     );
   }
   const fraction = FRACTIONS[id];
   if (fraction) {
     return (
-      <g fill="#ffffff" fontWeight={700} textAnchor="middle">
+      <g fill="currentColor" fontWeight={700} textAnchor="middle">
         <text x="24" y="23" fontSize="15">
           {fraction}
         </text>
@@ -52,7 +52,7 @@ function Glyph({ id }: { id: MedalId }) {
   }
   const text = TEXTS[id] ?? "";
   return (
-    <text x="24" y="24" dy="0.36em" textAnchor="middle" fontSize={text.length > 1 ? 13 : 17} fontWeight={700} fill="#ffffff">
+    <text x="24" y="24" dy="0.36em" textAnchor="middle" fontSize={text.length > 1 ? 13 : 17} fontWeight={700} fill="currentColor">
       {text}
     </text>
   );
@@ -60,10 +60,10 @@ function Glyph({ id }: { id: MedalId }) {
 
 function Coin({ id, earned, className }: { id: MedalId; earned: boolean; className: string }) {
   return (
-    <svg viewBox="0 0 48 48" aria-hidden className={`block ${className}`}>
-      <circle cx="24" cy="24" r="23" fill={earned ? "url(#coin-fill)" : "#3a3743"} />
-      <circle cx="24" cy="24" r="19.25" fill="none" stroke="#ffffff" strokeOpacity={earned ? 0.3 : 0.08} strokeWidth="1.5" />
-      <g opacity={earned ? 1 : 0.35}>
+    <svg viewBox="0 0 48 48" aria-hidden className={`block ${earned ? "text-white" : "text-meta"} ${className}`}>
+      {earned ? <circle cx="24" cy="24" r="23" fill="url(#coin-fill)" /> : <circle cx="24" cy="24" r="23" className="fill-btn" />}
+      <circle cx="24" cy="24" r="19.25" fill="none" stroke="currentColor" strokeOpacity={earned ? 0.3 : 0.2} strokeWidth="1.5" />
+      <g opacity={earned ? 1 : 0.6}>
         <Glyph id={id} />
       </g>
     </svg>
@@ -209,26 +209,37 @@ export function FixBar({ progress }: { progress: Progress }) {
   );
 }
 
-export function MedalRow({ medals, empty }: { medals: MedalState[]; empty: ReactNode }) {
+export function MedalRow({ medals }: { medals: MedalState[] | null }) {
   const t = useSection("progress");
-  const earned = COINS.map((id) => medals.find((medal) => medal.id === id)).filter((medal): medal is MedalState => medal !== undefined && medal.at !== null);
-  if (earned.length === 0) {
-    return empty;
-  }
+  const earned = medals ? medals.filter((medal) => medal.at !== null).length : 0;
+  const total = medals ? medals.length : COINS.length + Object.keys(MILESTONES).length;
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-      <span className="text-sm text-meta">{t("medals")}</span>
-      <div className="flex flex-wrap gap-1.5">
-        {earned.map((medal) => (
-          <Tipped
-            key={medal.id}
-            medal={medal}
-            className="relative"
-            button="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-band motion-safe:hover:scale-110"
-          >
-            <Coin id={medal.id} earned className="h-8 w-8" />
-          </Tipped>
-        ))}
+      <span className="text-sm text-meta">
+        {t("medals")}{" "}
+        <span className={`font-semibold tabular-nums text-lbl ${medals ? "" : "invisible"}`}>
+          {earned}/{total}
+        </span>
+      </span>
+      <div className="flex gap-1 sm:gap-1.5">
+        {COINS.map((id) => {
+          const medal = medals?.find((item) => item.id === id);
+          const coin = <Coin id={id} earned={medal !== undefined && medal.at !== null} className="h-7 w-7 sm:h-8 sm:w-8" />;
+          return medal ? (
+            <Tipped
+              key={id}
+              medal={medal}
+              className="relative"
+              button="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-band motion-safe:hover:scale-110"
+            >
+              {coin}
+            </Tipped>
+          ) : (
+            <span key={id} className="block animate-pulse">
+              {coin}
+            </span>
+          );
+        })}
       </div>
     </div>
   );

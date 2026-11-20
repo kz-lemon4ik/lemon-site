@@ -286,7 +286,6 @@
     "tryAgain": "Riprova",
     "noTopTitle": "Nessuna Potential Top",
     "noTop": "Questa scansione è stata fatta senza la top online.",
-    "topIntro": "La top {{size}} se i play persi contassero. {{inTop}} di loro ci entrano, e la precisione sarebbe {{to}} invece di {{from}}.",
     "noScanTitle": "Ancora nessuna scansione pubblicata",
     "noScan": "Se sei tu, accedi per vedere le scansioni salvate dal programma.",
     "logIn": "Accedi",
@@ -306,7 +305,6 @@
     "noLost": "Questa scansione non ha trovato play sostituiti da uno con un punteggio più alto.",
     "loading": "Caricamento…",
     "showMore": "Mostra altri",
-    "topIntroShort": "La top {{size}} se i play persi contassero. {{inTop}} di loro ci entrano.",
     "scanLost_one": "{{count}} play perso",
     "scanLost_other": "{{count}} play persi",
     "potentialRank": "Rank potenziale",
@@ -319,7 +317,6 @@
     "biggestLoss": "Perdita maggiore",
     "oldestLost": "Play perso più vecchio",
     "scannedOn": "Scansione del {{date}}",
-    "noMedals": "Ancora nessuna medaglia. La prima arriva con il primo recupero.",
     "verifiedState": "Verificata",
     "checkingState": "In attesa della verifica"
   },
