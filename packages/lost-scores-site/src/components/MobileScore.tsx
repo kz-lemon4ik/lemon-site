@@ -26,7 +26,7 @@ export default function MobileScore({ title, artist, by, map, version, when, gra
     <div className="sm:hidden">
       <div className={`rounded-t-lg px-3 pb-2 pt-2.5 ${lost ? "bg-row-lost-hover" : "bg-row-hi"}`}>
         {map ? (
-          <a href={map} className="block decoration-lbl/40 underline-offset-2 hover:underline">
+          <a href={map} target="_blank" rel="noreferrer" className="block decoration-lbl/40 underline-offset-2 hover:underline">
             {name}
           </a>
         ) : (

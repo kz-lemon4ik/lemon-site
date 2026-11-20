@@ -486,6 +486,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
           {userId && (
             <a
               href={`https://osu.ppy.sh/users/${userId}`}
+              target="_blank"
+              rel="noreferrer"
               aria-label={t("osuProfile")}
               title={t("osuProfile")}
               className="absolute right-0 top-2 grid h-9 w-9 place-items-center rounded-full bg-btn text-lbl transition-colors hover:bg-osu hover:text-white"

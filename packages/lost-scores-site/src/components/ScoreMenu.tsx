@@ -36,7 +36,7 @@ function ScoreCard({ row, lost, titleId, onClose }: { row: Row; lost: boolean; t
         <div className="min-w-0 flex-1">
           <h2 id={titleId} className="truncate text-xl leading-tight text-lbl">
             {map ? (
-              <a href={map} className="decoration-lbl/40 underline-offset-2 hover:underline">
+              <a href={map} target="_blank" rel="noreferrer" className="decoration-lbl/40 underline-offset-2 hover:underline">
                 {title}
               </a>
             ) : (
@@ -116,7 +116,7 @@ function ScoreCard({ row, lost, titleId, onClose }: { row: Row; lost: boolean; t
             </a>
           )}
           {map && (
-            <a href={map} className="btn-small px-4 py-2">
+            <a href={map} target="_blank" rel="noreferrer" className="btn-small px-4 py-2">
               <ExternalLink aria-hidden size={16} />
               {t("openMap")}
             </a>

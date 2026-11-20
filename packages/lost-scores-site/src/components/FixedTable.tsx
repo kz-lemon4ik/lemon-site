@@ -57,7 +57,7 @@ function FixRow({ fix, f, by, unknown }: { fix: Fix; f: Format; by: string; unkn
         <div className="min-w-0 py-1.5">
           <p className="flex min-w-0">
             {map ? (
-              <a href={map} className="group/map inline-flex min-w-0 max-w-full items-baseline gap-2">
+              <a href={map} target="_blank" rel="noreferrer" className="group/map inline-flex min-w-0 max-w-full items-baseline gap-2">
                 {names}
               </a>
             ) : (
