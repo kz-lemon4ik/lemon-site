@@ -186,8 +186,8 @@ export function FixBar({ progress }: { progress: Progress }) {
         <p className="font-semibold tabular-nums text-lbl">{percent}%</p>
       </div>
       <div className="relative mt-2 h-3.5">
-        <div className="absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 overflow-hidden rounded-full bg-btn">
-          <div className="h-full rounded-full bg-acc" style={{ width: `${share * 100}%` }} />
+        <div className="absolute inset-x-0 top-1/2 h-2 -translate-y-1/2 rounded-full bg-btn">
+          <div className="h-full rounded-full bg-gradient-to-r from-acc to-osu shadow-[0_0_10px_rgb(var(--c-acc)/0.45)]" style={{ width: `${share * 100}%` }} />
         </div>
         {progress.medals
           .filter((medal) => MILESTONES[medal.id] !== undefined)
@@ -197,9 +197,9 @@ export function FixBar({ progress }: { progress: Progress }) {
               <Tipped
                 key={medal.id}
                 medal={medal}
-                className="absolute top-0"
-                style={{ left: at >= 1 ? "calc(100% - 14px)" : `calc(${at * 100}% - 7px)` }}
-                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-band transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-acc motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
+                className="absolute top-px"
+                style={{ left: at >= 1 ? "calc(100% - 12px)" : `calc(${at * 100}% - 6px)` }}
+                button={`block h-3 w-3 rounded-full border-2 ring-[3px] ring-band transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-acc motion-safe:hover:scale-125 ${medal.at !== null ? "border-hero bg-hero" : "border-btn bg-band"}`}
               />
             );
           })}
