@@ -57,7 +57,6 @@ export interface ScanPage {
   total_count: number;
   verified: boolean;
   hall_rank?: number | null;
-  hall_row?: number | null;
   potential_rank?: number | null;
   include_all?: boolean | null;
   potential_top?: PotentialRow[];

@@ -195,8 +195,7 @@ function PlayersView({ t }: { t: Text }) {
     const controller = new AbortController();
     api.player(me, { offset: 0, limit: 1 }, controller.signal).then(
       (found) => {
-        const row = found.hall_row ?? found.hall_rank;
-        const target = row ? Math.ceil(row / SIZE) : 1;
+        const target = found.hall_rank ? Math.ceil(found.hall_rank / SIZE) : 1;
         if (target !== page) {
           setParams({ page: String(target), me }, { replace: true });
         }
