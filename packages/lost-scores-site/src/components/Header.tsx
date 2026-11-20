@@ -280,7 +280,7 @@ export default function Header() {
             rel="noreferrer"
             aria-label="Discord"
             title="Discord"
-            className="grid h-10 w-10 place-items-center rounded-xl text-muted transition-colors hover:text-lbl focus-visible:text-lbl lg:mr-4"
+            className="grid h-10 w-10 place-items-center rounded-xl text-muted transition-colors hover:bg-btn hover:text-lbl"
           >
             <FaDiscord aria-hidden size={22} />
           </a>
