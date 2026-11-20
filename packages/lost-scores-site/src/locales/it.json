@@ -57,7 +57,7 @@
   },
   "check": {
     "verified": "verificato",
-    "verifiedHint": "I punteggi che decidono la posizione sono stati confrontati con osu!",
+    "verifiedHint": "I play che decidono la posizione sono stati confrontati con osu!",
     "checking": "in verifica",
     "checkingHint": "In attesa del confronto con osu!",
     "more": "Clicca per vedere cosa viene verificato."
@@ -74,16 +74,16 @@
     "keptPp": "osu! ha tenuto {{pp}}",
     "lostOnMap": "Perso su questa mappa: {{pp}}",
     "actions": "Azioni del punteggio",
-    "viewScore": "Vedi il punteggio",
-    "downloadReplay": "Scarica il replay",
+    "viewScore": "Vedi punteggio",
+    "downloadReplay": "Scarica replay",
     "openMap": "Apri su osu!",
     "close": "Chiudi",
     "miss": "Miss",
     "mappedBy": "mappata da {{name}}",
     "played": "Giocato il {{date}}",
-    "keptBy": "osu! ha tenuto un punteggio da {{score}} punti e {{pp}}",
+    "keptBy": "osu! ha tenuto un play con un punteggio di {{score}} e {{pp}}",
     "status": {
-      "lost": "Punteggio perso",
+      "lost": "Play perso",
       "ranked": "Classificata",
       "approved": "Approvata",
       "qualified": "Qualificata",
@@ -97,8 +97,8 @@
   "chart": {
     "title": "pp nelle tue scansioni",
     "profile": "profilo",
-    "potential": "con i punteggi persi",
-    "label": "pp del profilo e pp con i punteggi persi per ogni scansione"
+    "potential": "con i play persi",
+    "label": "pp del profilo e pp con i play persi per ogni scansione"
   },
   "zoom": {
     "open": "Apri l'immagine a grandezza piena",
@@ -106,8 +106,8 @@
   },
   "notFound": {
     "title": "Non trovata",
-    "heading": "Anche questa pagina si è persa",
-    "text": "Forse l'ha sostituita una pagina con un punteggio più alto.",
+    "heading": "Anche questa pagina è andata persa",
+    "text": "Forse è stata sostituita da una pagina con un punteggio più alto.",
     "home": "Home"
   },
   "login": {
@@ -140,8 +140,8 @@
     "already": "L'accesso su osu! non si è concluso, ma questo browser ha già effettuato l'accesso."
   },
   "home": {
-    "tagline": "Scopri quanti <pp>pp</pp> peppy non ti ha mai dato.",
-    "intro": "Fino a ottobre 2024 osu! teneva il punteggio con più punti, anche quando un altro valeva più pp. Lost Scores ritrova quei punteggi nei tuoi replay.",
+    "tagline": "Scopri i <pp>pp</pp> che peppy non ti ha mai dato.",
+    "intro": "Fino a ottobre 2024 osu! teneva il play con il punteggio più alto, anche quando un altro play valeva più pp. Lost Scores ritrova quei play nei tuoi replay.",
     "downloadFor": "Scarica per {{system}}",
     "download": "Scarica",
     "version": "Versione {{version}} · {{size}}",
@@ -159,7 +159,7 @@
       },
       {
         "title": "Scansiona",
-        "text": "Ogni replay riceve i suoi pp. I punteggi che valgono più di quanto mostra il profilo sono i tuoi punteggi persi."
+        "text": "Per ogni replay vengono calcolati i pp. I play che valgono più di quanto mostra il tuo profilo sono i tuoi punteggi persi."
       },
       {
         "title": "Condividi",
@@ -169,8 +169,8 @@
     "window": "La finestra di Lost Scores con la scansione di {{name}}",
     "profileOf": "Profilo di {{name}}",
     "sampleCard": "Una scheda condivisa creata da Lost Scores",
-    "badgeLost_one": "{{count}} punteggio perso, {{ranked}} classificati",
-    "badgeLost_other": "{{count}} punteggi persi, {{ranked}} classificati"
+    "badgeLost_one": "{{count}} play perso, {{ranked}} in classifica",
+    "badgeLost_other": "{{count}} play persi, {{ranked}} in classifica"
   },
   "download": {
     "title": "Download",
@@ -231,7 +231,7 @@
     "subtitle": "I giocatori a cui la vecchia regola di osu! sui punteggi ha tolto più pp",
     "tabsLabel": "Hall of Copium",
     "players": "Giocatori",
-    "plays": "Punteggi",
+    "plays": "Play",
     "find": "Cerca un giocatore",
     "open": "Apri il profilo",
     "globalRank": "#{{rank}} nel mondo",
@@ -244,16 +244,16 @@
     "player": "Giocatore",
     "lost": "Persi",
     "profilePp": "pp del profilo",
-    "lostPlays": "Punteggi persi",
+    "lostPlays": "Play persi",
     "check": "Verifica",
-    "note": "Una scansione verificata ha avuto i punteggi che ne decidono la posizione confrontati con osu!. Le altre aspettano quel confronto.",
-    "playsIntro": "I singoli punteggi che hanno perso più pp: quanto valeva il punteggio rispetto a quello che osu! ha tenuto sulla stessa mappa. Al massimo cinque per giocatore, solo da scansioni verificate.",
+    "note": "Una scansione verificata ha avuto i play che ne decidono la posizione confrontati con osu!. Le altre aspettano quel confronto.",
+    "playsIntro": "I singoli play che hanno perso più pp: quanto valeva il play rispetto a quello che osu! ha tenuto sulla stessa mappa. Al massimo cinque per giocatore, solo da scansioni verificate.",
     "allPlays": "Tutti",
     "withReplay": "Con replay",
-    "replayLabel": "Solo i punteggi con un replay condiviso",
-    "noPlaysTitle": "Ancora nessun punteggio",
-    "noPlays": "I punteggi compaiono qui quando le scansioni pubblicate superano il confronto con osu!.",
-    "noReplays": "Nessuno ha ancora condiviso il replay di un punteggio perso.",
+    "replayLabel": "Solo i play con un replay condiviso",
+    "noPlaysTitle": "Ancora nessun play",
+    "noPlays": "I play compaiono qui quando le scansioni pubblicate superano il confronto con osu!.",
+    "noReplays": "Nessuno ha ancora condiviso il replay di un play perso.",
     "previous": "Pagina precedente",
     "next": "Pagina successiva",
     "pageOf": "Pagina {{page}}",
@@ -264,7 +264,7 @@
   },
   "profile": {
     "profilePp": "pp del profilo",
-    "lostPlays": "Punteggi persi",
+    "lostPlays": "Play persi",
     "withLoved": "su {{total}} con amate e non classificate",
     "globalRank": "Posizione globale",
     "scanned": "Scansione",
@@ -277,10 +277,10 @@
     "checkFailed": "verifica non riuscita",
     "hidden": "nascosta",
     "hiddenHint": "Questa scansione non compare nella Hall of Copium",
-    "unpublish": "Ritira",
-    "unpublishHint": "Togli questa scansione dalla Hall of Copium. Resta qui e la vedi solo tu.",
+    "unpublish": "Annulla pubblicazione",
+    "unpublishHint": "Rimuove questa scansione dalla Hall of Copium. Rimane qui e puoi vederla solo tu.",
     "delete": "Elimina",
-    "deleteHint": "Rimuovi per sempre questa scansione e i suoi replay dal server.",
+    "deleteHint": "Rimuove per sempre questa scansione e i suoi replay dal server.",
     "confirmAgain": "Clicca di nuovo per confermare",
     "actionFailed": "Non ha funzionato. Riprova tra un minuto.",
     "noScansTitle": "Ancora nessuna scansione",
@@ -290,7 +290,7 @@
     "tryAgain": "Riprova",
     "noTopTitle": "Nessuna Potential Top",
     "noTop": "Questa scansione è stata fatta senza la top online.",
-    "topIntro": "La top {{size}} se i punteggi persi contassero. {{inTop}} di loro ci entrano, e la precisione sarebbe {{to}} invece di {{from}}.",
+    "topIntro": "La top {{size}} se i play persi contassero. {{inTop}} di loro ci entrano, e la precisione sarebbe {{to}} invece di {{from}}.",
     "noScanTitle": "Ancora nessuna scansione pubblicata",
     "noScan": "Se sei tu, accedi per vedere le scansioni salvate dal programma.",
     "logIn": "Accedi",
@@ -306,22 +306,22 @@
     "nothingTitle": "Ancora niente di pubblicato",
     "gone": "È stata eliminata o sostituita da scansioni più recenti.",
     "nothing": "Le tue scansioni sono salvate qui in privato. Premi Share nel programma per pubblicarne una nella Hall of Copium.",
-    "noLostTitle": "Nessun punteggio perso",
-    "noLost": "Questa scansione non ha trovato punteggi sostituiti da uno con più punti.",
+    "noLostTitle": "Nessun play perso",
+    "noLost": "Questa scansione non ha trovato play sostituiti da uno con un punteggio più alto.",
     "loading": "Caricamento…",
     "showMore": "Mostra altri",
-    "topIntroShort": "La top {{size}} se i punteggi persi contassero. {{inTop}} di loro ci entrano.",
-    "scanLost_one": "{{count}} punteggio perso",
-    "scanLost_other": "{{count}} punteggi persi",
-    "potentialRank": "Posizione potenziale",
+    "topIntroShort": "La top {{size}} se i play persi contassero. {{inTop}} di loro ci entrano.",
+    "scanLost_one": "{{count}} play perso",
+    "scanLost_other": "{{count}} play persi",
+    "potentialRank": "Rank potenziale",
     "potentialPp": "pp potenziali",
     "potentialAccuracy": "Precisione potenziale",
     "now": "ora {{value}}",
     "byLostPp": "per pp persi",
     "onRanked": "Su mappe classificate",
-    "averageLost": "pp persi in media",
-    "biggestLoss": "Perdita più grande",
-    "oldestLost": "Punteggio perso più vecchio",
+    "averageLost": "Media pp persi",
+    "biggestLoss": "Perdita maggiore",
+    "oldestLost": "Play perso più vecchio",
     "scannedOn": "Scansione del {{date}}",
     "noMedals": "Ancora nessuna medaglia. La prima arriva con il primo recupero.",
     "verifiedState": "Verificata",
@@ -339,7 +339,7 @@
     "colFixed": "Recuperato",
     "later": "Trovati in scansioni successive: {{count}}",
     "noneTitle": "Ancora niente di recuperato",
-    "none": "Un punteggio perso conta come recuperato quando un nuovo punteggio sulla sua mappa vale almeno altrettanti pp. I recuperi compaiono dopo la tua prossima scansione, e li cerchiamo anche su osu! ogni giorno.",
+    "none": "Un play perso conta come recuperato quando un nuovo punteggio sulla sua mappa vale almeno altrettanti pp. I recuperi compaiono dopo la tua prossima scansione, e li cerchiamo anche su osu! ogni giorno.",
     "names": {
       "first": "Primo recupero",
       "quarter": "Un quarto",
@@ -357,20 +357,20 @@
       "harder": "Più difficile stavolta"
     },
     "texts": {
-      "first": "Recupera uno dei tuoi punteggi persi",
-      "quarter": "Recupera un quarto dei tuoi punteggi persi",
-      "half": "Recupera metà dei tuoi punteggi persi",
-      "threeQuarters": "Recupera tre quarti dei tuoi punteggi persi",
-      "all": "Recupera tutti i tuoi punteggi persi",
+      "first": "Recupera uno dei tuoi play persi",
+      "quarter": "Recupera un quarto dei tuoi play persi",
+      "half": "Recupera metà dei tuoi play persi",
+      "threeQuarters": "Recupera tre quarti dei tuoi play persi",
+      "all": "Recupera tutti i tuoi play persi",
       "ppQuarter": "Riconquista un quarto dei pp persi sulle tue mappe",
       "ppHalf": "Riconquista metà dei pp persi sulle tue mappe",
       "ppThreeQuarters": "Riconquista tre quarti dei pp persi sulle tue mappe",
-      "biggest": "Recupera il punteggio che ti ha fatto perdere più pp",
+      "biggest": "Recupera il play che ti ha fatto perdere più pp",
       "five": "Recupera le tue cinque perdite più grandi",
-      "oldest": "Recupera il tuo punteggio perso più vecchio",
-      "fc": "Recupera un punteggio perso con una full combo",
-      "ss": "Recupera un punteggio perso con una SS",
-      "harder": "Recupera un punteggio perso con mod più difficili di quelle che aveva"
+      "oldest": "Recupera il tuo play perso più vecchio",
+      "fc": "Recupera un play perso con una full combo",
+      "ss": "Recupera un play perso con una SS",
+      "harder": "Recupera un play perso con mod più difficili di quelle originali"
     }
   },
   "faq": {
@@ -381,8 +381,8 @@
         "id": "lost",
         "question": "Cos'è un punteggio perso?",
         "answer": [
-          "Fino a ottobre 2024 il server di osu!stable teneva un solo punteggio per ogni beatmap e combinazione di mod: quello con più punti. Un nuovo punteggio con più punti sostituiva il vecchio anche quando il vecchio valeva più pp, e un punteggio con meno punti del record non veniva salvato affatto.",
-          "Quei pp sono spariti dal tuo profilo. I tuoi replay locali hanno ancora quei punteggi, e Lost Scores li rilegge."
+          "Fino a ottobre 2024 il server di osu!stable teneva un solo play per ogni beatmap e combinazione di mod: quello con il punteggio più alto. Un nuovo play con un punteggio più alto sostituiva il vecchio anche quando il vecchio valeva più pp, e un play con un punteggio più basso del record non veniva salvato affatto.",
+          "Quei pp sono spariti dal tuo profilo. I tuoi replay locali hanno ancora quei play, e Lost Scores li rilegge."
         ]
       },
       {
@@ -412,29 +412,29 @@
         "question": "Cosa vuol dire verificata?",
         "answer": [
           "Ogni scansione pubblicata viene confrontata con osu! entro pochi minuti. La verifica confronta i pp, la posizione e la precisione del tuo profilo, la tua top online e come torna il totale della Potential Top.",
-          "Poi prende i dieci punteggi persi che contano di più per la tua posizione: i cinque più alti e altri cinque scelti a caso, con più probabilità per quelli più grandi. Per ognuno verifica la mappa e il suo stato, che il punteggio sia stato fatto dopo la classificazione della mappa e prima del 9 ottobre 2024, che su osu! ci sia un punteggio con le stesse mod e più punti che l'ha sostituito, e che il punteggio perso non sia più su osu!. Una scansione che supera la verifica diventa verificata. Fino ad allora risulta in verifica."
+          "Poi prende i dieci play persi che contano di più per la tua posizione: i cinque più alti e altri cinque scelti a caso, con più probabilità per quelli più grandi. Per ognuno verifica la mappa e il suo stato, che il play sia stato fatto dopo la classificazione della mappa e prima del 9 ottobre 2024, che su osu! ci sia un play con le stesse mod e un punteggio più alto che l'ha sostituito, e che il play perso non sia più su osu!. Una scansione che supera la verifica diventa verificata. Fino ad allora risulta in verifica."
         ]
       },
       {
         "id": "hall",
         "question": "Come si calcola la Hall of Copium?",
         "answer": [
-          "I giocatori sono ordinati per quanti pp guadagnerebbe il loro profilo se i punteggi persi contassero: il totale della Potential Top meno i pp del profilo che mostra osu!. Ogni giocatore compare una volta, con la scansione pubblicata più recente.",
-          "La scheda Punteggi invece ordina i singoli punteggi per i pp persi su una mappa: quanto valeva il punteggio perso meno quello che osu! ha tenuto con le stesse mod. I due numeri sono diversi. Un punteggio che ha perso 80 pp sulla sua mappa aggiunge meno al profilo, perché il profilo pesa ogni punteggio in base alla sua posizione nella top."
+          "I giocatori sono ordinati per quanti pp guadagnerebbe il loro profilo se i play persi contassero: il totale della Potential Top meno i pp del profilo che mostra osu!. Ogni giocatore compare una volta, con la scansione pubblicata più recente.",
+          "La scheda Play invece ordina i singoli play per i pp persi su una mappa: quanto valeva il play perso meno quello che osu! ha tenuto con le stesse mod. I due numeri sono diversi. Un play che ha perso 80 pp sulla sua mappa aggiunge meno al profilo, perché il profilo pesa ogni play in base alla sua posizione nella top."
         ]
       },
       {
         "id": "replay",
         "question": "Come guardo un replay?",
         "answer": [
-          "Se un giocatore ha condiviso i replay, i suoi punteggi persi hanno un pulsante replay nel profilo e nella scheda Punteggi. Scarica un file .osr. Aprilo con osu!stable, con un doppio clic o trascinandolo sulla finestra del gioco, e il gioco lo riproduce. A osu! serve la stessa versione della mappa su cui è stato fatto il punteggio."
+          "Se un giocatore ha condiviso i replay, i suoi play persi hanno un pulsante replay nel profilo e nella scheda Play. Scarica un file .osr. Aprilo con osu!stable, con un doppio clic o trascinandolo sulla finestra del gioco, e il gioco lo riproduce. A osu! serve la stessa versione della mappa su cui è stato fatto il play."
         ]
       },
       {
         "id": "lazer",
         "question": "Funziona con lazer o con altre modalità?",
         "answer": [
-          "No. Legge i replay di osu!stable dalla cartella di osu!, e solo i punteggi di osu!standard."
+          "No. Legge i replay di osu!stable dalla cartella di osu!, e solo i play di osu!standard."
         ]
       },
       {
@@ -482,14 +482,14 @@
         "title": "Il programma sul tuo computer",
         "text": [
           "Il programma legge i replay e le beatmap nella tua cartella di osu! e non li modifica. Non ha telemetria e non invia nulla sul tuo computer. Se non accedi con osu!, i risultati delle scansioni restano sul tuo computer.",
-          "Per una scansione il programma chiede informazioni pubbliche sul tuo profilo osu!, sulla tua top online e sulle beatmap che possono contenere un punteggio perso, identificate dagli id e dagli hash MD5. Con l'accesso osu! queste richieste passano dal nostro server, che chiede a osu! per tuo conto; con le tue chiavi API di osu! vanno direttamente a osu!. Il programma carica anche avatar e copertine delle beatmap da osu!, chiede a GitHub una volta al giorno se esiste una nuova versione, o al nostro mirror se GitHub non risponde, e carica immagini su catbox.moe solo quando premi quel pulsante."
+          "Per una scansione il programma chiede informazioni pubbliche sul tuo profilo osu!, sulla tua top online e sulle beatmap che possono contenere un play perso, identificate dagli id e dagli hash MD5. Con l'accesso osu! queste richieste passano dal nostro server, che chiede a osu! per tuo conto; con le tue chiavi API di osu! vanno direttamente a osu!. Il programma carica anche avatar e copertine delle beatmap da osu!, chiede a GitHub una volta al giorno se esiste una nuova versione, o al nostro mirror se GitHub non risponde, e carica immagini su catbox.moe solo quando premi quel pulsante."
         ]
       },
       {
         "title": "Dati che conserviamo",
         "text": [
           "Quando accedi con osu!, riceviamo e conserviamo il tuo id di osu!, il tuo nome utente e i nomi precedenti, e i momenti in cui l'account è stato visto la prima e l'ultima volta. Non riceviamo la tua password né il tuo indirizzo email.",
-          "Mentre hai effettuato l'accesso, ogni scansione completata viene salvata sul nostro server: i punteggi persi, la Potential Top e i dati riassuntivi. I file dei replay vengono caricati solo per i punteggi che scegli di condividere. Conserviamo anche i risultati delle verifiche delle scansioni pubblicate, un conteggio giornaliero delle richieste per account che mantiene equa la coda condivisa e le informazioni sulle mappe condivise da tutti i giocatori. Per le scansioni pubblicate conserviamo anche l'elenco dei tuoi punteggi persi, con i recuperi e le medaglie che il server trova per loro su osu!.",
+          "Mentre hai effettuato l'accesso, ogni scansione completata viene salvata sul nostro server: i play persi, la Potential Top e i dati riassuntivi. I file dei replay vengono caricati solo per i play che scegli di condividere. Conserviamo anche i risultati delle verifiche delle scansioni pubblicate, un conteggio giornaliero delle richieste per account che mantiene equa la coda condivisa e le informazioni sulle mappe condivise da tutti i giocatori. Per le scansioni pubblicate conserviamo anche l'elenco dei tuoi play persi, con i recuperi e le medaglie che il server trova per loro su osu!.",
           "Il server non conserva indirizzi IP né dati del browser."
         ]
       },
@@ -510,7 +510,7 @@
         "title": "Per quanto tempo conserviamo i dati",
         "text": [
           "Conserviamo le tue 20 scansioni private più recenti ed eliminiamo automaticamente quelle più vecchie. Una scansione pubblicata e i suoi replay restano finché non li ritiri o li elimini. Una sessione di accesso dura fino a 90 giorni e finisce quando esci. Le risposte di osu! sul tuo profilo restano in cache per cinque minuti.",
-          "L'elenco dei tuoi punteggi persi, i recuperi e le medaglie restano finché non chiedi di eliminarli o di eliminare l'account; ritirare o eliminare le scansioni non li rimuove."
+          "L'elenco dei tuoi play persi, i recuperi e le medaglie restano finché non chiedi di eliminarli o di eliminare l'account; ritirare o eliminare le scansioni non li rimuove."
         ]
       },
       {
