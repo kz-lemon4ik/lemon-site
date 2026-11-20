@@ -156,12 +156,12 @@ function PlayerRow({ row, mine, world }: { row: RankingRow; mine: boolean; world
             {world ? <span className="block text-sm text-meta">{world}</span> : row.scan_date && <span className="block text-sm text-meta">{f.ago(row.scan_date)}</span>}
           </span>
         </span>
-        <span className="text-right text-lg text-up md:text-left">{f.gain(row.total_pp_gain)}</span>
+        <span className="text-right text-lg font-medium text-up md:text-left">{f.gain(row.total_pp_gain)}</span>
         <span className="hidden text-ink md:block">
-          {f.whole(row.current_pp)} → <span className="font-semibold text-up">{f.whole(row.potential_pp)}</span>
+          {f.whole(row.current_pp)} → <span className="font-medium text-up">{f.whole(row.potential_pp)}</span>
         </span>
         <span className="hidden text-ink lg:block">{f.whole(row.lost_scores_count)}</span>
-        <span className="hidden md:block">
+        <span className="hidden justify-center md:flex">
           <CheckMark verified={row.verified} />
         </span>
       </Link>
@@ -236,7 +236,7 @@ function PlayersView({ t }: { t: Text }) {
             <span>{t("lost")}</span>
             <span>{t("profilePp")}</span>
             <span className="hidden lg:block">{t("lostPlays")}</span>
-            <span>{t("check")}</span>
+            <span className="text-center">{t("check")}</span>
           </div>
           <ol className="space-y-2 pt-3 sm:pt-1">
             {load.data.rows.map((row) => (
@@ -244,7 +244,6 @@ function PlayersView({ t }: { t: Text }) {
             ))}
           </ol>
           <Pages page={page} total={load.data.total} params={params} t={t} />
-          <p className="mt-5 text-sm text-meta">{t("note")}</p>
         </>
       )}
     </>

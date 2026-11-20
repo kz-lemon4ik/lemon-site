@@ -242,7 +242,6 @@
     "profilePp": "Profile pp",
     "lostPlays": "Lost plays",
     "check": "Check",
-    "note": "A verified scan had the plays that set its place checked against osu!. The rest are waiting for that check.",
     "playsIntro": "Single plays that lost the most pp: what the play was worth against the play osu! kept on the same map. Five plays per player at most, from verified scans.",
     "allPlays": "All",
     "withReplay": "With replay",
