@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import { CONTACT } from "@/lib/author";
-import { renderRich, useSection, type Parts } from "@/lib/i18n";
+import { renderRich, useSection, type Parts, type SectionKey } from "@/lib/i18n";
 import { REPOSITORY } from "@/lib/release";
 import { useTitle } from "@/lib/title";
 
@@ -40,62 +40,88 @@ const PARTS: Parts = {
   ),
 };
 
+const GROUPS: [string, string[]][] = [
+  ["about", ["lost", "lazer"]],
+  ["safety", ["safe", "login", "who", "delete"]],
+  ["hall", ["verified", "hall", "replay"]],
+  ["help", ["warning", "bug"]],
+];
+
+function Question({ item, open, toggle }: { item: Item; open: boolean; toggle: () => void }) {
+  const panel = `faq-${item.id}-answer`;
+  return (
+    <div id={item.id} className={`scroll-mt-24 rounded-xl transition-colors duration-200 ${open ? "bg-row-hi" : "bg-row"}`}>
+      <h3 className="text-lg">
+        <button type="button" aria-expanded={open} aria-controls={panel} onClick={toggle} className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-medium text-lbl">
+          {item.question}
+          <span aria-hidden className={`text-2xl leading-none text-muted transition-transform duration-200 ${open ? "rotate-45" : ""}`}>
+            +
+          </span>
+        </button>
+      </h3>
+      <div id={panel} role="region" inert={!open} className={`grid transition-[grid-template-rows] duration-300 ease-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+        <div className="overflow-hidden">
+          <div className="space-y-3 px-5 pb-5 text-muted">
+            {item.answer.map((paragraph) => (
+              <p key={paragraph}>{renderRich(paragraph, PARTS)}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Faq() {
   const t = useSection("faq");
   useTitle(t("title"));
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<string | null>(null);
   const { hash } = useLocation();
   const questions = t.raw<Item[]>("items");
+  const byId = new Map(questions.map((item) => [item.id, item]));
   useEffect(() => {
-    const index = questions.findIndex((item) => item.id === hash.slice(1));
-    if (index >= 0) {
-      setOpen(index);
-      document.getElementById(questions[index].id)?.scrollIntoView({ block: "start" });
+    const id = hash.slice(1);
+    if (questions.some((item) => item.id === id)) {
+      setOpen(id);
+      document.getElementById(id)?.scrollIntoView({ block: "start" });
     }
   }, [hash, questions]);
+  const toggle = (id: string) => {
+    const next = open === id ? null : id;
+    setOpen(next);
+    window.history.replaceState(window.history.state, "", next ? `#${next}` : window.location.pathname + window.location.search);
+  };
   return (
     <PageShell>
       <Cover>
         <CoverTitle title={t("title")} subtitle={t("subtitle")} />
       </Cover>
       <Sheet>
-        <div className="space-y-2 pt-4">
-          {questions.map((item, index) => {
-            const isOpen = open === index;
-            const panel = `faq-${index}`;
-            return (
-              <div key={item.id} id={item.id} className={`scroll-mt-24 rounded-xl transition-colors duration-200 ${isOpen ? "bg-row-hi" : "bg-row"}`}>
-                <h2 className="text-lg">
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    aria-controls={panel}
-                    onClick={() => setOpen(isOpen ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-medium text-lbl"
-                  >
-                    {item.question}
-                    <span aria-hidden className={`text-2xl leading-none text-muted transition-transform duration-200 ${isOpen ? "rotate-45" : ""}`}>
-                      +
-                    </span>
-                  </button>
-                </h2>
-                <div
-                  id={panel}
-                  role="region"
-                  inert={!isOpen}
-                  className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="space-y-3 px-5 pb-5 text-muted">
-                      {item.answer.map((paragraph) => (
-                        <p key={paragraph}>{renderRich(paragraph, PARTS)}</p>
-                      ))}
-                    </div>
-                  </div>
+        <div className="pt-4 lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-8">
+          <nav aria-label={t("topics")} className="mb-6 flex flex-wrap gap-2 lg:sticky lg:top-28 lg:mb-0 lg:block lg:space-y-1 lg:self-start">
+            {GROUPS.map(([group]) => (
+              <a
+                key={group}
+                href={`#group-${group}`}
+                className="shrink-0 rounded-full bg-btn px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-lbl lg:block lg:rounded-lg lg:bg-transparent lg:px-3 lg:py-2 lg:hover:bg-btn"
+              >
+                {t(`groups.${group}` as SectionKey<"faq">)}
+              </a>
+            ))}
+          </nav>
+          <div className="space-y-8">
+            {GROUPS.map(([group, ids]) => (
+              <section key={group} id={`group-${group}`} className="scroll-mt-24">
+                <h2 className="mb-3 text-xl">{t(`groups.${group}` as SectionKey<"faq">)}</h2>
+                <div className="space-y-2">
+                  {ids.flatMap((id) => {
+                    const item = byId.get(id);
+                    return item ? [<Question key={id} item={item} open={open === id} toggle={() => toggle(id)} />] : [];
+                  })}
                 </div>
-              </div>
-            );
-          })}
+              </section>
+            ))}
+          </div>
         </div>
       </Sheet>
     </PageShell>

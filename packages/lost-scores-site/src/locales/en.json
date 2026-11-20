@@ -218,7 +218,7 @@
     "updatesTitle": "Updates",
     "updates": "Once a day the program looks for a new version. It installs one only if the signature matches, and the new version runs the next time you open the program.",
     "checkTitle": "Check a download",
-    "cliTitle": "Command line and source",
+    "cliTitle": "CLI and source",
     "cli": "The command line version, <code>lost-scores</code>, comes inside the Linux archive and as separate files for Windows and macOS on the <release>release page</release>. The source code is on <github>GitHub</github> under the AGPL-3.0 license.",
     "nextTitle": "After the first scan",
     "next": "Log in with osu! in the program and every scan is saved to your profile, where only you see it. Press Share on a scan to publish it to the Hall of Copium, with or without replays.",
@@ -456,7 +456,14 @@
           "Open an issue on <issues>GitHub</issues> or write to <mail/>."
         ]
       }
-    ]
+    ],
+    "groups": {
+      "about": "About",
+      "safety": "Safety and privacy",
+      "hall": "Hall of Copium",
+      "help": "Install and help"
+    },
+    "topics": "Topics"
   },
   "privacy": {
     "title": "Privacy policy",

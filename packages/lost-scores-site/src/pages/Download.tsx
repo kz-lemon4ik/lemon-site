@@ -2,6 +2,7 @@ import { Download as DownloadIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Cover, CoverTitle, PageShell, Section, Sheet } from "@/components/Layout";
+import SystemIcon from "@/components/SystemIcon";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { detectPlatform, PLATFORM_NAMES, type Platform } from "@/lib/platform";
@@ -51,7 +52,8 @@ function PlatformCard({ platform, release, mine, t }: { platform: Platform; rele
   const file = release?.files[platform];
   return (
     <div id={platform} className={`flex scroll-mt-24 flex-col rounded-2xl p-5 ${mine ? "bg-row-hi ring-1 ring-acc/60" : "bg-row"}`}>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2.5">
+        <SystemIcon platform={platform} className="text-lbl" />
         <h2 className="text-2xl">{PLATFORM_NAMES[platform]}</h2>
         {mine && <span className="chip bg-acc/15 text-acc">{t("yourSystem")}</span>}
       </div>
@@ -99,11 +101,14 @@ export default function Download() {
           </div>
 
           <Section title={t("needTitle")}>
-            <ul className="list-disc space-y-1.5 pl-5 text-muted">
-              {t.raw<string[]>("need").map((line) => (
-                <li key={line}>{line}</li>
+            <ol className="space-y-2.5">
+              {t.raw<string[]>("need").map((line, index) => (
+                <li key={line} className="flex gap-3 text-muted">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-btn text-sm font-semibold text-acc">{index + 1}</span>
+                  <span className="pt-px">{line}</span>
+                </li>
               ))}
-            </ul>
+            </ol>
           </Section>
 
           <Section title={t("firstTitle")}>
