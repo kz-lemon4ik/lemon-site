@@ -245,6 +245,23 @@ export interface AdminScan extends AdminRow {
   queued_at: number | null;
 }
 
+export interface AdminAccount {
+  osu_id: number;
+  username: string;
+  created_at: number;
+  seen_at: number;
+  scans: number;
+  published: number;
+  app: boolean;
+  web: boolean;
+}
+
+export interface AdminAccounts {
+  summary: { accounts: number; new_day: number; seen_day: number };
+  total: number;
+  rows: AdminAccount[];
+}
+
 export interface AdminLogEntry {
   at: number;
   osu_id: number;
@@ -273,6 +290,7 @@ export const admin = {
   status: (id: string, status: string) => post<{ id: string; status: string }>(`/api/admin/scans/${encodeURIComponent(id)}/status`, { status }),
   recheck: (id: string) => post<{ id: string }>(`/api/admin/scans/${encodeURIComponent(id)}/recheck`),
   replays: (id: string) => post<{ id: string; removed: number }>(`/api/admin/scans/${encodeURIComponent(id)}/replays`),
+  accounts: (offset: number, signal?: AbortSignal) => get<AdminAccounts>(`/api/admin/accounts?offset=${offset}`, signal),
   log: (signal?: AbortSignal) => get<AdminLogEntry[]>("/api/admin/log", signal),
   notify: () => post<{ sent: boolean }>("/api/admin/notify"),
 };

@@ -7,7 +7,7 @@ import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import { Message, Rows } from "@/components/States";
 import Tabs from "@/components/Tabs";
 import NotFound from "@/pages/NotFound";
-import { admin, type AdminList, type AdminLogEntry, type AdminNote, type AdminRow } from "@/lib/api";
+import { admin, type AdminAccounts, type AdminList, type AdminLogEntry, type AdminNote, type AdminRow } from "@/lib/api";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { useTitle } from "@/lib/title";
@@ -19,6 +19,7 @@ type Action = "hidden" | "rejected" | "verified" | "unverified" | "recheck" | "r
 
 const VIEWS: View[] = ["all", "waiting", "flagged", "hidden"];
 const COLUMNS = "grid-cols-[minmax(0,1fr)_6rem] md:grid-cols-[minmax(0,1.4fr)_7rem_6.5rem_6.5rem_6.5rem_4rem]";
+const ACCOUNT_COLUMNS = "grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1.4fr)_8rem_8rem_6rem_10rem]";
 
 function StatusChip({ status }: { status: string }) {
   const look: Record<string, string> = {
@@ -248,6 +249,108 @@ function Notice({ t, sent }: { t: Text; sent: () => void }) {
   );
 }
 
+function Accounts({ t }: { t: Text }) {
+  const f = useFormat();
+  const [list, setList] = useState<AdminAccounts | "error" | null>(null);
+  const [version, setVersion] = useState(0);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    admin.accounts(0, controller.signal).then(setList, () => {
+      if (!controller.signal.aborted) {
+        setList("error");
+      }
+    });
+    return () => controller.abort();
+  }, [version]);
+  if (list === null) {
+    return <Rows count={4} />;
+  }
+  if (list === "error") {
+    return (
+      <Message
+        title={t("loadFailed")}
+        action={
+          <button type="button" className="btn-small" onClick={() => setVersion((current) => current + 1)}>
+            {t("tryAgain")}
+          </button>
+        }
+      />
+    );
+  }
+  if (list.rows.length === 0) {
+    return <Message title={t("accounts.empty")} />;
+  }
+  const more = () => {
+    setLoading(true);
+    admin.accounts(list.rows.length).then(
+      (next) => {
+        setList({ ...next, rows: [...list.rows, ...next.rows] });
+        setLoading(false);
+      },
+      () => setLoading(false),
+    );
+  };
+  return (
+    <div className="pt-4">
+      <p className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-meta">
+        <span>
+          <span className="font-semibold text-lbl">{list.summary.accounts}</span> {t("accounts.total")}
+        </span>
+        <span>
+          <span className="font-semibold text-lbl">{list.summary.new_day}</span> {t("accounts.newDay")}
+        </span>
+        <span>
+          <span className="font-semibold text-lbl">{list.summary.seen_day}</span> {t("accounts.seenDay")}
+        </span>
+      </p>
+      <div className={`hidden gap-3 px-4 pb-1 pt-4 text-xs text-meta md:grid ${ACCOUNT_COLUMNS}`}>
+        <span>{t("player")}</span>
+        <span>{t("accounts.firstLogin")}</span>
+        <span>{t("accounts.lastLogin")}</span>
+        <span>{t("accounts.scans")}</span>
+        <span>{t("accounts.live")}</span>
+      </div>
+      <ol className="space-y-1.5 pt-2">
+        {list.rows.map((row) => (
+          <li key={row.osu_id} className={`grid items-center gap-3 rounded-lg bg-row px-4 py-2.5 text-sm ${ACCOUNT_COLUMNS}`}>
+            <Link to={`/u/${row.osu_id}`} className="flex min-w-0 items-center gap-2.5 font-medium text-lbl hover:underline">
+              <Avatar id={row.osu_id} name={row.username} size={28} />
+              <span className="truncate">{row.username}</span>
+            </Link>
+            <span title={f.moment(row.created_at * 1000)} className="hidden text-meta md:block">
+              {f.ago(row.created_at * 1000)}
+            </span>
+            <span title={f.moment(row.seen_at * 1000)} className="text-meta">
+              {f.ago(row.seen_at * 1000)}
+            </span>
+            <span className="hidden tabular-nums text-ink md:block">
+              {row.scans}
+              {row.published > 0 && (
+                <span className="text-meta">
+                  {" "}
+                  · {row.published} {t("accounts.public")}
+                </span>
+              )}
+            </span>
+            <span className="hidden flex-wrap gap-1.5 md:flex">
+              {row.app && <span className="chip bg-acc/15 text-acc">{t("accounts.app")}</span>}
+              {row.web && <span className="chip bg-btn text-meta">{t("accounts.site")}</span>}
+            </span>
+          </li>
+        ))}
+      </ol>
+      {list.rows.length < list.total && (
+        <div className="pt-3">
+          <button type="button" className="btn-small" disabled={loading} onClick={more}>
+            {t("accounts.more")}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Log({ t }: { t: Text }) {
   const f = useFormat();
   const [entries, setEntries] = useState<AdminLogEntry[] | null>(null);
@@ -291,7 +394,7 @@ export default function Admin() {
   const t = useSection("admin");
   useTitle(t("title"));
   const [allowed, setAllowed] = useState<boolean | null>(null);
-  const [tab, setTab] = useState<"scans" | "log">("scans");
+  const [tab, setTab] = useState<"scans" | "accounts" | "log">("scans");
   useEffect(() => {
     const controller = new AbortController();
     admin.me(controller.signal).then(
@@ -320,12 +423,15 @@ export default function Admin() {
           label={t("title")}
           tabs={[
             { id: "scans", label: t("tabs.scans") },
+            { id: "accounts", label: t("tabs.accounts") },
             { id: "log", label: t("tabs.log") },
           ]}
           active={tab}
           onChange={setTab}
         />
-        {tab === "scans" ? <Scans t={t} /> : <Log t={t} />}
+        {tab === "scans" && <Scans t={t} />}
+        {tab === "accounts" && <Accounts t={t} />}
+        {tab === "log" && <Log t={t} />}
       </Sheet>
     </PageShell>
   );

@@ -640,6 +640,7 @@
     "hidden": "hidden",
     "tabs": {
       "scans": "Scans",
+      "accounts": "Accounts",
       "log": "Log"
     },
     "views": {
@@ -689,6 +690,20 @@
     "logWho": "Admin",
     "logWhat": "Action",
     "logWhen": "When",
-    "logScan": "Scan"
+    "logScan": "Scan",
+    "accounts": {
+      "total": "accounts",
+      "newDay": "new in 24 h",
+      "seenDay": "logged in within 24 h",
+      "firstLogin": "First login",
+      "lastLogin": "Last login",
+      "scans": "Scans",
+      "public": "public",
+      "live": "Logged in",
+      "app": "App",
+      "site": "Site",
+      "more": "Show more",
+      "empty": "Nobody has logged in yet."
+    }
   }
 }
