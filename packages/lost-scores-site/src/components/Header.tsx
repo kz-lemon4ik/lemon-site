@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Globe, LogOut, Menu, Shield, SlidersHorizontal, User, X, type LucideIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { FaDiscord } from "react-icons/fa";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import Brand from "@/components/Brand";
@@ -8,6 +9,7 @@ import Flag from "@/components/Flag";
 import Settings from "@/components/Settings";
 import Slider from "@/components/Slider";
 import { LOGIN_URL, admin, type Me } from "@/lib/api";
+import { DISCORD_URL } from "@/lib/author";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
 import { useDismiss } from "@/lib/dismiss";
@@ -272,6 +274,16 @@ export default function Header() {
           <Slider bar={navBar} className="hidden lg:block" />
         </div>
         <div className="ml-auto flex items-center gap-1.5">
+          <a
+            href={DISCORD_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Discord"
+            title="Discord"
+            className="grid h-10 w-10 place-items-center rounded-xl text-muted transition-colors hover:bg-btn hover:text-lbl"
+          >
+            <FaDiscord aria-hidden size={22} />
+          </a>
           <span className="hidden lg:block">
             <Account large={!scrolled} t={t} />
           </span>
