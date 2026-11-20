@@ -274,6 +274,7 @@ export const admin = {
   recheck: (id: string) => post<{ id: string }>(`/api/admin/scans/${encodeURIComponent(id)}/recheck`),
   replays: (id: string) => post<{ id: string; removed: number }>(`/api/admin/scans/${encodeURIComponent(id)}/replays`),
   log: (signal?: AbortSignal) => get<AdminLogEntry[]>("/api/admin/log", signal),
+  notify: () => post<{ sent: boolean }>("/api/admin/notify"),
 };
 
 export const LOGIN_URL = "/api/auth/web-login";

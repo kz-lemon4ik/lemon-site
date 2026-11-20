@@ -680,6 +680,12 @@
     "done": "Done",
     "failed": "The action failed",
     "logEmpty": "No actions yet.",
+    "notice": {
+      "hint": "Telegram notices about stalled checks and the budget come from the server.",
+      "send": "Send a test notice",
+      "sent": "Sent. It should be in Telegram now.",
+      "failed": "It did not reach Telegram."
+    },
     "logWho": "Admin",
     "logWhat": "Action",
     "logWhen": "When",

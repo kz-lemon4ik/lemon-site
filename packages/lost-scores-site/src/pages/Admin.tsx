@@ -224,32 +224,66 @@ function Scans({ t }: { t: Text }) {
   );
 }
 
+function Notice({ t, sent }: { t: Text; sent: () => void }) {
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const send = () => {
+    setState("sending");
+    admin.notify().then(
+      (answer) => {
+        setState(answer.sent ? "sent" : "failed");
+        sent();
+      },
+      () => setState("failed"),
+    );
+  };
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg bg-row px-4 py-3 text-sm">
+      <span className="text-muted">{t("notice.hint")}</span>
+      <button type="button" className="btn-small px-4 py-2" disabled={state === "sending"} onClick={send}>
+        {t("notice.send")}
+      </button>
+      {state === "sent" && <span className="text-up">{t("notice.sent")}</span>}
+      {state === "failed" && <span className="text-down">{t("notice.failed")}</span>}
+    </div>
+  );
+}
+
 function Log({ t }: { t: Text }) {
   const f = useFormat();
   const [entries, setEntries] = useState<AdminLogEntry[] | null>(null);
+  const [version, setVersion] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
     admin.log(controller.signal).then(setEntries, () => setEntries([]));
     return () => controller.abort();
-  }, []);
+  }, [version]);
+  const notice = <Notice t={t} sent={() => setVersion((current) => current + 1)} />;
   if (entries === null) {
     return <Rows count={3} />;
   }
   if (entries.length === 0) {
-    return <Message title={t("logEmpty")} />;
+    return (
+      <>
+        {notice}
+        <Message title={t("logEmpty")} />
+      </>
+    );
   }
   return (
-    <ol className="space-y-1.5 pt-4">
-      {entries.map((entry, index) => (
-        <li key={`${entry.at}-${index}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg bg-row px-4 py-2.5 text-sm">
-          <span className="text-meta">{f.ago(entry.at * 1000)}</span>
-          <span className="font-medium text-lbl">{entry.action}</span>
-          {entry.detail && <span className="text-ink">{entry.detail}</span>}
-          {entry.submission_id && <span className="font-mono text-xs text-meta">{entry.submission_id}</span>}
-          <span className="ml-auto text-meta">{entry.username ?? entry.osu_id}</span>
-        </li>
-      ))}
-    </ol>
+    <>
+      {notice}
+      <ol className="space-y-1.5 pt-4">
+        {entries.map((entry, index) => (
+          <li key={`${entry.at}-${index}`} className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-lg bg-row px-4 py-2.5 text-sm">
+            <span className="text-meta">{f.ago(entry.at * 1000)}</span>
+            <span className="font-medium text-lbl">{entry.action}</span>
+            {entry.detail && <span className="text-ink">{entry.detail}</span>}
+            {entry.submission_id && <span className="font-mono text-xs text-meta">{entry.submission_id}</span>}
+            <span className="ml-auto text-meta">{entry.username ?? entry.osu_id}</span>
+          </li>
+        ))}
+      </ol>
+    </>
   );
 }
 
