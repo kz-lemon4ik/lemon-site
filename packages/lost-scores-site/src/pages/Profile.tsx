@@ -135,7 +135,7 @@ function ScanState({ scan, t }: { scan: OwnScan; t: Text }) {
 function Band({ progress, t }: { progress: Progress | "loading"; t: Text }) {
   return (
     <div className="-mx-4 mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 border-y border-divider bg-band px-4 py-4 sm:-mx-6 sm:px-6">
-      <div className="min-w-0 flex-1">
+      <div className="flex min-h-10 min-w-0 flex-1 flex-col justify-center">
         {progress === "loading" ? (
           <span aria-hidden className="block h-8 w-40 animate-pulse rounded-full bg-btn" />
         ) : (
@@ -256,7 +256,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const [sort, setSort] = useState<"pp" | "gap">("pp");
   const [version, setVersion] = useState(0);
   const [failed, setFailed] = useState(false);
-  const [progress, setProgress] = useState<Progress | null | "loading">(null);
+  const [progress, setProgress] = useState<Progress | "loading" | "failed">("loading");
   const [fixes, setFixes] = useState<Fix[]>([]);
   const [fixesBusy, setFixesBusy] = useState(false);
   const loadingFixes = useRef(false);
@@ -336,13 +336,13 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const userId = page?.metadata.user_id ?? (owner ? me.id : /^\d+$/.test(id) ? Number(id) : null);
   useTitle(name);
   const progressId = page?.metadata.user_id ?? null;
+  const latest = progressId !== null && page?.hall_rank != null;
 
   useEffect(() => {
-    if (progressId === null) {
+    if (!latest || progressId === null) {
       return;
     }
     const controller = new AbortController();
-    setProgress((current) => (current === null ? "loading" : current));
     api.progress(progressId, 0, FIX_PAGE, controller.signal).then(
       (next) => {
         setProgress(next);
@@ -350,13 +350,13 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       },
       () => {
         if (!controller.signal.aborted) {
-          setProgress(null);
+          setProgress("failed");
           setFixes([]);
         }
       },
     );
     return () => controller.abort();
-  }, [progressId, version]);
+  }, [latest, progressId, version]);
 
   const moreFixes = () => {
     if (progressId === null || loadingFixes.current) {
@@ -374,7 +374,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         setFixesBusy(false);
       });
   };
-  const tracked = progress !== null && progress !== "loading" && progress.total > 0 ? progress : null;
+  const tracked = latest && typeof progress === "object" ? progress : null;
+  const banded = latest && progress !== "failed";
 
   const showMore = async () => {
     if (load.status !== "ready") {
@@ -393,8 +394,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   };
 
   const tabs: { id: View; label: string }[] = [{ id: "lost", label: page ? `${t("tabLost")} · ${f.whole(page.total_count)}` : t("tabLost") }];
-  if (tracked) {
-    tabs.push({ id: "fixed", label: `${fixedText("tabFixed")} · ${f.whole(tracked.fixed)}` });
+  if (banded) {
+    tabs.push({ id: "fixed", label: tracked ? `${fixedText("tabFixed")} · ${f.whole(tracked.fixed)}` : fixedText("tabFixed") });
   }
   if (page) {
     tabs.push({ id: "potential", label: t("tabPotential") });
@@ -478,7 +479,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         )}
 
         {page && <Figures page={page} userId={userId} t={t} />}
-        {page && (tracked || progress === "loading") && <Band progress={tracked ?? "loading"} t={t} />}
+        {banded && <Band progress={tracked ?? "loading"} t={t} />}
 
         <div className="mt-2">
           <Tabs label={t("tabsLabel")} tabs={tabs} active={view} onChange={openView} />
@@ -496,7 +497,14 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
             <Rows count={3} />
           ))}
 
-        {view === "fixed" && tracked && <FixedTable fixes={fixes} total={tracked.fixes_total} more={moreFixes} busy={fixesBusy} />}
+        {view === "fixed" &&
+          (tracked ? (
+            <FixedTable fixes={fixes} total={tracked.fixes_total} more={moreFixes} busy={fixesBusy} />
+          ) : progress === "failed" ? (
+            <Message title={t("loadFailedTitle")}>{t("loadFailed")}</Message>
+          ) : (
+            <Rows count={3} />
+          ))}
 
         {view === "potential" && <PotentialTop top={top} page={page} retry={() => openView("potential")} t={t} />}
 
