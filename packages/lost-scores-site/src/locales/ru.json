@@ -168,7 +168,11 @@
     ],
     "window": "Окно Lost Scores со сканом {{name}}",
     "profileOf": "Профиль {{name}}",
-    "sampleCard": "Карточка, которую сделал Lost Scores"
+    "sampleCard": "Карточка, которую сделал Lost Scores",
+    "badgeLost_one": "{{count}} потерянный, {{ranked}} в рейтинге",
+    "badgeLost_few": "{{count}} потерянных, {{ranked}} в рейтинге",
+    "badgeLost_many": "{{count}} потерянных, {{ranked}} в рейтинге",
+    "badgeLost_other": "{{count}} потерянного, {{ranked}} в рейтинге"
   },
   "download": {
     "title": "Скачать",

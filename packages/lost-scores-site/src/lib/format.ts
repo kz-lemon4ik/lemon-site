@@ -59,8 +59,6 @@ function formatter(locale: string, words: Dict["format"]): Format {
   };
 }
 
-export const english = formatter("en-US", enDict.format);
-
 export function useFormat(): Format {
   const { language, dict } = useLang();
   return useMemo(() => formatter(language.locale, { ...enDict.format, ...dict.format }), [language, dict]);

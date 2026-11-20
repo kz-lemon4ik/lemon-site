@@ -168,7 +168,9 @@
     ],
     "window": "The Lost Scores window with {{name}}'s own scan",
     "profileOf": "{{name}}'s profile",
-    "sampleCard": "A share card made by Lost Scores"
+    "sampleCard": "A share card made by Lost Scores",
+    "badgeLost_one": "{{count}} lost play, {{ranked}} ranked",
+    "badgeLost_other": "{{count}} lost plays, {{ranked}} ranked"
   },
   "download": {
     "title": "Download",

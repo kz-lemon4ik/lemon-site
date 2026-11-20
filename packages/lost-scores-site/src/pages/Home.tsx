@@ -6,6 +6,7 @@ import ShareBadge from "@/components/ShareBadge";
 import Zoom from "@/components/Zoom";
 import { api, type ScanPage } from "@/lib/api";
 import { AUTHOR } from "@/lib/author";
+import { useAuth } from "@/lib/auth";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { detectPlatform, PLATFORM_NAMES, type Platform } from "@/lib/platform";
@@ -58,37 +59,59 @@ function OtherPlatforms({ platform, t }: { platform: Platform | null; t: Text })
   );
 }
 
-type Author = ScanPage | "failed" | null;
+type Banner = ScanPage | "failed" | null;
 
-function useAuthor(): Author {
-  const [page, setPage] = useState<Author>(null);
+const HALL_PICK = 10;
+
+function useBanner(): Banner {
+  const { me, ready } = useAuth();
+  const [banner, setBanner] = useState<Banner>(null);
   useEffect(() => {
+    if (!ready) {
+      return;
+    }
     const controller = new AbortController();
-    api.player(String(AUTHOR.id), { offset: 0, limit: 1 }, controller.signal).then(
-      (found) => setPage(found),
+    const one = (id: number) => api.player(String(id), { offset: 0, limit: 0 }, controller.signal);
+    const pick = async (): Promise<ScanPage> => {
+      if (me) {
+        try {
+          return await one(me.id);
+        } catch (error) {
+          if (controller.signal.aborted) {
+            throw error;
+          }
+        }
+      }
+      const hall = await api.rankings(0, HALL_PICK, controller.signal);
+      const others = hall.rows.map((row) => row.user_id).filter((id) => id !== AUTHOR.id);
+      const pool = others.length > 0 ? others : [AUTHOR.id];
+      return one(pool[Math.floor(Math.random() * pool.length)]);
+    };
+    pick().then(
+      (page) => setBanner(page),
       () => {
         if (!controller.signal.aborted) {
-          setPage("failed");
+          setBanner("failed");
         }
       },
     );
     return () => controller.abort();
-  }, []);
-  return page;
+  }, [me, ready]);
+  return banner;
 }
 
-function LiveBadge({ page, t }: { page: Author; t: Text }) {
+function LiveBadge({ page, t }: { page: Banner; t: Text }) {
+  const shown = page !== null && page !== "failed" ? page : null;
+  const name = shown?.metadata.user_identifier ?? AUTHOR.name;
   return (
     <Link
-      to={`/u/${AUTHOR.id}`}
-      aria-label={t("profileOf", { name: AUTHOR.name })}
-      className="mx-auto block w-full max-w-xl rounded-2xl shadow-[0_18px_50px_rgba(0,0,0,0.55)] transition-transform duration-300 hover:-translate-y-1"
+      to={`/u/${shown?.metadata.user_id ?? AUTHOR.id}`}
+      aria-label={t("profileOf", { name })}
+      className="mx-auto block w-full max-w-xl rounded-[3cqw] shadow-[0_18px_50px_rgba(0,0,0,0.55)] transition-transform duration-300 [container-type:inline-size] hover:-translate-y-1"
     >
-      {page === null && <div className="aspect-[26/7] w-full animate-pulse rounded-2xl bg-card/70" />}
-      {page === "failed" && (
-        <img src="/images/share-badge.webp" width={1040} height={280} alt={t("sampleCard")} className="w-full rounded-2xl" />
-      )}
-      {page !== null && page !== "failed" && <ShareBadge page={page} />}
+      {page === null && <div className="aspect-[26/7] w-full animate-pulse rounded-[3cqw] bg-card/70" />}
+      {page === "failed" && <img src="/images/share-badge.webp" width={1040} height={280} alt={t("sampleCard")} className="w-full rounded-[3cqw]" />}
+      {shown && <ShareBadge page={shown} />}
     </Link>
   );
 }
@@ -96,7 +119,7 @@ function LiveBadge({ page, t }: { page: Author; t: Text }) {
 export default function Home() {
   const t = useSection("home");
   useTitle();
-  const author = useAuthor();
+  const banner = useBanner();
   const [platform] = useState(detectPlatform);
 
   const program = (
@@ -159,7 +182,7 @@ export default function Home() {
         </ol>
         <div className="mt-10">{program}</div>
         <div className="mt-10">
-          <LiveBadge page={author} t={t} />
+          <LiveBadge page={banner} t={t} />
         </div>
       </section>
     </>
