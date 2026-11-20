@@ -1,1 +1,1 @@
-export const FEATURED = [124493, 4787150, 39828, 8674298];
+export const FEATURED = [124493, 4787150, 39828];
