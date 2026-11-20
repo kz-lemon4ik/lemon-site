@@ -18,7 +18,7 @@ type Detail = Awaited<ReturnType<typeof admin.scan>>;
 type Action = "hidden" | "rejected" | "verified" | "unverified" | "recheck" | "replays";
 
 const VIEWS: View[] = ["all", "waiting", "flagged", "hidden"];
-const COLUMNS = "grid-cols-[minmax(0,1fr)_6rem] md:grid-cols-[minmax(0,1.4fr)_7rem_6.5rem_6.5rem_6.5rem_4rem_4rem]";
+const COLUMNS = "grid-cols-[minmax(0,1fr)_6rem] md:grid-cols-[minmax(0,1.4fr)_7rem_6.5rem_6.5rem_6.5rem_4rem]";
 
 function StatusChip({ status }: { status: string }) {
   const look: Record<string, string> = {
@@ -133,7 +133,6 @@ function ScanRow({ row, open, toggle, t, changed }: { row: AdminRow; open: boole
           <VerdictChip verdict={row.verdict} />
         </span>
         <span className="hidden text-sm tabular-nums text-ink md:block">{row.notes}</span>
-        <span className={`hidden text-sm tabular-nums md:block ${row.flags > 0 ? "text-down" : "text-ink"}`}>{row.flags}</span>
       </button>
       {open && <ScanDetail id={row.id} t={t} changed={changed} />}
     </li>
@@ -166,7 +165,10 @@ function Scans({ t }: { t: Text }) {
             <span className="font-semibold text-lbl">{list.summary.waiting}</span> {t("waiting")}
           </span>
           <span>
-            <span className={`font-semibold ${list.summary.flagged > 0 ? "text-down" : "text-lbl"}`}>{list.summary.flagged}</span> {t("flagged")}
+            <span className="font-semibold text-lbl">{list.summary.flagged}</span> {t("flagged")}
+          </span>
+          <span>
+            <span className={`font-semibold ${(list.summary.flagged_waiting ?? 0) > 0 ? "text-down" : "text-lbl"}`}>{list.summary.flagged_waiting ?? 0}</span> {t("flaggedWaiting")}
           </span>
           <span>
             <span className="font-semibold text-lbl">{list.summary.hidden}</span> {t("hidden")}
@@ -210,7 +212,6 @@ function Scans({ t }: { t: Text }) {
             <span>{t("status")}</span>
             <span>{t("check")}</span>
             <span>{t("notes")}</span>
-            <span>{t("flags")}</span>
           </div>
           <ol className="space-y-1.5 pt-2">
             {list.rows.map((row) => (

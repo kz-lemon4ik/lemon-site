@@ -205,12 +205,11 @@ export interface AdminRow {
   attempts: number | null;
   checked_at: number | null;
   notes: number;
-  flags: number;
   replays: number;
 }
 
 export interface AdminList {
-  summary: { published: number; waiting: number; flagged: number; hidden: number };
+  summary: { published: number; waiting: number; flagged: number; flagged_waiting?: number; hidden: number };
   total: number;
   rows: AdminRow[];
 }
@@ -231,7 +230,6 @@ export interface AdminScan extends AdminRow {
   app: string;
   formula: string;
   queued_at: number | null;
-  flagged_at: number | null;
 }
 
 export interface AdminLogEntry {

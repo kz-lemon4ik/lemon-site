@@ -545,6 +545,7 @@
     "published": "published",
     "waiting": "waiting for a check",
     "flagged": "flagged",
+    "flaggedWaiting": "flagged, waiting for a decision",
     "hidden": "hidden",
     "tabs": {
       "scans": "Scans",
@@ -562,7 +563,6 @@
     "status": "Status",
     "check": "Check",
     "notes": "Notes",
-    "flags": "Flags",
     "replays": "Replays",
     "noScans": "Nothing here.",
     "loadFailed": "The admin data did not load.",
