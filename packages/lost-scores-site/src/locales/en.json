@@ -33,7 +33,10 @@
     "settings": "Settings",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "mainNav": "Main"
+    "mainNav": "Main",
+    "admin": "Admin",
+    "flaggedWaiting": "{{count}} flagged scans wait for you",
+    "back": "Back"
   },
   "footer": {
     "privacy": "Privacy",

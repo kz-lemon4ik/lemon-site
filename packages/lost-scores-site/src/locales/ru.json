@@ -33,7 +33,10 @@
     "settings": "Настройки",
     "openMenu": "Открыть меню",
     "closeMenu": "Закрыть меню",
-    "mainNav": "Основное меню"
+    "mainNav": "Основное меню",
+    "admin": "Админка",
+    "flaggedWaiting": "Ждут решения: {{count}}",
+    "back": "Назад"
   },
   "footer": {
     "privacy": "Конфиденциальность",

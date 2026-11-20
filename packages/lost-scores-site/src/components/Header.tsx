@@ -1,11 +1,12 @@
-import { LogIn, Menu, SlidersHorizontal, User, X } from "lucide-react";
-import { useCallback, useRef, useState, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight, Globe, LogOut, Menu, Shield, SlidersHorizontal, User, X, type LucideIcon } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import Avatar from "@/components/Avatar";
 import Brand from "@/components/Brand";
 import Flag from "@/components/Flag";
 import Settings from "@/components/Settings";
 import Slider from "@/components/Slider";
-import { LOGIN_URL, type Me } from "@/lib/api";
+import { LOGIN_URL, admin, type Me } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
 import { useDismiss } from "@/lib/dismiss";
@@ -15,6 +16,8 @@ import { useSlider } from "@/lib/slider";
 
 type Text = Words<"header">;
 
+const GUEST = "/images/avatar-guest.png";
+
 function navOf(t: Text) {
   return [
     { to: "/rankings", label: t("nav.rankings") },
@@ -23,31 +26,32 @@ function navOf(t: Text) {
   ];
 }
 
-function Popover({ button, label, children, width = "w-72" }: { button: ReactNode; label: string; children: (close: () => void) => ReactNode; width?: string }) {
-  const [open, setOpen] = useState(false);
-  const box = useRef<HTMLDivElement>(null);
-  const close = useCallback(() => setOpen(false), []);
-  useDismiss(open, close, box);
-  return (
-    <div ref={box} className="relative">
-      <button type="button" aria-haspopup="dialog" aria-expanded={open} aria-label={label} title={label} onClick={() => setOpen((current) => !current)} className="group block rounded-full">
-        {button}
-      </button>
-      {open && <div className={`menu-pop absolute right-0 mt-3 ${width} overflow-hidden rounded-2xl bg-card shadow-2xl ring-1 ring-divider`}>{children(close)}</div>}
-    </div>
-  );
+function useFlagged(me: Me | null, open: boolean): number | null {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    if (!me || !open) {
+      return;
+    }
+    const controller = new AbortController();
+    admin.me(controller.signal).then(
+      (answer) => setCount(answer.admin ? (answer.flagged_waiting ?? 0) : null),
+      () => {
+        if (!controller.signal.aborted) {
+          setCount(null);
+        }
+      },
+    );
+    return () => controller.abort();
+  }, [me, open]);
+  return me ? count : null;
 }
 
-function RoundIcon({ children }: { children: ReactNode }) {
-  return <span className="grid h-10 w-10 place-items-center rounded-full text-muted transition-colors group-hover:bg-btn group-hover:text-lbl">{children}</span>;
-}
-
-function AvatarCircle({ me, large }: { me: Me; large: boolean }) {
+function AvatarCircle({ me, large }: { me: Me | null; large: boolean }) {
   const [failed, setFailed] = useState(false);
   return (
     <span className={`relative block overflow-hidden rounded-full bg-btn transition-[width,height] duration-300 ${large ? "h-12 w-12 xl:h-14 xl:w-14" : "h-10 w-10"}`}>
       {!failed ? (
-        <img src={`https://a.ppy.sh/${me.id}`} alt="" onError={() => setFailed(true)} className="h-full w-full object-cover" />
+        <img src={me ? `https://a.ppy.sh/${me.id}` : GUEST} alt="" onError={() => setFailed(true)} className="h-full w-full object-cover" />
       ) : (
         <User aria-hidden className="absolute inset-0 m-auto h-1/2 w-1/2 text-muted" />
       )}
@@ -56,145 +60,167 @@ function AvatarCircle({ me, large }: { me: Me; large: boolean }) {
   );
 }
 
-function LanguageMenu({ label }: { label: string }) {
-  const { language, setLang } = useLang();
-  const lang = language.id;
-  const current = LANGS.find((item) => item.id === lang) ?? LANGS[0];
+function ProfileBlock({ me, close, t }: { me: Me | null; close: () => void; t: Text }) {
+  const look = "relative isolate block h-28 overflow-hidden bg-gradient-to-br from-[#5b4893] to-[#2f2552] transition-[filter] hover:brightness-110";
+  const inside = (
+    <>
+      <img src="/images/triangles.svg" alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
+      <span className="flex h-full flex-col items-center justify-center gap-2 px-4">
+        {me ? (
+          <Avatar id={me.id} name={me.username} size={48} className="ring-2 ring-white/70" />
+        ) : (
+          <img src={GUEST} alt="" width={48} height={48} className="h-12 w-12 rounded-full ring-2 ring-white/70" />
+        )}
+        <span className="max-w-full truncate font-medium text-white">{me ? me.username : t("logInOsu")}</span>
+      </span>
+    </>
+  );
+  return me ? (
+    <Link to={`/u/${me.id}`} onClick={close} aria-label={`${me.username} · ${t("profile")}`} className={look}>
+      {inside}
+    </Link>
+  ) : (
+    <a href={LOGIN_URL} onClick={rememberPage} className={look}>
+      {inside}
+    </a>
+  );
+}
+
+const ITEM = "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm text-lbl transition-colors hover:bg-btn focus-visible:bg-btn focus-visible:outline-none";
+
+function Item({ icon: Icon, label, value, more, onClick }: { icon: LucideIcon; label: string; value?: ReactNode; more?: boolean; onClick: () => void }) {
   return (
-    <Popover label={label} width="w-56" button={<RoundIcon><Flag code={current.flag} /></RoundIcon>}>
-      {(close) => (
-        <div className="p-2">
-          {LANGS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => {
-                setLang(item.id);
-                close();
-              }}
-              aria-current={item.id === lang ? "true" : undefined}
-              className={`relative flex w-full items-center gap-3 rounded-xl py-2.5 pl-5 pr-3 text-left transition-colors hover:bg-btn ${item.id === lang ? "text-lbl" : "text-muted"}`}
-            >
-              {item.id === lang && <span aria-hidden className="absolute inset-y-2.5 left-2 w-1 rounded-full bg-acc" />}
-              <Flag code={item.flag} />
-              <span>{item.name}</span>
-            </button>
-          ))}
+    <button type="button" onClick={onClick} className={ITEM}>
+      <Icon aria-hidden size={16} className="text-muted" />
+      <span className="flex-1">{label}</span>
+      {value}
+      {more && <ChevronRight aria-hidden size={15} className="text-meta" />}
+    </button>
+  );
+}
+
+function MenuItems({ me, flagged, close, t }: { me: Me | null; flagged: number | null; close: () => void; t: Text }) {
+  const [view, setView] = useState<"main" | "language" | "settings">("main");
+  const { language, setLang } = useLang();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const back = (
+    <button type="button" onClick={() => setView("main")} className={`${ITEM} text-muted`}>
+      <ChevronLeft aria-hidden size={16} />
+      {t("back")}
+    </button>
+  );
+  if (view === "language") {
+    return (
+      <div className="p-1">
+        {back}
+        {LANGS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            aria-current={item.id === language.id ? "true" : undefined}
+            onClick={() => {
+              setLang(item.id);
+              setView("main");
+            }}
+            className={`${ITEM} ${item.id === language.id ? "bg-btn/60" : ""}`}
+          >
+            <Flag code={item.flag} className="!h-5 !w-5" />
+            {item.name}
+          </button>
+        ))}
+      </div>
+    );
+  }
+  if (view === "settings") {
+    return (
+      <div className="p-1">
+        {back}
+        <div className="px-3 text-sm">
+          <Settings />
         </div>
+      </div>
+    );
+  }
+  return (
+    <div className="p-1">
+      <Item icon={Globe} label={t("language")} value={<span className="text-meta">{language.name}</span>} more onClick={() => setView("language")} />
+      <Item icon={SlidersHorizontal} label={t("settings")} more onClick={() => setView("settings")} />
+      {flagged !== null && (
+        <Link to="/admin" onClick={close} className={ITEM}>
+          <Shield aria-hidden size={16} className="text-muted" />
+          <span className="flex-1">{t("admin")}</span>
+          {flagged > 0 && (
+            <span title={t("flaggedWaiting", { count: flagged })} className="rounded-full bg-down/15 px-2 text-xs font-semibold tabular-nums leading-5 text-down">
+              {flagged}
+            </span>
+          )}
+        </Link>
       )}
-    </Popover>
+      {me && (
+        <Item
+          icon={LogOut}
+          label={t("logOut")}
+          onClick={async () => {
+            close();
+            await logout();
+            navigate("/");
+          }}
+        />
+      )}
+    </div>
   );
 }
 
 function Account({ large, t }: { large: boolean; t: Text }) {
-  const { me, ready, logout } = useAuth();
-  const navigate = useNavigate();
+  const { me, ready } = useAuth();
+  const [open, setOpen] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+  const close = useCallback(() => setOpen(false), []);
+  useDismiss(open, close, box);
+  const flagged = useFlagged(me, open);
   if (!ready) {
-    return <span className={large ? "h-12 w-12 xl:h-14 xl:w-14" : "h-10 w-10"} />;
+    return <span className={`block ${large ? "h-12 w-12 xl:h-14 xl:w-14" : "h-10 w-10"}`} />;
   }
-  if (!me) {
-    return (
-      <a href={LOGIN_URL} onClick={rememberPage} className="btn-login gap-2 px-5 py-2.5">
-        <LogIn aria-hidden size={17} />
-        {t("logIn")}
-      </a>
-    );
-  }
+  const label = me ? t("accountOf", { name: me.username }) : t("logIn");
   return (
-    <Popover label={t("accountOf", { name: me.username })} width="w-64" button={<AvatarCircle me={me} large={large} />}>
-      {(close) => (
-        <>
-          <Link
-            to={`/u/${me.id}`}
-            onClick={close}
-            className="block bg-gradient-to-br from-[#4b3f78] via-[#3a3352] to-[#2c2932] px-5 py-6 transition-[filter] hover:brightness-110"
-          >
-            <span className="block truncate text-xl font-semibold text-white">{me.username}</span>
-            <span className="text-sm text-[#d9d2ec]">{t("profile")}</span>
-          </Link>
-          <div className="py-2">
-            <button
-              type="button"
-              onClick={async () => {
-                close();
-                await logout();
-                navigate("/");
-              }}
-              className="block w-full px-5 py-2.5 text-left text-lbl transition-colors hover:bg-btn"
-            >
-              {t("logOut")}
-            </button>
-          </div>
-        </>
+    <div ref={box} className="relative">
+      <button type="button" aria-haspopup="dialog" aria-expanded={open} aria-label={label} title={label} onClick={() => setOpen((current) => !current)} className="group block rounded-full">
+        <AvatarCircle me={me} large={large} />
+      </button>
+      {open && (
+        <div className="menu-pop absolute right-0 mt-3 w-64 overflow-hidden rounded-xl bg-card shadow-2xl ring-1 ring-divider">
+          <ProfileBlock me={me} close={close} t={t} />
+          <MenuItems me={me} flagged={flagged} close={close} t={t} />
+        </div>
       )}
-    </Popover>
+    </div>
   );
 }
 
 function MobilePanel({ close, t }: { close: () => void; t: Text }) {
-  const { me, logout } = useAuth();
-  const { language, setLang } = useLang();
-  const lang = language.id;
-  const navigate = useNavigate();
+  const { me } = useAuth();
+  const flagged = useFlagged(me, true);
   return (
-    <div id="mobile-menu" className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-divider px-3 pb-4 pt-3 lg:hidden">
-      {me ? (
-        <Link to={`/u/${me.id}`} onClick={close} className="mb-2 flex items-center gap-3 rounded-xl bg-btn/60 px-3 py-3">
-          <img src={`https://a.ppy.sh/${me.id}`} alt="" className="h-10 w-10 rounded-full object-cover" />
-          <span className="min-w-0">
-            <span className="block truncate font-semibold text-lbl">{me.username}</span>
-            <span className="text-sm text-meta">{t("profile")}</span>
-          </span>
-        </Link>
-      ) : (
-        <a href={LOGIN_URL} onClick={rememberPage} className="btn-login mb-2 w-full gap-2 py-3 text-base">
-          <LogIn aria-hidden size={18} />
-          {t("logInOsu")}
-        </a>
-      )}
-      <nav aria-label={t("mainNav")}>
+    <div id="mobile-menu" className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-divider lg:hidden">
+      <ProfileBlock me={me} close={close} t={t} />
+      <nav aria-label={t("mainNav")} className="space-y-1 p-2">
         {navOf(t).map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             end={item.to === "/"}
             onClick={close}
-            className={({ isActive }) => `block rounded-xl px-4 py-3 text-lg font-medium ${isActive ? "bg-btn text-lbl" : "text-muted"}`}
+            className={({ isActive }) => `block rounded-lg px-3 py-2.5 text-base font-medium ${isActive ? "bg-btn text-lbl" : "text-muted"}`}
           >
             {item.label}
           </NavLink>
         ))}
       </nav>
-      <div className="mt-3 rounded-2xl bg-card px-4 py-1">
-        <Settings />
+      <div className="mx-3 border-t border-divider" />
+      <div className="px-1 pb-3 pt-1">
+        <MenuItems me={me} flagged={flagged} close={close} t={t} />
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        {LANGS.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            aria-pressed={item.id === lang}
-            onClick={() => setLang(item.id)}
-            className={`flex items-center justify-center gap-2 rounded-xl px-3 py-3 font-medium transition-colors ${item.id === lang ? "bg-btn text-lbl" : "text-muted"}`}
-          >
-            <Flag code={item.flag} />
-            {item.name}
-          </button>
-        ))}
-      </div>
-      {me && (
-        <button
-          type="button"
-          onClick={async () => {
-            close();
-            await logout();
-            navigate("/");
-          }}
-          className="mt-3 w-full rounded-xl px-4 py-3 text-left text-lg font-medium text-muted"
-        >
-          {t("logOut")}
-        </button>
-      )}
     </div>
   );
 }
@@ -202,7 +228,6 @@ function MobilePanel({ close, t }: { close: () => void; t: Text }) {
 export default function Header() {
   const t = useSection("header");
   const scrolled = useScrolled();
-  const { me } = useAuth();
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const bar = useRef<HTMLElement>(null);
@@ -241,17 +266,7 @@ export default function Header() {
           <Slider bar={navBar} className="hidden lg:block" />
         </div>
         <div className="ml-auto flex items-center gap-1.5">
-          <div className="hidden items-center gap-1 lg:flex">
-            <LanguageMenu label={t("language")} />
-            <Popover label={t("settings")} button={<RoundIcon><SlidersHorizontal aria-hidden size={19} /></RoundIcon>}>
-              {() => (
-                <div className="px-5 py-2">
-                  <Settings />
-                </div>
-              )}
-            </Popover>
-          </div>
-          <span className={me ? "" : "hidden sm:block"}>
+          <span className="hidden lg:block">
             <Account large={!scrolled} t={t} />
           </span>
           <button

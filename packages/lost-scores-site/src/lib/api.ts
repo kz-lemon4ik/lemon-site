@@ -256,7 +256,7 @@ async function post<T>(path: string, body?: unknown): Promise<T> {
 }
 
 export const admin = {
-  me: (signal?: AbortSignal) => get<{ admin: boolean; osu_id: number }>("/api/admin/me", signal),
+  me: (signal?: AbortSignal) => get<{ admin: boolean; osu_id: number; flagged_waiting?: number }>("/api/admin/me", signal),
   scans: (view: string, offset: number, signal?: AbortSignal) => get<AdminList>(`/api/admin/scans?view=${view}&offset=${offset}`, signal),
   scan: (id: string, signal?: AbortSignal) => get<Omit<AdminScan, "notes"> & { notes: AdminNote[] }>(`/api/admin/scans/${encodeURIComponent(id)}`, signal),
   status: (id: string, status: string) => post<{ id: string; status: string }>(`/api/admin/scans/${encodeURIComponent(id)}/status`, { status }),
