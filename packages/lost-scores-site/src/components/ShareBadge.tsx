@@ -17,7 +17,7 @@ export default function ShareBadge({ page }: { page: ScanPage }) {
   const change = accuracyFrom !== null && accuracyTo !== null ? `${rises ? "+" : "-"}${f.accuracy(Math.abs(accuracyTo - accuracyFrom))}` : "";
 
   return (
-    <div className="relative aspect-[26/7] w-full overflow-hidden rounded-[3cqw] text-left font-sans [container-type:inline-size]">
+    <div className="theme-dark relative aspect-[26/7] w-full overflow-hidden rounded-[3cqw] text-left font-sans [container-type:inline-size]">
       <img src="/images/badge-backdrop.webp" alt="" className="absolute inset-0 h-full w-full" />
       <div className="absolute left-[3.46cqw] top-[3.46cqw] h-[20cqw] w-[20cqw] overflow-hidden rounded-[2.7cqw] bg-btn">
         {userId && !avatarFailed && (
