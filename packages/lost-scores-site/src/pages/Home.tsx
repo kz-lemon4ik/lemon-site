@@ -139,9 +139,11 @@ export default function Home() {
           <p className="mt-4 text-sm text-muted">
             <OtherPlatforms platform={platform} t={t} /> · {t("free")}
           </p>
-          <div className="mt-10">
-            <LiveBadge page={author} t={t} />
-          </div>
+          {!minimal && (
+            <div className="mt-10">
+              <LiveBadge page={author} t={t} />
+            </div>
+          )}
         </div>
         {minimal && (
           <div className="absolute inset-x-0 bottom-6 flex justify-center">
@@ -165,6 +167,11 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-10">{program}</div>
+        {minimal && (
+          <div className="mt-10">
+            <LiveBadge page={author} t={t} />
+          </div>
+        )}
       </section>
     </>
   );
