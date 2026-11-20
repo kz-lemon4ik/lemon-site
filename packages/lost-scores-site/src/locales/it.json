@@ -100,10 +100,6 @@
     "potential": "con i play persi",
     "label": "pp del profilo e pp con i play persi per ogni scansione"
   },
-  "zoom": {
-    "open": "Apri l'immagine a grandezza piena",
-    "close": "Chiudi"
-  },
   "notFound": {
     "title": "Non trovata",
     "heading": "Anche questa pagina è andata persa",

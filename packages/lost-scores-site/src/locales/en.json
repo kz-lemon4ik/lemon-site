@@ -100,10 +100,6 @@
     "potential": "with lost plays",
     "label": "Profile pp and pp with lost plays for each scan"
   },
-  "zoom": {
-    "open": "Open the picture full size",
-    "close": "Close"
-  },
   "notFound": {
     "title": "Not found",
     "heading": "This page is lost too",

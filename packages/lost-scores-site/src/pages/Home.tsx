@@ -1,14 +1,14 @@
-import { ChevronDown, Download } from "lucide-react";
+import { ChevronDown, Download, FolderOpen, ScanSearch, Share2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Art from "@/components/Art";
 import ShareBadge from "@/components/ShareBadge";
-import Zoom from "@/components/Zoom";
 import { api, type ScanPage } from "@/lib/api";
 import { AUTHOR } from "@/lib/author";
 import { useAuth } from "@/lib/auth";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
+import { useMotion } from "@/lib/motion";
 import { detectPlatform, PLATFORM_NAMES, type Platform } from "@/lib/platform";
 import { useRelease } from "@/lib/release";
 import { useTheme } from "@/lib/theme";
@@ -102,13 +102,14 @@ function useBanner(): Banner {
 }
 
 function LiveBadge({ page, t }: { page: Banner; t: Text }) {
+  const light = useTheme().theme === "light";
   const shown = page !== null && page !== "failed" ? page : null;
   const name = shown?.metadata.user_identifier ?? AUTHOR.name;
   return (
     <Link
       to={`/u/${shown?.metadata.user_id ?? AUTHOR.id}`}
       aria-label={t("profileOf", { name })}
-      className="mx-auto block w-full max-w-xl rounded-[3cqw] shadow-[0_18px_50px_rgba(0,0,0,0.55)] transition-transform duration-300 [container-type:inline-size] hover:-translate-y-1"
+      className={`mx-auto block w-full max-w-xl rounded-[3cqw] transition-transform duration-300 [container-type:inline-size] hover:-translate-y-1 ${light ? "shadow-[0_18px_50px_rgba(30,20,60,0.16)] ring-1 ring-black/5" : "shadow-[0_18px_50px_rgba(0,0,0,0.55)]"}`}
     >
       {page === null && <div className="aspect-[26/7] w-full animate-pulse rounded-[3cqw] bg-card/70" />}
       {page === "failed" && <img src="/images/share-badge.webp" width={1040} height={280} alt={t("sampleCard")} className="w-full rounded-[3cqw]" />}
@@ -117,6 +118,8 @@ function LiveBadge({ page, t }: { page: Banner; t: Text }) {
   );
 }
 
+const STEP_ICONS = [FolderOpen, ScanSearch, Share2];
+
 export default function Home() {
   const t = useSection("home");
   useTitle();
@@ -124,21 +127,21 @@ export default function Home() {
   const { theme } = useTheme();
   const [platform] = useState(detectPlatform);
 
-  const shot = theme === "light" ? "program-light" : "program";
+  const { enabled: moving } = useMotion();
+  const light = theme === "light";
+  const shot = light ? "program-light" : "program";
   const program = (
-    <div className="rounded-[1.6rem] bg-[#141318] p-2.5 shadow-[0_24px_60px_rgba(30,20,60,0.28)] ring-1 ring-black/10 sm:p-3">
-      <Zoom src={`/images/${shot}-2x.webp`} alt={t("window", { name: AUTHOR.name })}>
-        <img
-          src={`/images/${shot}.webp`}
-          srcSet={`/images/${shot}.webp 1480w, /images/${shot}-2x.webp 2960w`}
-          sizes="(min-width: 1200px) 1152px, 100vw"
-          width={1480}
-          height={800}
-          loading="lazy"
-          alt={t("window", { name: AUTHOR.name })}
-          className="w-full rounded-2xl"
-        />
-      </Zoom>
+    <div className={`rounded-[1.6rem] p-2.5 sm:p-3 ${light ? "bg-white shadow-[0_24px_60px_rgba(30,20,60,0.16)] ring-1 ring-black/5" : "bg-[#141318] ring-1 ring-black/10"}`}>
+      <img
+        src={`/images/${shot}.webp`}
+        srcSet={`/images/${shot}.webp 1480w, /images/${shot}-2x.webp 2960w`}
+        sizes="(min-width: 1200px) 1152px, 100vw"
+        width={1480}
+        height={800}
+        loading="lazy"
+        alt={t("window", { name: AUTHOR.name })}
+        className="w-full rounded-2xl"
+      />
     </div>
   );
 
@@ -167,7 +170,15 @@ export default function Home() {
           </p>
         </div>
         <div className="absolute inset-x-0 bottom-6 flex justify-center">
-          <a href="#how" aria-label={t("toHow")} className="animate-bounce text-muted hover:text-lbl">
+          <a
+            href="#how"
+            aria-label={t("toHow")}
+            onClick={(event) => {
+              event.preventDefault();
+              document.getElementById("how")?.scrollIntoView({ behavior: moving ? "smooth" : "auto", block: "start" });
+            }}
+            className="animate-bounce text-muted hover:text-lbl"
+          >
             <ChevronDown aria-hidden size={28} />
           </a>
         </div>
@@ -177,13 +188,18 @@ export default function Home() {
         <h2 className="text-3xl">{t("howTitle")}</h2>
         <p className="mt-1 text-muted">{t("howHint")}</p>
         <ol className="mt-6 grid gap-4 md:grid-cols-3">
-          {t.raw<{ title: string; text: string }[]>("steps").map((step, index) => (
-            <li key={step.title} className="rounded-2xl bg-card p-5 sm:p-6">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-btn font-semibold text-acc">{index + 1}</span>
-              <h3 className="mt-3 text-xl">{step.title}</h3>
-              <p className="mt-1 text-muted">{step.text}</p>
-            </li>
-          ))}
+          {t.raw<{ title: string; text: string }[]>("steps").map((step, index) => {
+            const Icon = STEP_ICONS[index] ?? Share2;
+            return (
+              <li key={step.title} className="rounded-2xl bg-card p-5 sm:p-6">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-btn text-acc">
+                  <Icon aria-hidden size={19} />
+                </span>
+                <h3 className="mt-3 text-xl">{step.title}</h3>
+                <p className="mt-1 text-muted">{step.text}</p>
+              </li>
+            );
+          })}
         </ol>
         <div className="mt-10">{program}</div>
         <div className="mt-10">
