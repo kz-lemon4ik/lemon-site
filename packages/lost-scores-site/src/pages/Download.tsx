@@ -71,6 +71,11 @@ function PlatformCard({ platform, release, mine, t }: { platform: Platform; rele
   );
 }
 
+function platformOf(system: string): Platform {
+  const name = system.toLowerCase();
+  return name.startsWith("windows") ? "windows" : name.startsWith("macos") ? "macos" : "linux";
+}
+
 export default function Download() {
   const t = useSection("download");
   useTitle(t("title"));
@@ -112,10 +117,15 @@ export default function Download() {
           </Section>
 
           <Section title={t("firstTitle")}>
-            <ul className="list-disc space-y-1.5 pl-5 text-muted">
+            <ul className="space-y-2.5">
               {t.raw<{ system: string; text: string }[]>("first").map(({ system, text: steps }) => (
-                <li key={system}>
-                  <span className="text-lbl">{system}</span> {steps}
+                <li key={system} className="flex gap-3 text-muted">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-btn text-acc">
+                    <SystemIcon platform={platformOf(system)} className="!h-3.5 !w-3.5" />
+                  </span>
+                  <span className="pt-px">
+                    <span className="text-lbl">{system}</span> {steps}
+                  </span>
                 </li>
               ))}
             </ul>
