@@ -27,7 +27,6 @@ function Status({ state, t }: { state: ReturnType<typeof useRelease>; t: Text })
         <a href={state.release.page} className="link">
           {t("whatsNew")}
         </a>
-        {state.release.mirror && <span className="mt-1 block text-sm">{t("mirror")}</span>}
       </p>
     );
   }

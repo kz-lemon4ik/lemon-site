@@ -21,7 +21,6 @@ export interface Release {
   cli: Partial<Record<Platform, ReleaseFile>>;
   sums: ReleaseFile | null;
   signature: ReleaseFile | null;
-  mirror: boolean;
 }
 
 export type ReleaseState =
@@ -64,7 +63,6 @@ export function parseRelease(data: GithubRelease, mirror = false): Release {
     cli: {},
     sums: null,
     signature: null,
-    mirror,
   };
   for (const asset of data.assets) {
     if (!asset.browser_download_url.startsWith(allowed)) {

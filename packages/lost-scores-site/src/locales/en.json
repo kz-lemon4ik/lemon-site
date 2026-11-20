@@ -189,7 +189,6 @@
     },
     "looking": "Looking for the latest version…",
     "whatsNew": "What's new",
-    "mirror": "GitHub did not answer, so the files come from our mirror. They are the same signed files.",
     "soon": "The first release is coming soon. It will appear here and on GitHub.",
     "githubDown": "GitHub did not answer. The files are on the <link>releases page</link>.",
     "yourSystem": "your system",
