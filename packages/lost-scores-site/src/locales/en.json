@@ -469,7 +469,7 @@
   },
   "privacy": {
     "title": "Privacy policy",
-    "subtitle": "Updated 18 November 2026",
+    "subtitle": "Updated 20 November 2026",
     "sections": [
       {
         "title": "Who runs Lost Scores",
@@ -489,7 +489,7 @@
         "title": "Data we keep",
         "text": [
           "When you log in with osu!, we receive and keep your osu! user id, your username and your earlier usernames, and the times your account was first and last seen. We do not receive your password or your email address.",
-          "While you are logged in, every finished scan is saved on our server: the lost plays, the Potential Top and the summary figures. Replay files are uploaded only for the plays you choose to share. We also keep the results of the checks of published scans, a daily count of requests per account that keeps the shared queue fair, and map information shared by all players.",
+          "While you are logged in, every finished scan is saved on our server: the lost plays, the Potential Top and the summary figures. Replay files are uploaded only for the plays you choose to share. We also keep the results of the checks of published scans, a daily count of requests per account that keeps the shared queue fair, and map information shared by all players. For published scans we also keep the list of your lost plays, with the fixes and medals the server finds for them on osu!.",
           "The server does not store IP addresses or browser details."
         ]
       },
@@ -510,13 +510,13 @@
         "title": "How long data is kept",
         "text": [
           "We keep your 20 newest private scans and delete older ones automatically. A published scan and its replays stay until you unpublish or delete them. A login session lasts up to 90 days and ends when you log out. Answers from osu! about your profile are cached for five minutes.",
-          "When a published scan is deleted, we keep only a note that the account had a flagged check: the account, the number of flagged checks and the time of the last one. Nothing from the scan itself remains."
+          "Your list of lost plays, your fixes and your medals stay until you ask us to delete them or your account; unpublishing or deleting scans does not remove them."
         ]
       },
       {
         "title": "Service providers",
         "text": [
-          "The website and the server run on Cloudflare, which handles the network traffic and stores our data under its own privacy policy. The website loads avatars from osu! (a.ppy.sh), and the Download page asks GitHub for the latest version of the program."
+          "The website and the server run on Cloudflare, which handles the network traffic and stores our data under its own privacy policy. The website loads avatars from osu! (a.ppy.sh), and the Download page asks GitHub for the latest version of the program. To show the rank your potential pp would reach, the server sends that pp number, and nothing else, to osu!daily."
         ]
       },
       {
