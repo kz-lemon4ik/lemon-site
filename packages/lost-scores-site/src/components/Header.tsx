@@ -189,7 +189,7 @@ function Account({ large, t }: { large: boolean; t: Text }) {
         <AvatarCircle me={me} large={large} />
       </button>
       {open && (
-        <div className="menu-pop absolute right-0 mt-3 w-64 overflow-hidden rounded-xl bg-card shadow-2xl ring-1 ring-divider">
+        <div className="menu-pop absolute right-0 mt-3 w-72 overflow-hidden rounded-xl bg-card shadow-2xl ring-1 ring-divider">
           <ProfileBlock me={me} close={close} t={t} />
           <MenuItems me={me} flagged={flagged} close={close} t={t} />
         </div>
