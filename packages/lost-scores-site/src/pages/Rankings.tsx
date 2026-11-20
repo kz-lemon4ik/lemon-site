@@ -148,7 +148,7 @@ function PlayerRow({ row, mine, world }: { row: RankingRow; mine: boolean; world
         aria-current={mine ? "true" : undefined}
         className={`grid items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-btn sm:px-4 ${COLUMNS} ${mine ? "bg-row-hi ring-1 ring-acc/60" : "bg-row"}`}
       >
-        <span className={`text-lg font-semibold tabular-nums ${row.place <= 3 ? "text-gold" : "text-muted"}`}>{row.place}</span>
+        <span className={`text-lg font-semibold tabular-nums ${row.place <= 3 && Math.round(row.total_pp_gain * 10) > 0 ? "text-gold" : "text-muted"}`}>{row.place}</span>
         <span className="flex min-w-0 items-center gap-3">
           <Avatar id={row.user_id} name={row.username} size={38} />
           <span className="min-w-0">
@@ -195,7 +195,8 @@ function PlayersView({ t }: { t: Text }) {
     const controller = new AbortController();
     api.player(me, { offset: 0, limit: 1 }, controller.signal).then(
       (found) => {
-        const target = found.hall_rank ? Math.ceil(found.hall_rank / SIZE) : 1;
+        const row = found.hall_row ?? found.hall_rank;
+        const target = row ? Math.ceil(row / SIZE) : 1;
         if (target !== page) {
           setParams({ page: String(target), me }, { replace: true });
         }
