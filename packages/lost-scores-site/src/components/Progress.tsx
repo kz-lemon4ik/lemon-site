@@ -9,10 +9,10 @@ type Text = Words<"progress">;
 type Align = "start" | "center" | "end";
 
 const MILESTONES: Partial<Record<MedalId, number>> = { quarter: 0.25, half: 0.5, threeQuarters: 0.75, all: 1 };
-const COINS: MedalId[] = ["first", "ppQuarter", "ppHalf", "biggest", "five", "oldest", "fc", "ss", "harder"];
+const COINS: MedalId[] = ["first", "ppQuarter", "ppHalf", "ppThreeQuarters", "biggest", "five", "oldest", "fc", "ss", "harder"];
 const ICONS: Partial<Record<MedalId, LucideIcon>> = { first: Wrench, biggest: Trophy, oldest: Hourglass, harder: ChevronsUp };
 const TEXTS: Partial<Record<MedalId, string>> = { five: "5", fc: "FC", ss: "SS" };
-const FRACTIONS: Partial<Record<MedalId, string>> = { ppQuarter: "¼", ppHalf: "½" };
+const FRACTIONS: Partial<Record<MedalId, string>> = { ppQuarter: "¼", ppHalf: "½", ppThreeQuarters: "¾" };
 const TIP_ROOM = 136;
 const TIP_HEIGHT = 300;
 
@@ -178,17 +178,15 @@ export function FixBar({ progress }: { progress: Progress }) {
   const share = progress.total > 0 ? progress.fixed / progress.total : 0;
   const percent = progress.total > 0 ? Math.floor((progress.fixed * 100) / progress.total) : 0;
   return (
-    <div className="mt-6">
-      <div className="flex items-baseline justify-between gap-4">
-        <p className="text-sm text-meta">
-          {t("fixed")}
-          <span className="ml-2 text-xl font-semibold tabular-nums text-lbl sm:text-2xl">{f.whole(progress.fixed)}</span>
-          <span className="ml-1.5 text-base text-meta">{t("of", { total: f.whole(progress.total) })}</span>
+    <div>
+      <div className="flex items-baseline justify-between gap-4 text-sm">
+        <p className="text-meta">
+          {t("fixed")} <span className="font-semibold tabular-nums text-lbl">{f.whole(progress.fixed)}</span> {t("of", { total: f.whole(progress.total) })}
         </p>
-        <p className="text-sm font-medium tabular-nums text-muted">{percent}%</p>
+        <p className="font-semibold tabular-nums text-lbl">{percent}%</p>
       </div>
       <div className="relative mt-2 h-3.5">
-        <div className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full bg-btn">
+        <div className="absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 overflow-hidden rounded-full bg-btn">
           <div className="h-full rounded-full bg-acc" style={{ width: `${share * 100}%` }} />
         </div>
         {progress.medals
@@ -201,7 +199,7 @@ export function FixBar({ progress }: { progress: Progress }) {
                 medal={medal}
                 className="absolute top-0"
                 style={{ left: at >= 1 ? "calc(100% - 14px)" : `calc(${at * 100}% - 7px)` }}
-                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-card transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-acc motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
+                button={`block h-3.5 w-3.5 rounded-full ring-[3px] ring-band transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-acc motion-safe:hover:scale-125 ${medal.at !== null ? "bg-acc" : "bg-btn"}`}
               />
             );
           })}
@@ -211,14 +209,14 @@ export function FixBar({ progress }: { progress: Progress }) {
   );
 }
 
-export function MedalRow({ medals }: { medals: MedalState[] }) {
+export function MedalRow({ medals, empty }: { medals: MedalState[]; empty: ReactNode }) {
   const t = useSection("progress");
   const earned = COINS.map((id) => medals.find((medal) => medal.id === id)).filter((medal): medal is MedalState => medal !== undefined && medal.at !== null);
   if (earned.length === 0) {
-    return null;
+    return empty;
   }
   return (
-    <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
       <span className="text-sm text-meta">{t("medals")}</span>
       <div className="flex flex-wrap gap-1.5">
         {earned.map((medal) => (
@@ -226,7 +224,7 @@ export function MedalRow({ medals }: { medals: MedalState[] }) {
             key={medal.id}
             medal={medal}
             className="relative"
-            button="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-card motion-safe:hover:scale-110"
+            button="block rounded-full transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acc focus-visible:ring-offset-2 focus-visible:ring-offset-band motion-safe:hover:scale-110"
           >
             <Coin id={medal.id} earned className="h-8 w-8" />
           </Tipped>

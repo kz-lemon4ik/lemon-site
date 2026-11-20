@@ -14,6 +14,7 @@ const TOKENS = [
   "row-lost-hover",
   "ranked",
   "loved",
+  "band",
   "divider",
   "btn",
   "btn-hover",

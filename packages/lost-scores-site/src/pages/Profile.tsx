@@ -1,7 +1,7 @@
+import { CheckCircle2, HelpCircle, XCircle } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
-import { Check } from "@/components/Chips";
 import ConfirmButton from "@/components/ConfirmButton";
 import FixedTable from "@/components/FixedTable";
 import { Cover, PageShell, Sheet } from "@/components/Layout";
@@ -24,6 +24,7 @@ type Text = Words<"profile">;
 
 const PAGE = 50;
 const FIX_PAGE = 20;
+const HALL_TITLE = 50;
 
 type Load =
   | { status: "loading" }
@@ -39,47 +40,119 @@ function isOwner(me: Me | null, id: string): me is Me {
   return me !== null && (String(me.id) === id || me.username.toLowerCase() === id.toLowerCase());
 }
 
-function Stat({ label, children }: { label: string; children: ReactNode }) {
+function Cell({ label, value, note }: { label: string; value: ReactNode; note: ReactNode }) {
   return (
-    <div>
-      <p className="text-sm text-meta">{label}</p>
-      <p className="text-xl font-semibold text-lbl sm:text-2xl">{children}</p>
+    <div className="min-w-0">
+      <p className="truncate text-sm text-meta">{label}</p>
+      <p className="mt-0.5 truncate text-[1.75rem] font-semibold leading-tight tabular-nums text-lbl">{value}</p>
+      <p className="mt-1 truncate text-sm tabular-nums text-meta">{note}</p>
     </div>
   );
 }
 
-function Stats({ page, t }: { page: ScanPage; t: Text }) {
+function Detail({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4 py-1">
+      <dt className="text-sm text-muted">{label}</dt>
+      <dd className="text-sm font-semibold tabular-nums text-lbl">{children}</dd>
+    </div>
+  );
+}
+
+function Figures({ page, userId, t }: { page: ScanPage; userId: number | null; t: Text }) {
   const f = useFormat();
   const stats = page.summary_stats;
+  const rank = page.potential_rank ?? null;
+  const hall = page.hall_rank ?? null;
+  const oldest = stats.oldest_played ? new Date(stats.oldest_played).getUTCFullYear() : null;
   return (
-    <div className="flex flex-wrap content-start gap-x-9 gap-y-4">
-      <Stat label={t("profilePp")}>
-        {f.whole(stats.current_pp)} → <span className="text-up">{f.whole(stats.potential_pp)}</span>{" "}
-        <span className="text-base font-normal text-up">({f.delta(stats.delta_pp)})</span>
-      </Stat>
-      <Stat label={t("lostPlays")}>
-        {f.whole(stats.lost_scores_found)}
-        {stats.lost_scores_total > stats.lost_scores_found && (
-          <span className="ml-1.5 text-base font-normal text-meta">{t("withLoved", { total: f.whole(stats.lost_scores_total) })}</span>
+    <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="grid grid-cols-2 content-start gap-6 sm:grid-cols-4">
+        {rank !== null && (
+          <Cell
+            label={t("potentialRank")}
+            value={`#${f.whole(rank)}`}
+            note={stats.current_global_rank > 0 ? t("now", { value: `#${f.whole(stats.current_global_rank)}` }) : ""}
+          />
         )}
-      </Stat>
-      {stats.current_global_rank > 0 && <Stat label={t("globalRank")}>#{f.whole(stats.current_global_rank)}</Stat>}
-      {page.metadata.analysis_timestamp && <Stat label={t("scanned")}>{f.day(page.metadata.analysis_timestamp)}</Stat>}
+        <Cell
+          label={t("potentialPp")}
+          value={f.whole(stats.potential_pp)}
+          note={
+            <>
+              {t("now", { value: f.whole(stats.current_pp) })} · <span className="font-medium text-up">+{f.tenths(stats.delta_pp)}</span>
+            </>
+          }
+        />
+        {stats.current_accuracy !== null && stats.potential_accuracy !== null && (
+          <Cell label={t("potentialAccuracy")} value={f.accuracy(stats.potential_accuracy)} note={t("now", { value: f.accuracy(stats.current_accuracy) })} />
+        )}
+        {hall !== null && (
+          <Cell
+            label="Hall of Copium"
+            value={
+              userId !== null ? (
+                <Link to={`/rankings?me=${userId}`} className="decoration-lbl/40 underline-offset-4 hover:underline">
+                  #{f.whole(hall)}
+                </Link>
+              ) : (
+                `#${f.whole(hall)}`
+              )
+            }
+            note={t("byLostPp")}
+          />
+        )}
+      </div>
+      <dl className="self-start rounded-xl bg-row px-4 py-3">
+        <Detail label={t("lostPlays")}>{f.whole(stats.lost_scores_total)}</Detail>
+        {page.include_all === true && <Detail label={t("onRanked")}>{f.whole(stats.lost_scores_found)}</Detail>}
+        {stats.average_gap != null && <Detail label={t("averageLost")}>{f.tenths(stats.average_gap)}</Detail>}
+        {stats.biggest_gap != null && <Detail label={t("biggestLoss")}>-{f.tenths(stats.biggest_gap)} pp</Detail>}
+        {oldest !== null && <Detail label={t("oldestLost")}>{oldest}</Detail>}
+      </dl>
     </div>
   );
 }
 
 function ScanState({ scan, t }: { scan: OwnScan; t: Text }) {
+  const check = useSection("check");
   if (scan.visibility === "private") {
     return <span className="chip bg-btn text-muted">{t("private")}</span>;
   }
-  if (scan.status === "verified" || scan.status === "unverified") {
-    return <Check verified={scan.status === "verified"} />;
-  }
+  const [Icon, tone, label] =
+    scan.status === "verified"
+      ? [CheckCircle2, "text-up", `${t("verifiedState")}. ${check("verifiedHint")}`]
+      : scan.status === "unverified"
+        ? [HelpCircle, "text-meta", `${t("checkingState")}. ${check("checkingHint")}`]
+        : [XCircle, "text-down", `${scan.status === "failed" ? t("checkFailed") : t("hidden")}. ${t("hiddenHint")}`];
   return (
-    <span className="chip bg-down/10 text-down" title={t("hiddenHint")}>
-      {scan.status === "failed" ? t("checkFailed") : t("hidden")}
+    <span role="img" aria-label={label} title={label} className="grid place-items-center">
+      <Icon aria-hidden size={20} className={tone} />
     </span>
+  );
+}
+
+function Band({ progress, t }: { progress: Progress | "loading"; t: Text }) {
+  return (
+    <div className="-mx-4 mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 border-y border-divider bg-band px-4 py-4 sm:-mx-6 sm:px-6">
+      <div className="min-w-0 flex-1">
+        {progress === "loading" ? (
+          <span aria-hidden className="block h-8 w-40 animate-pulse rounded-full bg-btn" />
+        ) : (
+          <MedalRow medals={progress.medals} empty={<p className="text-sm text-meta">{t("noMedals")}</p>} />
+        )}
+      </div>
+      <div className="w-full sm:w-80">
+        {progress === "loading" ? (
+          <div aria-hidden>
+            <span className="block h-5 w-32 animate-pulse rounded bg-btn" />
+            <span className="mt-2 block h-3.5 animate-pulse rounded-full bg-btn" />
+          </div>
+        ) : (
+          <FixBar progress={progress} />
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -183,7 +256,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
   const [sort, setSort] = useState<"pp" | "gap">("pp");
   const [version, setVersion] = useState(0);
   const [failed, setFailed] = useState(false);
-  const [progress, setProgress] = useState<Progress | null>(null);
+  const [progress, setProgress] = useState<Progress | null | "loading">(null);
   const [fixes, setFixes] = useState<Fix[]>([]);
   const [fixesBusy, setFixesBusy] = useState(false);
   const loadingFixes = useRef(false);
@@ -269,6 +342,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       return;
     }
     const controller = new AbortController();
+    setProgress((current) => (current === null ? "loading" : current));
     api.progress(progressId, 0, FIX_PAGE, controller.signal).then(
       (next) => {
         setProgress(next);
@@ -300,7 +374,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
         setFixesBusy(false);
       });
   };
-  const tracked = progress !== null && progress.total > 0 ? progress : null;
+  const tracked = progress !== null && progress !== "loading" && progress.total > 0 ? progress : null;
 
   const showMore = async () => {
     if (load.status !== "ready") {
@@ -360,27 +434,38 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
       {tracked && <CoinDefs />}
       <Cover tall />
       <Sheet>
-        <div className="relative z-10 -mt-12 flex items-end gap-4 sm:gap-5">
-          <Avatar id={userId} name={name} size={104} square className="border-4 border-card" />
-          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 pb-1.5">
-            <h1 className="truncate text-3xl sm:text-4xl">{name}</h1>
-            {page && !viewing && <Check verified={page.verified} linked />}
-            {page?.hall_rank && !viewing && userId && (
-              <Link to={`/rankings?me=${userId}`} className="chip bg-acc/15 text-acc transition-colors hover:bg-acc/25">
-                {t("hallPlace", { place: f.whole(page.hall_rank) })}
-              </Link>
-            )}
-            {userId && (
-              <a
-                href={`https://osu.ppy.sh/users/${userId}`}
-                aria-label={t("osuProfile")}
-                title={t("osuProfile")}
-                className="grid h-9 w-9 place-items-center rounded-full bg-btn text-lbl transition-colors hover:bg-osu hover:text-white"
-              >
-                <span aria-hidden className="osu-cookie h-7 w-7" />
-              </a>
-            )}
+        <div className="relative z-10 flex flex-wrap items-end gap-x-5 gap-y-2 pt-1">
+          <div className="-mt-[64px] shrink-0 sm:-mt-[84px]">
+            <span className="sm:hidden">
+              <Avatar id={userId} name={name} size={96} square className="border-4 border-card" />
+            </span>
+            <span className="hidden sm:block">
+              <Avatar id={userId} name={name} size={124} square className="border-4 border-card" />
+            </span>
           </div>
+          <div className="min-w-0 flex-1 pb-1.5 pr-12">
+            <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
+              <h1 title={name} className="truncate text-xl sm:text-4xl">
+                {name}
+              </h1>
+              {page?.hall_rank && page.hall_rank <= HALL_TITLE && !viewing && userId && (
+                <Link to={`/rankings?me=${userId}`} className="chip bg-acc/15 text-acc transition-colors hover:bg-acc/25">
+                  {t("hallPlace", { place: f.whole(page.hall_rank) })}
+                </Link>
+              )}
+            </div>
+            {page?.metadata.analysis_timestamp && <p className="mt-1 text-xs text-meta">{t("scannedOn", { date: f.day(page.metadata.analysis_timestamp) })}</p>}
+          </div>
+          {userId && (
+            <a
+              href={`https://osu.ppy.sh/users/${userId}`}
+              aria-label={t("osuProfile")}
+              title={t("osuProfile")}
+              className="absolute right-0 top-2 grid h-9 w-9 place-items-center rounded-full bg-btn text-lbl transition-colors hover:bg-osu hover:text-white"
+            >
+              <span aria-hidden className="osu-cookie h-7 w-7" />
+            </a>
+          )}
         </div>
 
         {viewing?.visibility === "private" && (
@@ -392,17 +477,8 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
           </p>
         )}
 
-        {page && (
-          <div className="mt-6 border-b border-divider pb-6">
-            <Stats page={page} t={t} />
-            {tracked && (
-              <>
-                <FixBar progress={tracked} />
-                <MedalRow medals={tracked.medals} />
-              </>
-            )}
-          </div>
-        )}
+        {page && <Figures page={page} userId={userId} t={t} />}
+        {page && (tracked || progress === "loading") && <Band progress={tracked ?? "loading"} t={t} />}
 
         <div className="mt-2">
           <Tabs label={t("tabsLabel")} tabs={tabs} active={view} onChange={openView} />

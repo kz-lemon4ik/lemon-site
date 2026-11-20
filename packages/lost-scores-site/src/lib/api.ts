@@ -49,11 +49,16 @@ export interface ScanPage {
     current_accuracy: number | null;
     potential_accuracy: number | null;
     lost_in_top: number | null;
+    average_gap?: number | null;
+    biggest_gap?: number | null;
+    oldest_played?: string | null;
   };
   lost_scores: LostScore[];
   total_count: number;
   verified: boolean;
   hall_rank?: number | null;
+  potential_rank?: number | null;
+  include_all?: boolean | null;
   potential_top?: PotentialRow[];
 }
 
@@ -73,7 +78,21 @@ export interface Plays {
   rows: PlayRow[];
 }
 
-export type MedalId = "first" | "quarter" | "half" | "threeQuarters" | "all" | "ppQuarter" | "ppHalf" | "biggest" | "five" | "oldest" | "fc" | "ss" | "harder";
+export type MedalId =
+  | "first"
+  | "quarter"
+  | "half"
+  | "threeQuarters"
+  | "all"
+  | "ppQuarter"
+  | "ppHalf"
+  | "ppThreeQuarters"
+  | "biggest"
+  | "five"
+  | "oldest"
+  | "fc"
+  | "ss"
+  | "harder";
 
 export interface MedalState {
   id: MedalId;
