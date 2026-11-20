@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import { CONTACT } from "@/lib/author";
 import { renderRich, useSection, type Parts, type SectionKey } from "@/lib/i18n";
-import { useMotion } from "@/lib/motion";
 import { REPOSITORY } from "@/lib/release";
 import { useTitle } from "@/lib/title";
 
@@ -73,19 +72,32 @@ function Question({ item, open, toggle }: { item: Item; open: boolean; toggle: (
   );
 }
 
+function groupOf(hash: string): string | null {
+  const id = hash.slice(1);
+  if (id.startsWith("group-")) {
+    const name = id.slice("group-".length);
+    return GROUPS.some(([group]) => group === name) ? name : null;
+  }
+  return GROUPS.find(([, ids]) => ids.includes(id))?.[0] ?? null;
+}
+
 export default function Faq() {
   const t = useSection("faq");
   useTitle(t("title"));
-  const [open, setOpen] = useState<string | null>(null);
   const { hash } = useLocation();
-  const { enabled: moving } = useMotion();
+  const [group, setGroup] = useState(() => groupOf(hash) ?? GROUPS[0][0]);
+  const [open, setOpen] = useState<string | null>(null);
   const questions = t.raw<Item[]>("items");
   const byId = new Map(questions.map((item) => [item.id, item]));
   useEffect(() => {
     const id = hash.slice(1);
+    const target = groupOf(hash);
+    if (target) {
+      setGroup(target);
+    }
     if (questions.some((item) => item.id === id)) {
       setOpen(id);
-      document.getElementById(id)?.scrollIntoView({ block: "start" });
+      requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: "start" }));
     }
   }, [hash, questions]);
   const toggle = (id: string) => {
@@ -93,6 +105,12 @@ export default function Faq() {
     setOpen(next);
     window.history.replaceState(window.history.state, "", next ? `#${next}` : window.location.pathname + window.location.search);
   };
+  const choose = (name: string) => {
+    setGroup(name);
+    setOpen(null);
+    window.history.replaceState(window.history.state, "", `#group-${name}`);
+  };
+  const [shown, ids] = GROUPS.find(([name]) => name === group) ?? GROUPS[0];
   return (
     <PageShell>
       <Cover>
@@ -101,34 +119,30 @@ export default function Faq() {
       <Sheet>
         <div className="pt-4 lg:grid lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-8">
           <nav aria-label={t("topics")} className="mb-6 flex flex-wrap gap-2 lg:sticky lg:top-28 lg:mb-0 lg:block lg:space-y-1 lg:self-start">
-            {GROUPS.map(([group]) => (
-              <a
-                key={group}
-                href={`#group-${group}`}
-                onClick={(event) => {
-                  event.preventDefault();
-                  document.getElementById(`group-${group}`)?.scrollIntoView({ behavior: moving ? "smooth" : "auto", block: "start" });
-                  window.history.replaceState(window.history.state, "", `#group-${group}`);
-                }}
-                className="shrink-0 rounded-full bg-btn px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-lbl lg:block lg:rounded-lg lg:bg-transparent lg:px-3 lg:py-2 lg:hover:bg-btn"
+            {GROUPS.map(([name]) => (
+              <button
+                key={name}
+                type="button"
+                aria-current={name === shown ? "true" : undefined}
+                onClick={() => choose(name)}
+                className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors lg:block lg:w-full lg:rounded-lg lg:pl-5 lg:pr-3 lg:text-left ${
+                  name === shown ? "bg-acc/15 text-acc lg:bg-btn lg:text-lbl" : "bg-btn text-muted hover:text-lbl lg:bg-transparent lg:hover:bg-btn"
+                }`}
               >
-                {t(`groups.${group}` as SectionKey<"faq">)}
-              </a>
+                {name === shown && <span aria-hidden className="absolute inset-y-2 left-2 hidden w-1 rounded-full bg-acc lg:block" />}
+                {t(`groups.${name}` as SectionKey<"faq">)}
+              </button>
             ))}
           </nav>
-          <div className="space-y-8">
-            {GROUPS.map(([group, ids], index) => (
-              <section key={group} id={`group-${group}`} className={`scroll-mt-24 ${index === GROUPS.length - 1 ? "min-h-[calc(100dvh-6rem)]" : ""}`}>
-                <h2 className="mb-3 text-xl">{t(`groups.${group}` as SectionKey<"faq">)}</h2>
-                <div className="space-y-2">
-                  {ids.flatMap((id) => {
-                    const item = byId.get(id);
-                    return item ? [<Question key={id} item={item} open={open === id} toggle={() => toggle(id)} />] : [];
-                  })}
-                </div>
-              </section>
-            ))}
-          </div>
+          <section key={shown} id={`group-${shown}`} className="page-enter">
+            <h2 className="mb-3 text-xl">{t(`groups.${shown}` as SectionKey<"faq">)}</h2>
+            <div className="space-y-2">
+              {ids.flatMap((id) => {
+                const item = byId.get(id);
+                return item ? [<Question key={id} item={item} open={open === id} toggle={() => toggle(id)} />] : [];
+              })}
+            </div>
+          </section>
         </div>
       </Sheet>
     </PageShell>
