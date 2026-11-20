@@ -24,24 +24,19 @@
 }
 
 @font-face {
-  font-family: "Exo 2";
-  src: url("/fonts/exo2-400.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Nunito";
+  src: url("/fonts/nunito-cyrillic-ext.woff2") format("woff2");
+  font-weight: 200 1000;
   font-display: swap;
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
 }
 
 @font-face {
-  font-family: "Exo 2";
-  src: url("/fonts/exo2-500.woff2") format("woff2");
-  font-weight: 500;
+  font-family: "Nunito";
+  src: url("/fonts/nunito-cyrillic.woff2") format("woff2");
+  font-weight: 200 1000;
   font-display: swap;
-}
-
-@font-face {
-  font-family: "Exo 2";
-  src: url("/fonts/exo2-700.otf") format("opentype");
-  font-weight: 600 700;
-  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 :root,
@@ -131,14 +126,6 @@
   --art-hero-filter: blur(6px) brightness(1.04) saturate(0.95);
   --art-cover-filter: blur(3px) brightness(1.02);
   color-scheme: light;
-}
-
-:root {
-  --font-sans: "Fredoka";
-}
-
-:root[data-font="b"] {
-  --font-sans: "Exo 2";
 }
 
 @layer base {

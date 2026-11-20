@@ -56,7 +56,7 @@ export default {
       },
       colors: Object.fromEntries(TOKENS.map((token) => [token, `rgb(var(--c-${token}) / <alpha-value>)`])),
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["Fredoka", "Nunito", "system-ui", "sans-serif"],
       },
       maxWidth: {
         page: "75rem",

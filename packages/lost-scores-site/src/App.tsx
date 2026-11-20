@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
-import AbPanel from "@/components/AbPanel";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
@@ -66,7 +65,6 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
-      <AbPanel />
     </div>
   );
 }

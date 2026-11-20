@@ -5,7 +5,6 @@ import Art from "@/components/Art";
 import ShareBadge from "@/components/ShareBadge";
 import Zoom from "@/components/Zoom";
 import { api, type ScanPage } from "@/lib/api";
-import { useAb } from "@/lib/ab";
 import { AUTHOR } from "@/lib/author";
 import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
@@ -99,7 +98,6 @@ export default function Home() {
   useTitle();
   const author = useAuthor();
   const [platform] = useState(detectPlatform);
-  const minimal = useAb().layout === "a";
 
   const program = (
     <Zoom src="/images/program-2x.webp" alt={t("window", { name: AUTHOR.name })}>
@@ -118,10 +116,10 @@ export default function Home() {
 
   return (
     <>
-      <section className={`relative isolate overflow-hidden ${minimal ? "flex min-h-screen items-center" : ""}`}>
+      <section className="relative isolate flex min-h-screen items-center overflow-hidden">
         <Art kind="hero" moving />
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-bg/0 via-bg/30 to-bg" />
-        <div className={`page-enter mx-auto w-full max-w-3xl px-4 text-center ${minimal ? "py-28" : "pb-16 pt-32 sm:pb-20 lg:pt-40"}`}>
+        <div className="page-enter mx-auto w-full max-w-3xl px-4 py-28 text-center">
           <h1 className="text-[2.6rem] leading-[1.05] text-hero sm:text-6xl">
             <span className="text-osu">osu!</span> Lost Scores
             <img src="/lemon.svg" alt="" width={56} height={56} className="ml-2 inline-block h-10 w-10 align-[-0.12em] sm:h-14 sm:w-14" />
@@ -139,19 +137,12 @@ export default function Home() {
           <p className="mt-4 text-sm text-muted">
             <OtherPlatforms platform={platform} t={t} /> · {t("free")}
           </p>
-          {!minimal && (
-            <div className="mt-10">
-              <LiveBadge page={author} t={t} />
-            </div>
-          )}
         </div>
-        {minimal && (
-          <div className="absolute inset-x-0 bottom-6 flex justify-center">
-            <a href="#how" aria-label={t("toHow")} className="animate-bounce text-muted hover:text-lbl">
-              <ChevronDown aria-hidden size={28} />
-            </a>
-          </div>
-        )}
+        <div className="absolute inset-x-0 bottom-6 flex justify-center">
+          <a href="#how" aria-label={t("toHow")} className="animate-bounce text-muted hover:text-lbl">
+            <ChevronDown aria-hidden size={28} />
+          </a>
+        </div>
       </section>
 
       <section id="how" className="mx-auto max-w-page scroll-mt-20 px-4 pb-6 pt-10 sm:px-6 sm:pt-14">
@@ -167,11 +158,9 @@ export default function Home() {
           ))}
         </ol>
         <div className="mt-10">{program}</div>
-        {minimal && (
-          <div className="mt-10">
-            <LiveBadge page={author} t={t} />
-          </div>
-        )}
+        <div className="mt-10">
+          <LiveBadge page={author} t={t} />
+        </div>
       </section>
     </>
   );

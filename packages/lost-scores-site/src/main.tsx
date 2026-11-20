@@ -2,7 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "@/App";
-import AbProvider from "@/components/AbProvider";
 import AuthProvider from "@/components/AuthProvider";
 import LangProvider from "@/components/LangProvider";
 import MotionProvider from "@/components/MotionProvider";
@@ -23,17 +22,15 @@ void loadDict(lang).then((dict) => {
   createRoot(root).render(
     <StrictMode>
       <BrowserRouter>
-        <AbProvider>
-          <ThemeProvider>
-            <LangProvider initial={{ id: lang, dict }}>
-              <MotionProvider>
-                <AuthProvider>
-                  <App />
-                </AuthProvider>
-              </MotionProvider>
-            </LangProvider>
-          </ThemeProvider>
-        </AbProvider>
+        <ThemeProvider>
+          <LangProvider initial={{ id: lang, dict }}>
+            <MotionProvider>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </MotionProvider>
+          </LangProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </StrictMode>,
   );

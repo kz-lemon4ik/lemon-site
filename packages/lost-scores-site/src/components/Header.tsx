@@ -5,7 +5,6 @@ import Brand from "@/components/Brand";
 import Flag from "@/components/Flag";
 import Settings from "@/components/Settings";
 import Slider from "@/components/Slider";
-import { useAb } from "@/lib/ab";
 import { LOGIN_URL, type Me } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { rememberPage } from "@/lib/back";
@@ -203,7 +202,6 @@ function MobilePanel({ close, t }: { close: () => void; t: Text }) {
 export default function Header() {
   const t = useSection("header");
   const scrolled = useScrolled();
-  const { layout } = useAb();
   const { me } = useAuth();
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
@@ -215,9 +213,8 @@ export default function Header() {
   }
   const close = useCallback(() => setOpen(false), []);
   useDismiss(open, close, bar);
-  const compact = scrolled || layout === "b";
-  const solid = compact || open;
-  const { box: navBox, bar: navBar } = useSlider<HTMLDivElement>(`${pathname}|${t("nav.rankings")}|${compact}`);
+  const solid = scrolled || open;
+  const { box: navBox, bar: navBar } = useSlider<HTMLDivElement>(`${pathname}|${t("nav.rankings")}|${scrolled}`);
 
   return (
     <header
@@ -226,9 +223,9 @@ export default function Header() {
         solid ? "border-divider bg-header/90 backdrop-blur-md" : "border-transparent bg-transparent"
       }`}
     >
-      <div className={`mx-auto flex max-w-page items-center gap-7 px-4 transition-[height] duration-300 sm:px-6 ${compact ? "h-16" : "h-16 lg:h-20 xl:h-24"}`}>
+      <div className={`mx-auto flex max-w-page items-center gap-7 px-4 transition-[height] duration-300 sm:px-6 ${scrolled ? "h-16" : "h-16 lg:h-20 xl:h-24"}`}>
         <div ref={navBox} className="relative flex h-full items-center gap-7">
-          <Brand large={!compact} label={t("nav.home")} />
+          <Brand large={!scrolled} label={t("nav.home")} />
           <nav aria-label={t("mainNav")} className="hidden h-full items-center gap-6 lg:flex">
             {navOf(t).map((item) => (
               <NavLink
@@ -255,7 +252,7 @@ export default function Header() {
             </Popover>
           </div>
           <span className={me ? "" : "hidden sm:block"}>
-            <Account large={!compact} t={t} />
+            <Account large={!scrolled} t={t} />
           </span>
           <button
             type="button"
