@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Cover, CoverTitle, PageShell, Sheet } from "@/components/Layout";
 import { CONTACT } from "@/lib/author";
 import { renderRich, useSection, type Parts, type SectionKey } from "@/lib/i18n";
+import { useMotion } from "@/lib/motion";
 import { REPOSITORY } from "@/lib/release";
 import { useTitle } from "@/lib/title";
 
@@ -77,6 +78,7 @@ export default function Faq() {
   useTitle(t("title"));
   const [open, setOpen] = useState<string | null>(null);
   const { hash } = useLocation();
+  const { enabled: moving } = useMotion();
   const questions = t.raw<Item[]>("items");
   const byId = new Map(questions.map((item) => [item.id, item]));
   useEffect(() => {
@@ -103,6 +105,11 @@ export default function Faq() {
               <a
                 key={group}
                 href={`#group-${group}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  document.getElementById(`group-${group}`)?.scrollIntoView({ behavior: moving ? "smooth" : "auto", block: "start" });
+                  window.history.replaceState(window.history.state, "", `#group-${group}`);
+                }}
                 className="shrink-0 rounded-full bg-btn px-4 py-2 text-sm font-medium text-muted transition-colors hover:text-lbl lg:block lg:rounded-lg lg:bg-transparent lg:px-3 lg:py-2 lg:hover:bg-btn"
               >
                 {t(`groups.${group}` as SectionKey<"faq">)}
@@ -110,8 +117,8 @@ export default function Faq() {
             ))}
           </nav>
           <div className="space-y-8">
-            {GROUPS.map(([group, ids]) => (
-              <section key={group} id={`group-${group}`} className="scroll-mt-24">
+            {GROUPS.map(([group, ids], index) => (
+              <section key={group} id={`group-${group}`} className={`scroll-mt-24 ${index === GROUPS.length - 1 ? "min-h-[calc(100dvh-6rem)]" : ""}`}>
                 <h2 className="mb-3 text-xl">{t(`groups.${group}` as SectionKey<"faq">)}</h2>
                 <div className="space-y-2">
                   {ids.flatMap((id) => {
