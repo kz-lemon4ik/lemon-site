@@ -11,6 +11,7 @@ import { useFormat } from "@/lib/format";
 import { useSection, type Words } from "@/lib/i18n";
 import { detectPlatform, PLATFORM_NAMES, type Platform } from "@/lib/platform";
 import { useRelease } from "@/lib/release";
+import { useTheme } from "@/lib/theme";
 import { useTitle } from "@/lib/title";
 
 type Text = Words<"home">;
@@ -120,21 +121,25 @@ export default function Home() {
   const t = useSection("home");
   useTitle();
   const banner = useBanner();
+  const { theme } = useTheme();
   const [platform] = useState(detectPlatform);
 
+  const shot = theme === "light" ? "program-light" : "program";
   const program = (
-    <Zoom src="/images/program-2x.webp" alt={t("window", { name: AUTHOR.name })}>
-      <img
-      src="/images/program.webp"
-      srcSet="/images/program.webp 1480w, /images/program-2x.webp 2960w"
-      sizes="(min-width: 1200px) 1152px, 100vw"
-      width={1480}
-      height={800}
-      loading="lazy"
-      alt={t("window", { name: AUTHOR.name })}
-      className="w-full rounded-2xl border border-divider"
-      />
-    </Zoom>
+    <div className="rounded-[1.6rem] bg-[#141318] p-2.5 shadow-[0_24px_60px_rgba(30,20,60,0.28)] ring-1 ring-black/10 sm:p-3">
+      <Zoom src={`/images/${shot}-2x.webp`} alt={t("window", { name: AUTHOR.name })}>
+        <img
+          src={`/images/${shot}.webp`}
+          srcSet={`/images/${shot}.webp 1480w, /images/${shot}-2x.webp 2960w`}
+          sizes="(min-width: 1200px) 1152px, 100vw"
+          width={1480}
+          height={800}
+          loading="lazy"
+          alt={t("window", { name: AUTHOR.name })}
+          className="w-full rounded-2xl"
+        />
+      </Zoom>
+    </div>
   );
 
   return (
