@@ -12,6 +12,9 @@ export default function Footer() {
           <Link to="/privacy" className="hover:text-lbl">
             {t("privacy")}
           </Link>
+          <Link to="/terms" className="hover:text-lbl">
+            {t("terms")}
+          </Link>
           <a href={REPOSITORY} className="hover:text-lbl">
             GitHub
           </a>

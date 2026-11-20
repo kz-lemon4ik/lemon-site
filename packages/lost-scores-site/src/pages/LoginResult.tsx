@@ -1,6 +1,7 @@
 import { CircleCheck, CircleX, User } from "lucide-react";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Consent from "@/components/Consent";
 import { FullArt } from "@/components/Layout";
 import { LOGIN_URL } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -120,6 +121,7 @@ export default function LoginResult() {
           <a href={LOGIN_URL} className="btn-login w-full py-3 text-base">
             {t("logIn")}
           </a>
+          <Consent />
           <p className="text-sm text-muted">{t("toHome", { left })}</p>
         </Result>
       </FullArt>

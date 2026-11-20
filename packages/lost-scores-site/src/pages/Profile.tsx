@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import ConfirmButton from "@/components/ConfirmButton";
+import Consent from "@/components/Consent";
 import FixedTable from "@/components/FixedTable";
 import { Cover, PageShell, Sheet } from "@/components/Layout";
 import ScansChart from "@/components/ScansChart";
@@ -444,6 +445,7 @@ function Profile({ id, scan }: { id: string; scan: string | null }) {
                 <Link to="/rankings" className="btn-small px-4 py-2">
                   Hall of Copium
                 </Link>
+                <Consent className="basis-full" />
               </>
             }
           >

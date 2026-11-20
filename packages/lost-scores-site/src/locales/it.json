@@ -40,6 +40,7 @@
   },
   "footer": {
     "privacy": "Privacy",
+    "terms": "Termini",
     "nav": "Piè di pagina",
     "contact": "Contatti",
     "donate": "Dona",
@@ -133,7 +134,8 @@
     "toProfile": "Apro il tuo profilo tra {{left}} s.",
     "toBack": "Ti riporto alla pagina tra {{left}} s.",
     "alreadyTitle": "Hai già effettuato l'accesso",
-    "already": "L'accesso su osu! non si è concluso, ma questo browser ha già effettuato l'accesso."
+    "already": "L'accesso su osu! non si è concluso, ma questo browser ha già effettuato l'accesso.",
+    "consent": "Accedendo accetti i <terms>termini d'uso</terms> e l'<privacy>informativa sulla privacy</privacy>."
   },
   "home": {
     "tagline": "Scopri i <pp>pp</pp> che peppy non ti ha mai dato.",
@@ -458,77 +460,5 @@
       "help": "Installazione e aiuto"
     },
     "topics": "Argomenti"
-  },
-  "privacy": {
-    "title": "Informativa sulla privacy",
-    "subtitle": "Aggiornata il 20 novembre 2026",
-    "sections": [
-      {
-        "title": "Chi gestisce Lost Scores",
-        "text": [
-          "osu! Lost Scores è un progetto amatoriale di KZ_Lemon4ik. Comprende il programma per computer, questo sito su lost.lemon4ik.kz e il server dietro entrambi. Non è realizzato né approvato da ppy Pty Ltd, e osu! è un marchio di ppy Pty Ltd.",
-          "Per domande su questa informativa o sui tuoi dati, scrivi a <mail/>."
-        ]
-      },
-      {
-        "title": "Il programma sul tuo computer",
-        "text": [
-          "Il programma legge i replay e le beatmap nella tua cartella di osu! e non li modifica. Non ha telemetria e non invia nulla sul tuo computer. Se non accedi con osu!, i risultati delle scansioni restano sul tuo computer.",
-          "Per una scansione il programma chiede informazioni pubbliche sul tuo profilo osu!, sulla tua top online e sulle beatmap che possono contenere un play perso, identificate dagli id e dagli hash MD5. Con l'accesso osu! queste richieste passano dal nostro server, che chiede a osu! per tuo conto; con le tue chiavi API di osu! vanno direttamente a osu!. Il programma carica anche avatar e copertine delle beatmap da osu!, chiede a GitHub una volta al giorno se esiste una nuova versione, o al nostro mirror se GitHub non risponde, e carica immagini su catbox.moe solo quando premi quel pulsante."
-        ]
-      },
-      {
-        "title": "Dati che conserviamo",
-        "text": [
-          "Quando accedi con osu!, riceviamo e conserviamo il tuo id di osu!, il tuo nome utente e i nomi precedenti, e i momenti in cui l'account è stato visto la prima e l'ultima volta. Non riceviamo la tua password né il tuo indirizzo email.",
-          "Mentre hai effettuato l'accesso, ogni scansione completata viene salvata sul nostro server: i play persi, la Potential Top e i dati riassuntivi. I file dei replay vengono caricati solo per i play che scegli di condividere. Conserviamo anche i risultati delle verifiche delle scansioni pubblicate, un conteggio giornaliero delle richieste per account che mantiene equa la coda condivisa e le informazioni sulle mappe condivise da tutti i giocatori. Per le scansioni pubblicate conserviamo anche l'elenco dei tuoi play persi, con i recuperi e le medaglie che il server trova per loro su osu!.",
-          "Il server non conserva indirizzi IP né dati del browser."
-        ]
-      },
-      {
-        "title": "Come vengono usati i dati",
-        "text": [
-          "I dati servono solo a fornire ciò che chiedi: trovare le mappe della tua scansione, tenere le scansioni nel tuo profilo, mostrare quelle che pubblichi e verificarle con osu!. Non vendiamo dati, non mostriamo pubblicità e non usiamo i tuoi dati per il marketing."
-        ]
-      },
-      {
-        "title": "Chi può vedere le tue scansioni",
-        "text": [
-          "Le scansioni salvate sono private. Le vedi solo tu, dopo l'accesso su questo sito o nel programma.",
-          "Quando pubblichi una scansione, chiunque può vederla nella pagina del tuo profilo e nella Hall of Copium, insieme al tuo nome utente e all'avatar di osu!, e chiunque può scaricare i replay che hai condiviso con essa. Puoi ritirare o eliminare una scansione pubblicata in qualsiasi momento."
-        ]
-      },
-      {
-        "title": "Per quanto tempo conserviamo i dati",
-        "text": [
-          "Conserviamo le tue 20 scansioni private più recenti ed eliminiamo automaticamente quelle più vecchie. Una scansione pubblicata e i suoi replay restano finché non li ritiri o li elimini. Una sessione di accesso dura fino a 90 giorni e finisce quando esci. Le risposte di osu! sul tuo profilo restano in cache per cinque minuti.",
-          "L'elenco dei tuoi play persi, i recuperi e le medaglie restano finché non chiedi di eliminarli o di eliminare l'account; ritirare o eliminare le scansioni non li rimuove."
-        ]
-      },
-      {
-        "title": "Fornitori di servizi",
-        "text": [
-          "Il sito e il server funzionano su Cloudflare, che gestisce il traffico di rete e conserva i nostri dati secondo la propria informativa sulla privacy. Il sito carica gli avatar da osu! (a.ppy.sh), e la pagina Download chiede a GitHub l'ultima versione del programma. Per mostrare la posizione che raggiungerebbero i tuoi pp potenziali, il server invia a osu!daily solo quel numero di pp e nient'altro."
-        ]
-      },
-      {
-        "title": "Cookie e archiviazione locale",
-        "text": [
-          "Il sito imposta un solo cookie, e solo dopo l'accesso: la tua sessione, che gli script della pagina non possono leggere. Le tue scelte di tema, lingua e animazioni restano nell'archiviazione locale del browser. Non ci sono cookie di analisi, pubblicità o tracciamento."
-        ]
-      },
-      {
-        "title": "Le tue scelte",
-        "text": [
-          "Puoi vedere tutte le tue scansioni nel profilo, pubblicarle, ritirarle o eliminarle, e uscire in qualsiasi momento. Per eliminare il tuo account e tutto ciò che è conservato con esso, o per chiedere cosa conserviamo su di te, scrivi a <mail/>."
-        ]
-      },
-      {
-        "title": "Modifiche a questa informativa",
-        "text": [
-          "Quando questa informativa cambia, cambia anche la data in cima alla pagina."
-        ]
-      }
-    ]
   }
 }

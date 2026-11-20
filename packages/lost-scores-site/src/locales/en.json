@@ -40,6 +40,7 @@
   },
   "footer": {
     "privacy": "Privacy",
+    "terms": "Terms",
     "nav": "Footer",
     "contact": "Contact",
     "donate": "Donate",
@@ -133,7 +134,8 @@
     "toProfile": "Opening your profile in {{left}} s.",
     "toBack": "Taking you back to the page in {{left}} s.",
     "alreadyTitle": "You are already logged in",
-    "already": "The login on osu! did not finish, but this browser is already logged in."
+    "already": "The login on osu! did not finish, but this browser is already logged in.",
+    "consent": "By logging in, you accept the <terms>Terms of use</terms> and the <privacy>Privacy policy</privacy>."
   },
   "home": {
     "tagline": "See the <pp>pp</pp> peppy never gave you.",
@@ -466,67 +468,164 @@
       {
         "title": "Who runs Lost Scores",
         "text": [
-          "osu! Lost Scores is a fan project by KZ_Lemon4ik. It consists of the desktop program, this website at lost.lemon4ik.kz and the server behind both. It is not made or endorsed by ppy Pty Ltd, and osu! is a trademark of ppy Pty Ltd.",
+          "osu! Lost Scores is a fan project run by KZ_Lemon4ik, a private individual living in Italy. KZ_Lemon4ik decides how the data described here is used and is responsible for it (the \"controller\" under the EU General Data Protection Regulation). The project consists of the desktop program, this website at lost.lemon4ik.kz, the address replays.lemon4ik.kz from which shared replays are downloaded, and the server behind them. It is not made or endorsed by ppy Pty Ltd, and osu! is a trademark of ppy Pty Ltd.",
           "For questions about this policy or about your data, write to <mail/>."
         ]
       },
       {
         "title": "The program on your computer",
         "text": [
-          "The program reads the replays and beatmaps in your osu! folder and does not change them. It has no telemetry and sends nothing about your computer. Unless you log in with osu!, scan results stay on your computer.",
-          "To scan, the program asks for public information about your osu! profile, your online top and the beatmaps that may hold a lost play, identified by beatmap ids and MD5 hashes. With the osu! login these requests go through our server, which asks osu! on your behalf; with your own osu! API keys they go to osu! directly. The program also loads avatars and beatmap covers from osu!, asks GitHub once a day whether a new version exists, or our mirror if GitHub cannot be reached, and uploads pictures to catbox.moe only when you press that button."
+          "The program reads the replays and beatmaps in your osu! folder and does not change them. It has no telemetry and sends nothing about your computer. Unless you log in with osu! or upload pictures to catbox.moe, scan results stay on your computer.",
+          "To scan, the program asks for public information about your osu! profile, your online top and the beatmaps that may hold a lost play, identified by beatmap ids and MD5 hashes. With the osu! login these requests go through our server, which asks osu! on your behalf. With your own osu! API keys they go to osu! directly.",
+          "The program also loads avatars and beatmap covers from osu!, downloads from osu! the beatmap files missing from your Songs folder, and asks GitHub once a day whether a new version exists, or our mirror if GitHub cannot be reached, and downloads updates from there. It uploads pictures to catbox.moe only when you press that button. Pictures on catbox.moe are public and cannot be deleted.",
+          "You do not have to log in. Without a login, the program works with your own osu! API keys and keeps everything on your computer, but you cannot save scans to a profile or publish them."
         ]
       },
       {
         "title": "Data we keep",
         "text": [
-          "When you log in with osu!, we receive and keep your osu! user id, your username and your earlier usernames, and the times your account was first and last seen. We do not receive your password or your email address.",
-          "While you are logged in, every finished scan is saved on our server: the lost plays, the Potential Top and the summary figures. Replay files are uploaded only for the plays you choose to share. We also keep the results of the checks of published scans, a daily count of requests per account that keeps the shared queue fair, and map information shared by all players. For published scans we also keep the list of your lost plays, with the fixes and medals the server finds for them on osu!.",
-          "The server does not store IP addresses or browser details."
+          "When you log in with osu!, osu! tells us who you are. We keep your osu! user id, your username, your earlier usernames, and when you first and last logged in. We do not receive your password or your email address, and the login does not let us do anything on your osu! account.",
+          "While you are logged in, every finished scan is saved on our server: the lost plays, the Potential Top and the summary figures. Replay files are uploaded only if you choose to share replays when you publish a scan. The program then uploads the replays of the lost plays that make it into your Potential Top.",
+          "When you publish a scan, we take from osu! your profile pp, global rank and accuracy, your top 200 plays and your online scores on the maps the check looks at, and keep them with the result of the check until the scan is deleted. We also keep counters that make the shared queue fair and limit uploads, and map information shared by all players.",
+          "From your published scans we keep a list of your lost plays on ranked maps, and we ask osu! which of them you have since fixed: once a day we ask osu! for your recent plays, and now and then we look again at the maps on your list. We do this only while you have a published scan. For each play we keep the map, the pp of the lost play and of the play osu! kept, when you set it and, once fixed, the score that fixed it. From this list we work out your medals.",
+          "The server does not save IP addresses or browser details in its database. To protect the login from abuse, it counts login attempts per network address over ten minutes, using a coded form of the address that it keeps only in memory, never on disk. Cloudflare sees IP addresses when it delivers the website and when it enforces our limit on login requests, and shows us blocked requests with their IP address for a limited time.",
+          "If you write to feedback@lemon4ik.kz or ads@lemon4ik.kz, we use your address and message to answer you. Your messages stay in our mailbox until we delete them, and you can ask us to delete them at any time.",
+          "If you donate, PayPal processes the payment under its own privacy policy. PayPal shows us the payer's name, email address and country, the amount and any note, in PayPal and in the email notice it sends us. We use them only to keep track of donations."
         ]
       },
       {
-        "title": "How the data is used",
+        "title": "Why we may use the data",
         "text": [
-          "The data is used only to provide what you ask for: to find the maps of your scan, to keep your scans in your profile, to show the scans you publish and to check them against osu!. We do not sell data, show advertising or use your data for marketing."
+          "To give you the service you ask for: to log you in, find the maps of your scan, keep your scans in your profile, and show the scans and replays you publish. This is necessary to provide Lost Scores to you (Article 6(1)(b) GDPR).",
+          "For our legitimate interests, which we have weighed against your rights (Article 6(1)(f) GDPR): to protect the login and the shared queue from abuse; to check published scans against osu! so that the Hall of Copium stays fair; to keep your earlier osu! usernames, so that replays recorded under an old name still count as yours and your profile can be found by an old name; to answer your emails; and to keep track of donations.",
+          "You can object to the uses based on legitimate interests at any time (section 9). We do not sell data, show advertising or use your data for marketing."
         ]
       },
       {
         "title": "Who can see your scans",
         "text": [
-          "Saved scans are private. Only you can see them, after logging in on this website or in the program.",
-          "When you publish a scan, anyone can see it on your profile page and in the Hall of Copium, together with your osu! username and avatar, and anyone can download the replays you shared with it. You can unpublish or delete a published scan at any time."
+          "Saved scans are private: other players and visitors cannot see them. You see them after logging in on this website or in the program. KZ_Lemon4ik, who runs the server, can access all data on it and looks at it only to run Lost Scores, review flagged scans and fix problems.",
+          "When you publish a scan, anyone can see it (the lost plays, the Potential Top and the summary) on your profile page and in the Hall of Copium, with your osu! username, user id and avatar, your profile pp, global rank and accuracy, and when each play was set. Anyone can download the replays you shared with it, and people who downloaded a replay keep their copy. If you publish a newer scan, the older one stays public through its link until you unpublish or delete it. While you have a published scan, your profile page also shows how many of your lost plays you have fixed, your medals and the fixes. You can unpublish or delete a scan at any time, in the program or on your profile page on this website."
         ]
       },
       {
         "title": "How long data is kept",
         "text": [
-          "We keep your 20 newest private scans and delete older ones automatically. A published scan and its replays stay until you unpublish or delete them. A login session lasts up to 90 days and ends when you log out. Answers from osu! about your profile are cached for five minutes.",
-          "Your list of lost plays, your fixes and your medals stay until you ask us to delete them or your account; unpublishing or deleting scans does not remove them."
+          "We keep your 20 newest private scans and delete older ones automatically once a day. A scan you unpublish is not counted among them: nobody else can see it, and it stays on the server with its replays until you delete it. Deleting a scan removes it and its replays from the server. A published scan stays public until you unpublish or delete it, or until we hide it under the terms of use.",
+          "A login stays valid until you log out, or for 90 days after you last used it. On this website the login cookie ends 90 days after you logged in; in the program the login is renewed while you use it. An unfinished login expires after ten minutes and is deleted within a day. Answers from osu! about your profile that are not part of a check are cached for five minutes.",
+          "Your list of lost plays, your fixes and your medals stay until you ask us to delete them or your account; unpublishing or deleting scans does not remove them.",
+          "Your account record and your private scans stay until you delete them or ask us to delete your account. When we delete an account, we delete everything we keep about it, including your list of lost plays, your fixes, your medals and the upload counters.",
+          "Data you delete can stay for up to 30 days in Cloudflare's automatic recovery copies of our database. We use these copies only to repair the service after a failure."
         ]
       },
       {
-        "title": "Service providers",
+        "title": "Service providers and transfers outside the EU",
         "text": [
-          "The website and the server run on Cloudflare, which handles the network traffic and stores our data under its own privacy policy. The website loads avatars from osu! (a.ppy.sh), and the Download page asks GitHub for the latest version of the program. To show the rank your potential pp would reach, the server sends that pp number, and nothing else, to osu!daily."
+          "The website and the server run on Cloudflare, Inc. (USA). Cloudflare delivers the traffic, stores our data and forwards email sent to our addresses, and works for us under its data processing agreement. Email is then kept in a Gmail mailbox provided by Google Ireland Limited, which may process it in the USA. For data processed in the USA, Cloudflare and Google rely on the EU-US Data Privacy Framework and the European Commission's standard contractual clauses. You can ask us for a copy of these safeguards. PayPal processes donations as a separate company under its own privacy policy.",
+          "Some pages make your browser connect to other services, which then see your IP address and browser details. The website loads avatars from osu! (a.ppy.sh, run by ppy Pty Ltd in Australia). The home page and the Download page ask our own mirror for the latest version of the program, and ask GitHub (GitHub, Inc., USA) only if the mirror has none. To scan and to check your scans, our server asks osu! about your account using your osu! user id. To show the rank your potential pp would reach, it sends that pp number, and nothing else, to osu!daily (osudaily.net). The fonts of the website are served from our own server."
         ]
       },
       {
         "title": "Cookies and local storage",
         "text": [
-          "The website sets one cookie, and only after you log in: your session, which scripts on the page cannot read. Your choice of theme, language and animations is stored in your browser's local storage. There are no analytics, advertising or tracking cookies."
+          "The website uses two cookies, both needed to log in, and scripts on the page cannot read either. While you log in, one cookie ties the login to your browser. It is removed when you come back from osu! or after ten minutes. After you log in, your session cookie keeps you logged in for up to 90 days or until you log out.",
+          "If you change the theme, language or animations, the website saves your choice in your browser's local storage until you clear it. During a login it keeps the page you came from in session storage, to take you back there. If a page fails to load right after an update of the website, it notes in session storage that it has already reloaded the page once, so that it does not reload again. Cloudflare, which delivers the website, may set a security cookie when it checks that a visitor is not a bot. We use no cookies or storage for analytics, advertising or tracking, so the website does not ask for consent."
         ]
       },
       {
-        "title": "Your choices",
+        "title": "Your rights",
         "text": [
-          "You can see all your scans on your profile, publish, unpublish or delete them, and log out at any time. To delete your account and everything kept with it, or to ask what we keep about you, write to <mail/>."
+          "On your profile page on this website you can see all your scans, unpublish or delete them, and log out. Publishing is done in the program.",
+          "You also have the right to ask what we keep about you and to get a copy, to have it corrected or deleted, to restrict its use, to object to uses based on our legitimate interest, and to receive the data you gave us in a common format. To use any of these rights, or to delete your account and everything kept with it, write to <mail/>. We may ask you to show that the osu! account is yours, for example by logging in. We answer within a month. If a request is complicated, we may need up to two more months and will tell you so within the first month.",
+          "If you think we handle your data wrongly, you can complain to the Italian data protection authority, the Garante per la protezione dei dati personali (garanteprivacy.it), or to the authority of the EU or EEA country where you live or work."
+        ]
+      },
+      {
+        "title": "Children",
+        "text": [
+          "If you are under 14, you may log in, publish scans and share replays only with the permission of a parent or guardian. Remember that published scans and shared replays are public. A parent or guardian can ask us at <mail/> to delete a child's account and scans."
         ]
       },
       {
         "title": "Changes to this policy",
         "text": [
-          "When this policy changes, the date at the top of the page changes as well."
+          "When this policy changes, the date at the top changes. We announce important changes on the website before they apply."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of use",
+    "subtitle": "Updated 20 November 2026",
+    "sections": [
+      {
+        "title": "What these terms cover",
+        "text": [
+          "These terms apply to the website lost.lemon4ik.kz and to the server behind it, which the program uses when you log in with osu!. You agree to them when you log in with osu!, on this website or in the program. Without logging in you can read the website and use the program with your own osu! API keys. If you are under 18, read these terms with a parent or guardian.",
+          "The program itself is free software under the GNU Affero General Public License, version 3. These terms do not change that license. They only cover the use of our website and server."
+        ]
+      },
+      {
+        "title": "Who provides the service",
+        "text": [
+          "Lost Scores is a free fan project by KZ_Lemon4ik, a private individual living in Italy. It is not made or endorsed by ppy Pty Ltd, and osu! is a trademark of ppy Pty Ltd. You can reach us at <mail/>."
+        ]
+      },
+      {
+        "title": "Your account",
+        "text": [
+          "You log in with your osu! account. We never see your osu! password, and the login only tells us who you are: we cannot post, chat or change anything on your osu! account. Keep your login to yourself and log out on computers you share. We treat what is sent from your login as sent by you, unless someone used it without your fault. We may end a session if it looks misused."
+        ]
+      },
+      {
+        "title": "Your scans and replays",
+        "text": [
+          "You may send only your own scans and replays. The server checks that each scan is for the osu! account you logged in with and that each replay was played under one of that account's names.",
+          "You keep any rights you have in your scans and replays. You allow us, free of charge and only to run Lost Scores, to store and copy them on our server and check them against osu!, for as long as they are on the server. When you publish a scan, you also allow us to show it on your profile page and in the Hall of Copium, including its lists of plays, and to let anyone download the replays you shared with it, until you unpublish or delete the scan. People who downloaded a replay keep their copy, and we cannot take it back."
+        ]
+      },
+      {
+        "title": "Fair use",
+        "text": [
+          "Do not send scans or replays that you changed or made up, and do not use automated tools to get around the limits of the shared server. Do not try to break, overload or slow down the service, and do not use it against osu!'s rules or the law."
+        ]
+      },
+      {
+        "title": "Checks and moderation",
+        "text": [
+          "Every published scan is checked automatically against osu!. A check that finds a problem only marks the scan, and KZ_Lemon4ik then reviews it. We may hide a scan from the Hall of Copium, check it again or remove its replays if osu!'s records show that its plays were not lost as the scan says, or if it breaks section 5. If an account breaks section 5 again and again, we may stop showing its scans. A hidden scan is marked on your profile page.",
+          "If you think we got it wrong, or you want to report a scan you think is fake, write to <mail/> and we will look at it. The Hall of Copium ranks players for fun, and the way it ranks them may change."
+        ]
+      },
+      {
+        "title": "A free service without guarantees",
+        "text": [
+          "Lost Scores is free and run by one person in their spare time. We do not promise that it is always available or free of errors, and data on the server can be lost, for example after a failure. We may change features, for example to keep the service secure, to follow osu!'s rules or the law, or to improve it. We may pause the service without notice when security requires it or when osu! stops answering. If we plan to shut the server down, we will announce it on the website at least 30 days before.",
+          "The program keeps your scans on your computer, so you always have your own copy. You can stop using Lost Scores at any time and ask us to delete your account."
+        ]
+      },
+      {
+        "title": "Liability",
+        "text": [
+          "We are fully liable for damage we cause on purpose or through gross negligence, and for any harm to life, body or health. Otherwise, because Lost Scores is free, we are not liable for damage caused by slight negligence, including data lost on the server. Consumer protection rules that cannot be changed by contract still apply."
+        ]
+      },
+      {
+        "title": "Donations",
+        "text": [
+          "Donations are voluntary gifts to support the project. They give you no extra features or other rewards. If you are under 18, ask a parent or guardian before you donate."
+        ]
+      },
+      {
+        "title": "Changes to these terms",
+        "text": [
+          "We may change these terms when the service, osu!'s rules or the law change. The date at the top shows the current version. We announce changes that take away rights or add duties on the website at least 30 days before they apply. If you do not agree, you can stop using Lost Scores and ask us to delete your account. If you keep logging in after that date, the new terms apply."
+        ]
+      },
+      {
+        "title": "Applicable law",
+        "text": [
+          "These terms are governed by Italian law. If you use Lost Scores as a consumer, you keep the protection that the law of your country gives you."
         ]
       }
     ]

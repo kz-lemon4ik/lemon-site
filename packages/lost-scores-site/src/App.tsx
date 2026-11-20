@@ -11,7 +11,8 @@ const Download = lazyPage(() => import("@/pages/Download"));
 const Rankings = lazyPage(() => import("@/pages/Rankings"));
 const Profile = lazyPage(() => import("@/pages/Profile"));
 const Faq = lazyPage(() => import("@/pages/Faq"));
-const Privacy = lazyPage(() => import("@/pages/Privacy"));
+const Privacy = lazyPage(() => import("@/pages/Legal"));
+const Terms = lazyPage(() => import("@/pages/Legal").then((page) => ({ default: page.Terms })));
 const LoginResult = lazyPage(() => import("@/pages/LoginResult"));
 const NotFound = lazyPage(() => import("@/pages/NotFound"));
 const Admin = lazyPage(() => import("@/pages/Admin"));
@@ -51,6 +52,7 @@ export default function App() {
             <Route path="/u/:id" element={<Profile />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="/oauth/success" element={<LoginResult />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/hall-of-fame" element={<Navigate to="/rankings" replace />} />

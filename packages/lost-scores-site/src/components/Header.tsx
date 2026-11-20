@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Avatar from "@/components/Avatar";
 import Brand from "@/components/Brand";
+import Consent from "@/components/Consent";
 import Flag from "@/components/Flag";
 import Settings from "@/components/Settings";
 import Slider from "@/components/Slider";
@@ -81,9 +82,12 @@ function ProfileBlock({ me, close, t }: { me: Me | null; close: () => void; t: T
       {inside}
     </Link>
   ) : (
-    <a href={LOGIN_URL} onClick={rememberPage} className={look}>
-      {inside}
-    </a>
+    <>
+      <a href={LOGIN_URL} onClick={rememberPage} className={look}>
+        {inside}
+      </a>
+      <Consent className="px-4 pt-3" />
+    </>
   );
 }
 

@@ -16,8 +16,8 @@ const PARTS: Parts = {
   ),
 };
 
-export default function Privacy() {
-  const t = useSection("privacy");
+function Legal({ section }: { section: "privacy" | "terms" }) {
+  const t = useSection(section);
   useTitle(t("title"));
   return (
     <PageShell>
@@ -42,4 +42,12 @@ export default function Privacy() {
       </Sheet>
     </PageShell>
   );
+}
+
+export function Terms() {
+  return <Legal section="terms" />;
+}
+
+export default function Privacy() {
+  return <Legal section="privacy" />;
 }
